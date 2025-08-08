@@ -2,7 +2,7 @@ import LandingNavbar from '@/components/layout/landing-navbar'
 
 export default function Home() {
   return (
-    <div className="min-h-screen layout-container">
+    <div className="layout-container flex flex-col">
       <LandingNavbar />
       <div className="centered">
         <p>

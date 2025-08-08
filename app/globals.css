@@ -99,6 +99,9 @@
   --tracking-normal: 0em;
   --spacing: 0.25rem;
   
+  /* Navbar */
+  --navbar-height: 3rem; /* 48px: matches p-2 (1rem total) + h-8 (2rem) */
+  
   /* Font Sizes */
   --font-size-100: 0.75rem;   /* 12px */
   --font-size-200: 0.875rem;  /* 14px */
@@ -485,7 +488,7 @@
   }
   body {
     @apply bg-background text-foreground;
-    padding-top: 4rem;
+    padding-top: var(--navbar-height);
   }
   
   a, button, [role="button"], [data-clickable="true"] {
@@ -501,7 +504,7 @@
   }
 
   .centered {
-    min-height: calc(100vh - 120px);
+    min-height: calc(100svh - var(--navbar-height));
     display: flex;
     flex-direction: column;
     align-items: center;
