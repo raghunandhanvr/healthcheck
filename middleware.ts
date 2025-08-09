@@ -11,7 +11,7 @@ export async function middleware(request: NextRequest) {
       request.cookies.get("hc_session") ||
       request.cookies.get("session_token");
 
-    if (!sessionCookie) {
+    if (!sessionCookie?.value) {
       const url = request.nextUrl.clone();
       url.pathname = "/auth";
       url.searchParams.set("redirect", pathname);
@@ -28,7 +28,7 @@ export async function middleware(request: NextRequest) {
       request.cookies.get("hc_session") ||
       request.cookies.get("session_token");
 
-    if (sessionCookie) {
+    if (sessionCookie?.value) {
       const redirect = request.nextUrl.searchParams.get("redirect");
       const url = request.nextUrl.clone();
       url.pathname = redirect || "/console";

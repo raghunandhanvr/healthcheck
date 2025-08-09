@@ -15,7 +15,9 @@ export default function AuthPage() {
   useEffect(() => {
     if (session && !isPending) {
       const redirect = new URLSearchParams(window.location.search).get('redirect')
-      window.location.href = redirect || '/console'
+      setTimeout(() => {
+        window.location.replace(redirect || '/console')
+      }, 200)
     }
   }, [session, isPending])
   const globeConfig = {

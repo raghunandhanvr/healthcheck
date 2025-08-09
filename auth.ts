@@ -14,6 +14,22 @@ export const auth = betterAuth({
   basePath: "/api/auth",
   baseURL: process.env.BETTER_AUTH_URL || "http://localhost:3000",
 
+  session: {
+    cookieCache: {
+      enabled: true,
+      maxAge: 60 * 5,
+    },
+    expiresIn: 60 * 60 * 24 * 7,
+    updateAge: 60 * 60 * 24,
+    cookieAttributes: {
+      sameSite: "lax",
+      secure: process.env.NODE_ENV === "production",
+      httpOnly: true,
+      domain:
+        process.env.NODE_ENV === "production" ? "healthcheck.sh" : undefined,
+    },
+  },
+
   emailAndPassword: {
     enabled: true,
     requireEmailVerification: true,
@@ -119,7 +135,10 @@ export const auth = betterAuth({
     }),
   ],
 
-  trustedOrigins: ["exp://", process.env.BETTER_AUTH_URL || "http://localhost:3000"],
+  trustedOrigins: [
+    "exp://",
+    process.env.BETTER_AUTH_URL || "http://localhost:3000",
+  ],
 
   ...(process.env.NODE_ENV === "production" && {
     strictMode: true,
