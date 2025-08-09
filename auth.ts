@@ -46,61 +46,9 @@ export const auth = betterAuth({
     },
   },
 
-  session: {
-    expiresIn: 60 * 60 * 24 * 7,
-    updateAge: 60 * 60,
-    cookieCache: {
-      enabled: true,
-      maxAge: 60 * 60,
-      secure: process.env.NODE_ENV === "production",
-      httpOnly: true,
-      sameSite: "lax",
-      name: "hc_session",
-      domain:
-        process.env.NODE_ENV === "production" ? ".healthcheck.sh" : undefined,
-    },
-  },
-
-  cors: {
-    origin:
-      process.env.NODE_ENV === "production"
-        ? ["https://healthcheck.sh", "https://www.healthcheck.sh"]
-        : ["http://localhost:3000"],
-    credentials: true,
-    methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
-    allowedHeaders: ["Content-Type", "Authorization", "X-Requested-With"],
-  },
-
   rateLimit: {
     window: 60,
     max: 10,
-  },
-
-  advanced: {
-    generateId: () => crypto.randomUUID(),
-    csrfProtection: {
-      enabled: true,
-      cookieName: "hc_csrf",
-    },
-    disablePasswordAutocomplete: false,
-    useSecurePasswordHashing: true,
-  },
-
-  accountLockout: {
-    enabled: true,
-    maxAttempts: 5,
-    lockoutDuration: 60 * 15,
-    progressiveDelay: true,
-  },
-
-  trustedDevice: {
-    enabled: true,
-    trustDuration: 60 * 60 * 24 * 30,
-  },
-
-  logger: {
-    disabled: process.env.NODE_ENV === "production" ? false : true,
-    level: process.env.NODE_ENV === "production" ? "warn" : "debug",
   },
 
   plugins: [
@@ -171,7 +119,7 @@ export const auth = betterAuth({
     }),
   ],
 
-  trustedOrigins: [process.env.BETTER_AUTH_URL || "http://localhost:3000"],
+  trustedOrigins: ["exp://", process.env.BETTER_AUTH_URL || "http://localhost:3000"],
 
   ...(process.env.NODE_ENV === "production" && {
     strictMode: true,
