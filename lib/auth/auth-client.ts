@@ -21,6 +21,14 @@ export const authClient = createAuthClient({
     adminClient(),
     organizationClient(),
   ],
+  
+  fetchOptions: {
+    onError(e) {
+      if (e.error.status === 429) {
+        console.error("Too many requests. Please try again later.");
+      }
+    },
+  },
 });
 
 export const {

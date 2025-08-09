@@ -1,17 +1,13 @@
-import { NextResponse } from "next/server";
-import type { NextRequest } from "next/server";
+import { NextRequest, NextResponse } from "next/server";
+import { getSessionCookie } from "better-auth/cookies";
 
 export async function middleware(request: NextRequest) {
   const { pathname } = request.nextUrl;
 
   if (pathname.startsWith("/console")) {
-    const sessionCookie =
-      request.cookies.get("better-auth.session_token") ||
-      request.cookies.get("hc_session.0") ||
-      request.cookies.get("hc_session") ||
-      request.cookies.get("session_token");
-
-    if (!sessionCookie?.value) {
+    const sessionCookie = getSessionCookie(request);
+    
+    if (!sessionCookie) {
       const url = request.nextUrl.clone();
       url.pathname = "/auth";
       url.searchParams.set("redirect", pathname);
@@ -22,13 +18,9 @@ export async function middleware(request: NextRequest) {
   }
 
   if (pathname === "/auth") {
-    const sessionCookie =
-      request.cookies.get("better-auth.session_token") ||
-      request.cookies.get("hc_session.0") ||
-      request.cookies.get("hc_session") ||
-      request.cookies.get("session_token");
-
-    if (sessionCookie?.value) {
+    const sessionCookie = getSessionCookie(request);
+    
+    if (sessionCookie) {
       const redirect = request.nextUrl.searchParams.get("redirect");
       const url = request.nextUrl.clone();
       url.pathname = redirect || "/console";

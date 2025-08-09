@@ -140,6 +140,13 @@ export const auth = betterAuth({
     process.env.BETTER_AUTH_URL || "http://localhost:3000",
   ],
 
+  advanced: {
+    crossSubDomainCookies: {
+      enabled: process.env.NODE_ENV === "production",
+      domain: ".healthcheck.sh",
+    },
+  },
+
   ...(process.env.NODE_ENV === "production" && {
     strictMode: true,
     forceHTTPS: true,
