@@ -100,7 +100,7 @@
   --spacing: 0.25rem;
   
   /* Navbar */
-  --navbar-height: 3rem; /* 48px: matches p-2 (1rem total) + h-8 (2rem) */
+  --navbar-height: 4rem; /* 48px: matches p-2 (1rem total) + h-8 (2rem) */
   
   /* Font Sizes */
   --font-size-100: 0.75rem;   /* 12px */

@@ -6,45 +6,32 @@ import type { HTMLAttributes } from 'react';
 import { forwardRef, useCallback, useImperativeHandle, useRef } from 'react';
 import { cn } from '@/lib/utils/common';
 
-export interface CpuIconHandle {
+export interface HomeIconHandle {
   startAnimation: () => void;
   stopAnimation: () => void;
 }
 
-interface CpuIconProps extends HTMLAttributes<HTMLDivElement> {
+interface HomeIconProps extends HTMLAttributes<HTMLDivElement> {
   size?: number;
 }
 
-const transition: Transition = {
-  duration: 0.5,
-  ease: 'easeInOut',
-  repeat: 1,
+const defaultTransition: Transition = {
+  duration: 0.6,
+  opacity: { duration: 0.2 },
 };
 
-const yVariants: Variants = {
+const pathVariants: Variants = {
   normal: {
-    scale: 1,
-    rotate: 0,
+    pathLength: 1,
     opacity: 1,
   },
   animate: {
-    scaleY: [1, 1.5, 1],
-    opacity: [1, 0.8, 1],
-  },
-};
-const xVariants: Variants = {
-  normal: {
-    scale: 1,
-    rotate: 0,
-    opacity: 1,
-  },
-  animate: {
-    scaleX: [1, 1.5, 1],
-    opacity: [1, 0.8, 1],
+    opacity: [0, 1],
+    pathLength: [0, 1],
   },
 };
 
-const CpuIcon = forwardRef<CpuIconHandle, CpuIconProps>(
+const HomeIcon = forwardRef<HomeIconHandle, HomeIconProps>(
   ({ onMouseEnter, onMouseLeave, className, size = 28, ...props }, ref) => {
     const controls = useAnimation();
     const isControlledRef = useRef(false);
@@ -97,54 +84,11 @@ const CpuIcon = forwardRef<CpuIconHandle, CpuIconProps>(
           strokeLinecap="round"
           strokeLinejoin="round"
         >
-          <rect width="16" height="16" x="4" y="4" rx="2" />
-          <rect width="6" height="6" x="9" rx="1" y="9" />
+          <path d="M3 10a2 2 0 0 1 .709-1.528l7-5.999a2 2 0 0 1 2.582 0l7 5.999A2 2 0 0 1 21 10v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z" />
           <motion.path
-            d="M15 2v2"
-            variants={yVariants}
-            transition={transition}
-            animate={controls}
-          />
-          <motion.path
-            d="M15 20v2"
-            variants={yVariants}
-            transition={transition}
-            animate={controls}
-          />
-          <motion.path
-            d="M2 15h2"
-            variants={xVariants}
-            transition={transition}
-            animate={controls}
-          />
-          <motion.path
-            d="M2 9h2"
-            variants={xVariants}
-            transition={transition}
-            animate={controls}
-          />
-          <motion.path
-            d="M20 15h2"
-            variants={xVariants}
-            transition={transition}
-            animate={controls}
-          />
-          <motion.path
-            d="M20 9h2"
-            variants={xVariants}
-            transition={transition}
-            animate={controls}
-          />
-          <motion.path
-            d="M9 2v2"
-            variants={yVariants}
-            transition={transition}
-            animate={controls}
-          />
-          <motion.path
-            d="M9 20v2"
-            variants={yVariants}
-            transition={transition}
+            d="M15 21v-8a1 1 0 0 0-1-1h-4a1 1 0 0 0-1 1v8"
+            variants={pathVariants}
+            transition={defaultTransition}
             animate={controls}
           />
         </svg>
@@ -153,6 +97,6 @@ const CpuIcon = forwardRef<CpuIconHandle, CpuIconProps>(
   }
 );
 
-CpuIcon.displayName = 'CpuIcon';
+HomeIcon.displayName = 'HomeIcon';
 
-export { CpuIcon };
+export { HomeIcon };

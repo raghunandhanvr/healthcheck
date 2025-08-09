@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { IBM_Plex_Sans, IBM_Plex_Mono } from 'next/font/google';
 import "./globals.css";
 import { ThemeProvider } from "@/lib/providers/theme-provider";
+import TopNavbar from '@/components/layout/top-navbar';
 
 const ibmPlexSans = IBM_Plex_Sans({
   variable: "--font-ibm-plex-sans",
@@ -89,7 +90,10 @@ export default function RootLayout({
           enableSystem
           disableTransitionOnChange
         >
-          {children}
+          <div className="flex flex-col">
+            <TopNavbar />
+            {children}
+          </div>
         </ThemeProvider>
       </body>
     </html>
