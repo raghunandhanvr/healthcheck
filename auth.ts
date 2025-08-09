@@ -11,6 +11,8 @@ import { pgConnection } from "@/lib/database/postgres";
 
 export const auth = betterAuth({
   database: pgConnection,
+  basePath: "/api/auth",
+  baseURL: process.env.BETTER_AUTH_URL || "http://localhost:3000",
 
   emailAndPassword: {
     enabled: true,
@@ -52,7 +54,7 @@ export const auth = betterAuth({
       maxAge: 60 * 60,
       secure: process.env.NODE_ENV === "production",
       httpOnly: true,
-      sameSite: "strict",
+      sameSite: process.env.NODE_ENV === "production" ? "lax" : "lax",
       name: "hc_session",
     },
   },
@@ -63,6 +65,8 @@ export const auth = betterAuth({
         ? ["https://healthcheck.sh", "https://www.healthcheck.sh"]
         : ["http://localhost:3000"],
     credentials: true,
+    methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
+    allowedHeaders: ["Content-Type", "Authorization", "X-Requested-With"],
   },
 
   rateLimit: {
@@ -128,7 +132,8 @@ export const auth = betterAuth({
       impersonationSessionDuration: 60 * 60 * 2,
       defaultBanReason: "Violation of terms of service",
       defaultBanExpiresIn: 60 * 60 * 24 * 7,
-      bannedUserMessage: "Your account has been suspended. Please contact support at support@healthcheck.sh if you believe this is an error.",
+      bannedUserMessage:
+        "Your account has been suspended. Please contact support at support@healthcheck.sh if you believe this is an error.",
     }),
     twoFactor({
       issuer: "healthcheck.sh",

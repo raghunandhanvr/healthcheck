@@ -1,110 +1,179 @@
 import {
-    Body,
-    Button,
-    Container,
-    Head,
-    Heading,
-    Html,
-    Link,
-    Preview,
-    Section,
-    Text,
-  } from "@react-email/components"
-  
-  interface PasswordResetTemplateProps {
-    userFirstName: string
-    resetUrl: string
-  }
-  
-  export const PasswordResetTemplate = ({ userFirstName, resetUrl }: PasswordResetTemplateProps) => (
-    <Html>
-      <Head />
-      <Preview>Reset your healthcheck.sh password</Preview>
-      <Body style={main}>
-        <Container style={container}>
+  Body,
+  Button,
+  Container,
+  Head,
+  Heading,
+  Html,
+  Link,
+  Preview,
+  Section,
+  Text,
+} from "@react-email/components"
+
+interface PasswordResetTemplateProps {
+  userFirstName: string
+  resetUrl: string
+}
+
+export const PasswordResetTemplate = ({ 
+  userFirstName, 
+  resetUrl 
+}: PasswordResetTemplateProps) => (
+  <Html>
+    <Head />
+    <Preview>Reset your password for healthcheck.sh</Preview>
+    <Body style={main}>
+      <Container style={container}>
+        <Section style={header}>
+          <Text style={logo}>healthcheck.sh</Text>
+        </Section>
+        
+        <Section style={content}>
           <Heading style={h1}>Reset your password</Heading>
-          <Text style={text}>Hi {userFirstName},</Text>
+          
           <Text style={text}>
-            Someone recently requested a password change for your healthcheck.sh account. If this was you, you can set a new
-            password by clicking the button below:
+            Hello {userFirstName},
           </Text>
-          <Section style={buttonContainer}>
+          
+          <Text style={text}>
+            You recently requested to reset your password for your healthcheck.sh account. 
+            Click the button below to create a new password.
+          </Text>
+          
+          <Section style={buttonSection}>
             <Button style={button} href={resetUrl}>
               Reset Password
             </Button>
           </Section>
-          <Text style={text}>If you&apos;re unable to click the button above, copy and paste this URL into your browser:</Text>
+          
+          <Text style={smallText}>
+            If the button above doesn&apos;t work, you can also copy and paste this link into your browser:
+          </Text>
+          
           <Link href={resetUrl} style={link}>
             {resetUrl}
           </Link>
+          
+          <Section style={divider} />
+          
           <Text style={footer}>
-            If you didn&apos;t request this password reset, you can safely ignore this email. Your password will remain
-            unchanged.
+            If you didn&apos;t request a password reset, you can safely ignore this email. 
+            Your password won&apos;t be changed until you create a new one using the link above.
+            This password reset link will expire in 1 hour for security reasons.
           </Text>
-          <Text style={footer}>This password reset link will expire in 1 hour for security reasons.</Text>
-        </Container>
-      </Body>
-    </Html>
-  )
-  
-  const main = {
-    backgroundColor: "#ffffff",
-    fontFamily:
-      '-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Oxygen-Sans,Ubuntu,Cantarell,"Helvetica Neue",sans-serif',
-  }
-  
-  const container = {
-    margin: "0 auto",
-    padding: "40px 24px",
-    maxWidth: "560px",
-  }
-  
-  const h1 = {
-    color: "#000000",
-    fontSize: "24px",
-    fontWeight: "bold",
-    margin: "40px 0",
-    padding: "0",
-    textAlign: "center" as const,
-  }
-  
-  const text = {
-    color: "#000000",
-    fontSize: "16px",
-    lineHeight: "24px",
-    margin: "16px 0",
-  }
-  
-  const buttonContainer = {
-    textAlign: "center" as const,
-    margin: "32px 0",
-  }
-  
-  const button = {
-    backgroundColor: "#007bff",
-    borderRadius: "6px",
-    color: "#ffffff",
-    fontSize: "16px",
-    fontWeight: "600",
-    textDecoration: "none",
-    textAlign: "center" as const,
-    display: "block",
-    padding: "12px 24px",
-    border: "none",
-  }
-  
-  const link = {
-    color: "#007bff",
-    fontSize: "14px",
-    textDecoration: "underline",
-    wordBreak: "break-all" as const,
-    display: "block",
-    margin: "8px 0",
-  }
-  
-  const footer = {
-    color: "#666666",
-    fontSize: "14px",
-    lineHeight: "20px",
-    marginTop: "24px",
-  }
+          
+          <Text style={signature}>
+            Best regards,<br />
+            The healthcheck.sh Team
+          </Text>
+        </Section>
+      </Container>
+    </Body>
+  </Html>
+)
+
+const main = {
+  backgroundColor: "#f8f9fa",
+  fontFamily: "Geist, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', sans-serif",
+  margin: "0",
+  padding: "0",
+}
+
+const container = {
+  backgroundColor: "#ffffff",
+  margin: "0 auto",
+  padding: "0",
+  maxWidth: "600px",
+  width: "100%",
+  boxShadow: "0px 1px 2px 0px rgba(0, 0, 0, 0.09)",
+}
+
+const header = {
+  backgroundColor: "#000000",
+  padding: "24px",
+  textAlign: "center" as const,
+}
+
+const logo = {
+  color: "#ffffff",
+  fontSize: "24px",
+  fontWeight: "600",
+  margin: "0",
+  letterSpacing: "-0.5px",
+}
+
+const content = {
+  padding: "48px 32px",
+}
+
+const h1 = {
+  color: "#000000",
+  fontSize: "28px",
+  fontWeight: "600",
+  lineHeight: "1.3",
+  margin: "0 0 24px 0",
+  letterSpacing: "-0.5px",
+}
+
+const text = {
+  color: "#525252",
+  fontSize: "16px",
+  lineHeight: "1.6",
+  margin: "0 0 24px 0",
+}
+
+const smallText = {
+  color: "#525252",
+  fontSize: "14px",
+  lineHeight: "1.5",
+  margin: "0 0 16px 0",
+}
+
+const buttonSection = {
+  margin: "32px 0",
+  textAlign: "center" as const,
+}
+
+const button = {
+  backgroundColor: "#e54b4f",
+  borderRadius: "8px",
+  color: "#ffffff",
+  display: "inline-block",
+  fontSize: "16px",
+  fontWeight: "600",
+  lineHeight: "1",
+  padding: "14px 28px",
+  textDecoration: "none",
+  textAlign: "center" as const,
+  border: "none",
+  boxShadow: "0px 1px 2px 0px rgba(0, 0, 0, 0.09)",
+}
+
+const link = {
+  color: "#e54b4f",
+  fontSize: "14px",
+  textDecoration: "underline",
+  wordBreak: "break-all" as const,
+  margin: "0 0 24px 0",
+  display: "block",
+}
+
+const divider = {
+  borderTop: "1px solid #e4e4e4",
+  margin: "40px 0 32px 0",
+}
+
+const footer = {
+  color: "#525252",
+  fontSize: "14px",
+  lineHeight: "1.5",
+  margin: "0 0 24px 0",
+}
+
+const signature = {
+  color: "#000000",
+  fontSize: "14px",
+  lineHeight: "1.5",
+  margin: "0",
+}
