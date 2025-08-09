@@ -20,14 +20,14 @@ export function PasswordStrength({ password, className }: PasswordStrengthProps)
       special: /[!@#$%^&*(),.?":{}|<>]/.test(password)
     }
     
-    // Calculate score
+
     if (checks.length) score += 1
     if (checks.lowercase) score += 1
     if (checks.uppercase) score += 1
     if (checks.number) score += 1
     if (checks.special) score += 1
     
-    // Determine strength
+
     if (score <= 2) return { score, label: 'Weak', color: 'bg-red-500' }
     if (score <= 3) return { score, label: 'Fair', color: 'bg-yellow-500' }
     if (score <= 4) return { score, label: 'Good', color: 'bg-blue-500' }

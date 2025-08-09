@@ -8,6 +8,7 @@ import { BellIcon } from "@/components/ui/icons/bell"
 import { ChartBarIncreasingIcon } from "@/components/ui/icons/chart-bar-increasing"
 import { EarthIcon } from "@/components/ui/icons/earth"
 import { UsersIcon } from "@/components/ui/icons/users"
+import { GithubIcon } from "@/components/ui/icons/github"
 
 import { Button } from "@/components/ui/button"
 import Link from "next/link"
@@ -25,56 +26,56 @@ function FeaturesSectionDemo() {
     {
       title: "Real-time Monitoring",
       description: "Monitor your websites, APIs, GraphQL endpoints, and servers with sub-minute precision.",
-      icon: <ActivityIcon size={20} />,
+      icon: <ActivityIcon size={16} />,
       size: "medium",
       type: "feature",
     },
     {
       title: "99.9% Uptime SLA",
       description: "Reliable monitoring infrastructure that's always watching your services and webhooks.",
-      icon: <ClockIcon size={20} />,
+      icon: <ClockIcon size={16} />,
       size: "medium",
       type: "feature",
     },
     {
       title: "Affordable Pricing",
       description: "Enterprise-grade monitoring at a fraction of the cost of competitors.",
-      icon: <CircleDollarSignIcon size={20} />,
+      icon: <CircleDollarSignIcon size={16} />,
       size: "small",
       type: "feature",
     },
     {
       title: "SSL & Security Checks",
       description: "Monitor certificate expiry and security vulnerabilities across all endpoints.",
-      icon: <ShieldCheckIcon size={20} />,
+      icon: <ShieldCheckIcon size={16} />,
       size: "small",
       type: "feature",
     },
     {
       title: "Smart Alerts",
       description: "Get notified via email, SMS, Slack, Discord, or custom webhooks when issues arise.",
-      icon: <BellIcon size={20} />,
+      icon: <BellIcon size={16} />,
       size: "medium",
       type: "feature",
     },
     {
       title: "Performance Analytics",
       description: "Detailed insights into response times, uptime trends, and performance metrics.",
-      icon: <ChartBarIncreasingIcon size={20} />,
+      icon: <ChartBarIncreasingIcon size={16} />,
       size: "small",
       type: "feature",
     },
     {
       title: "Global Monitoring",
       description: "Check your services from multiple locations worldwide for accurate results.",
-      icon: <EarthIcon size={20} />,
+      icon: <EarthIcon size={16} />,
       size: "small",
       type: "feature",
     },
     {
       title: "Team Collaboration",
       description: "Share status pages and collaborate with your team on incident response.",
-      icon: <UsersIcon size={20} />,
+      icon: <UsersIcon size={16} />,
       size: "medium",
       type: "feature",
     },
@@ -99,7 +100,6 @@ function FeaturesSectionDemo() {
     <div className="w-full">
       <div className="max-w-7xl mx-auto">
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-0">
-          {/* Left side - Main bento grid */}
           <div className="lg:col-span-2">
             <div className="grid grid-cols-2 md:grid-cols-4 auto-rows-fr lg:auto-rows-[230px] border border-neutral-200 dark:border-neutral-800">
               {leftFeatures.map((feature) => (
@@ -108,13 +108,48 @@ function FeaturesSectionDemo() {
             </div>
           </div>
           
-          {/* Right side - Globe and CTA */}
           <div className="lg:col-span-1">
             <div className="grid grid-rows-2 h-full lg:min-h-[900px] border-r border-b border-neutral-200 dark:border-neutral-800">
               {rightFeatures.map((feature) => (
                 <Feature key={feature.title} {...feature} />
               ))}
             </div>
+          </div>
+        </div>
+        
+        <div className="w-full border-l border-r border-b border-neutral-200 dark:border-neutral-800 bg-white dark:bg-black p-4 md:p-6 lg:p-8 transition-all duration-300 hover:bg-neutral-50 dark:hover:bg-neutral-900 group">
+          <div className="flex flex-col sm:flex-row items-center justify-center space-y-2 sm:space-y-0 sm:space-x-3 text-center">
+            <div className="flex items-center space-x-2">
+              <div className="text-neutral-600 dark:text-neutral-400 group-hover:text-neutral-800 dark:group-hover:text-neutral-200 transition-colors duration-300">
+                <GithubIcon size={16} />
+              </div>
+              <p className="text-sm text-neutral-900 dark:text-neutral-100">
+                Like to contribute?
+              </p>
+            </div>
+            <Link 
+              href="https://github.com/raghunandhanvr/healthcheck" 
+              target="_blank" 
+              rel="noopener noreferrer"
+              className="inline-flex items-center text-sm text-primary hover:text-primary/80 transition-colors duration-300 break-all sm:break-normal"
+            >
+              <span className="hidden sm:inline">Start contributing on </span>
+              <span className="sm:hidden">Contribute on </span>
+              github.com/raghunandhanvr/healthcheck
+              <svg 
+                className="ml-2 w-4 h-4 flex-shrink-0" 
+                fill="none" 
+                stroke="currentColor" 
+                viewBox="0 0 24 24"
+              >
+                <path 
+                  strokeLinecap="round" 
+                  strokeLinejoin="round" 
+                  strokeWidth={2} 
+                  d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" 
+                />
+              </svg>
+            </Link>
           </div>
         </div>
       </div>
@@ -153,9 +188,7 @@ const Feature = ({
         )}
       >
         <div className="relative flex flex-col h-full justify-center">
-          {/* New line above title */}
           {aboveTitle && <p className="text-sm text-muted-foreground mb-2">{aboveTitle}</p>}
-          {/* Title */}
           <div className="mb-4">
             <p className="text-neutral-900 dark:text-neutral-100">
               {title.split("healthcheck.sh")[0]}
@@ -164,7 +197,6 @@ const Feature = ({
             </p>
           </div>
 
-          {/* Description */}
           <div className="text-sm text-muted-foreground space-y-3">
             <p>{description.split(". Build trust")[0]}.</p>
             <p>Build trust with status pages. Way cheaper in cost compared to alternatives.</p>
@@ -216,16 +248,13 @@ const Feature = ({
         }}
       >
         <div className="relative flex flex-col h-full justify-center items-center text-center">
-          {/* Title */}
           <div className="mb-4">
             <p className="text-lg lg:text-xl font-bold text-white leading-tight mb-2">{title}</p>
             <p className="text-sm lg:text-base text-white/90">Free forever plan available</p>
           </div>
 
-          {/* Description */}
           <p className="text-sm lg:text-base text-white/90 leading-relaxed mb-6 max-w-sm">{description}</p>
 
-          {/* Button */}
           <Link href="/auth">
             <Button className="bg-white text-black hover:bg-white/90 font-medium text-sm lg:text-base px-6 py-3 rounded-lg shadow-lg hover:shadow-xl transition-all duration-300">
               Get Started Free
@@ -238,6 +267,7 @@ const Feature = ({
     )
   }
 
+
   return (
     <div
       className={cn(
@@ -247,14 +277,12 @@ const Feature = ({
       )}
     >
       <div className="relative flex flex-col h-full">
-        {/* Icon */}
         {icon && (
           <div className="mb-3 text-neutral-600 dark:text-neutral-400 group-hover:text-neutral-800 dark:group-hover:text-neutral-200 transition-colors duration-300">
             {icon}
           </div>
         )}
 
-        {/* Title */}
         <div className="mb-2">
           <p
             className={cn(
@@ -266,7 +294,6 @@ const Feature = ({
           </p>
         </div>
 
-        {/* Description */}
         <p
           className={cn(
             "text-neutral-600 dark:text-neutral-400 leading-relaxed flex-1",

@@ -35,7 +35,7 @@ function ResetPasswordContent() {
     mapSamples: 16000,
     mapBrightness: 1.2,
     baseColor: [1, 1, 1] as [number, number, number],
-    markerColor: [9/255, 105/255, 218/255] as [number, number, number], // Primary color #0969da
+    markerColor: [9/255, 105/255, 218/255] as [number, number, number],
     glowColor: [1, 1, 1] as [number, number, number],
     markers: [
       { location: [14.5995, 120.9842] as [number, number], size: 0.03 },
@@ -101,12 +101,12 @@ function ResetPasswordContent() {
     }
   }
 
-  // Invalid or missing token
+
   if (isValidToken === false) {
     return (
       <div className="layout-container centered pt-24">
         <div className="grid lg:grid-cols-2 gap-8 lg:gap-16 items-center w-full max-w-6xl">
-          {/* Globe Section */}
+
           <div className="order-2 lg:order-1 flex flex-col items-center justify-center relative">
             <div className="relative w-full max-w-md aspect-square">
               <Globe config={globeConfig} className="w-full h-full" />
@@ -121,7 +121,7 @@ function ResetPasswordContent() {
             </div>
           </div>
 
-          {/* Content Section */}
+
           <div className="order-1 lg:order-2 w-full max-w-md mx-auto lg:mx-0">
             <Card>
               <CardHeader className="text-center">
@@ -162,12 +162,12 @@ function ResetPasswordContent() {
     )
   }
 
-  // Reset successful
+
   if (resetSuccess) {
     return (
       <div className="layout-container centered pt-24">
         <div className="grid lg:grid-cols-2 gap-8 lg:gap-16 items-center w-full max-w-6xl">
-          {/* Globe Section */}
+
           <div className="order-2 lg:order-1 flex flex-col items-center justify-center relative">
             <div className="relative w-full max-w-md aspect-square">
               <Globe config={globeConfig} className="w-full h-full" />
@@ -182,7 +182,7 @@ function ResetPasswordContent() {
             </div>
           </div>
 
-          {/* Content Section */}
+
           <div className="order-1 lg:order-2 w-full max-w-md mx-auto lg:mx-0">
             <Card>
               <CardHeader className="text-center">
@@ -215,7 +215,7 @@ function ResetPasswordContent() {
     )
   }
 
-  // Loading state
+
   if (isValidToken === null) {
     return (
       <div className="layout-container centered pt-24">
@@ -229,11 +229,11 @@ function ResetPasswordContent() {
     )
   }
 
-  // Reset password form
+
   return (
     <div className="layout-container centered pt-24">
       <div className="grid lg:grid-cols-2 gap-8 lg:gap-16 items-center w-full max-w-6xl">
-        {/* Globe Section */}
+
         <div className="order-2 lg:order-1 flex flex-col items-center justify-center relative">
           <div className="relative w-full max-w-md aspect-square">
             <Globe config={globeConfig} className="w-full h-full" />
@@ -248,7 +248,7 @@ function ResetPasswordContent() {
           </div>
         </div>
 
-        {/* Content Section */}
+
         <div className="order-1 lg:order-2 w-full max-w-md mx-auto lg:mx-0">
           <Card>
             <CardHeader className="text-center">

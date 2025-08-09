@@ -58,7 +58,7 @@ export default function TopNavbar() {
           </Link>
           
           <div className="flex items-center gap-4">
-            {/* Welcome message on marketing pages only */}
+
             {mounted && user && isMarketing && (
               <div className="hidden sm:block text-sm text-muted-foreground">
                 Welcome back, <span className="font-medium">{user.name}</span>

@@ -80,7 +80,7 @@ export function SignUpTab() {
       if (response.error) {
         toast.error(response.error.message)
       } else {
-        // Redirect to verification page instead of showing toast
+
         router.push(`/auth/verify-email?email=${encodeURIComponent(email)}`)
       }
     } catch (error) {

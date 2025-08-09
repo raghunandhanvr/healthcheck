@@ -218,7 +218,7 @@ export function SignInTab({ onSwitchToSignUp }: SignInTabProps) {
         </div>
 
         <div className="mt-8 p-6 bg-gradient-to-br from-purple-600 via-violet-600 to-indigo-700 rounded-md border border-white/20 backdrop-blur-sm relative overflow-hidden">
-          {/* Glassy overlay effect */}
+
           <div className="absolute inset-0 bg-gradient-to-br from-white/10 to-transparent pointer-events-none"></div>
           <div className="absolute top-0 left-0 w-full h-px bg-gradient-to-r from-transparent via-white/30 to-transparent"></div>
           
