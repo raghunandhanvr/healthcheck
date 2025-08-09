@@ -40,7 +40,9 @@ export function SignInTab({ onSwitchToSignUp }: SignInTabProps) {
           saveLastAuthMethod("email")
           toast.success("Successfully signed in!")
           const redirect = new URLSearchParams(window.location.search).get('redirect')
-          window.location.href = redirect || '/console'
+          setTimeout(() => {
+            window.location.href = redirect || '/console'
+          }, 100)
         },
         onError: (ctx) => {
           toast.error(ctx.error.message)
@@ -77,7 +79,9 @@ export function SignInTab({ onSwitchToSignUp }: SignInTabProps) {
       saveLastAuthMethod("passkey")
       toast.success("Successfully signed in with passkey!")
       const redirect = new URLSearchParams(window.location.search).get('redirect')
-      window.location.href = redirect || '/console'
+      setTimeout(() => {
+        window.location.href = redirect || '/console'
+      }, 100)
     } catch (error) {
       toast.error(error instanceof Error ? error.message : "Failed to sign in with passkey")
     } finally {

@@ -7,6 +7,7 @@ export async function middleware(request: NextRequest) {
   if (pathname.startsWith("/console")) {
     const sessionCookie =
       request.cookies.get("better-auth.session_token") ||
+      request.cookies.get("hc_session.0") ||
       request.cookies.get("hc_session") ||
       request.cookies.get("session_token");
 
@@ -23,6 +24,7 @@ export async function middleware(request: NextRequest) {
   if (pathname === "/auth") {
     const sessionCookie =
       request.cookies.get("better-auth.session_token") ||
+      request.cookies.get("hc_session.0") ||
       request.cookies.get("hc_session") ||
       request.cookies.get("session_token");
 

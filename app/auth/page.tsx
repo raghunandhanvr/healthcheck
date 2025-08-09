@@ -1,14 +1,23 @@
 'use client'
 
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import { SignInTab } from './_components/sign-in-tab'
 import { SignUpTab } from './_components/sign-up-tab'
 import { Globe } from '@/components/ui/globe'
 import { cn } from '@/lib/utils/common'
+import { useSession } from '@/lib/auth/auth-client'
 
 export default function AuthPage() {
   const [activeTab, setActiveTab] = useState("signin")
+  const { data: session, isPending } = useSession()
+
+  useEffect(() => {
+    if (session && !isPending) {
+      const redirect = new URLSearchParams(window.location.search).get('redirect')
+      window.location.href = redirect || '/console'
+    }
+  }, [session, isPending])
   const globeConfig = {
     width: 800,
     height: 800,

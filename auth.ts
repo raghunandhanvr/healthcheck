@@ -54,8 +54,10 @@ export const auth = betterAuth({
       maxAge: 60 * 60,
       secure: process.env.NODE_ENV === "production",
       httpOnly: true,
-      sameSite: process.env.NODE_ENV === "production" ? "lax" : "lax",
+      sameSite: "lax",
       name: "hc_session",
+      domain:
+        process.env.NODE_ENV === "production" ? ".healthcheck.sh" : undefined,
     },
   },
 
