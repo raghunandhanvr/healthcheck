@@ -123,7 +123,7 @@ function FeaturesSectionDemo() {
               <div className="text-neutral-600 dark:text-neutral-400 group-hover:text-neutral-800 dark:group-hover:text-neutral-200 transition-colors duration-300">
                 <GithubIcon size={16} />
               </div>
-              <p className="text-sm text-neutral-900 dark:text-neutral-100">
+              <p className="text-xs sm:text-sm text-neutral-900 dark:text-neutral-100">
                 Like to contribute?
               </p>
             </div>
@@ -131,7 +131,7 @@ function FeaturesSectionDemo() {
               href="https://github.com/raghunandhanvr/healthcheck" 
               target="_blank" 
               rel="noopener noreferrer"
-              className="inline-flex items-center text-sm text-primary hover:text-primary/80 transition-colors duration-300 break-all sm:break-normal"
+                             className="inline-flex items-center text-xs sm:text-sm text-primary hover:text-primary/80 transition-colors duration-300 break-all sm:break-normal"
             >
               <span className="hidden sm:inline">Start contributing on </span>
               <span className="sm:hidden">Contribute on </span>
