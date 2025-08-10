@@ -13,7 +13,7 @@ export const authClient = createAuthClient({
   plugins: [
     twoFactorClient({
       onTwoFactorRedirect() {
-        window.location.href = "/auth/2fa";
+        window.location.href = "/auth/two-factor";
       },
     }),
     multiSessionClient(),
@@ -43,6 +43,9 @@ export const {
   admin,
   organization,
 } = authClient;
+
+// Export the client directly for compatibility
+export { authClient as client };
 
 export const sessionHelpers = {
   signOutAll: () => authClient.signOut(),

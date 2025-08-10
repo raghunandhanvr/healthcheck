@@ -4,7 +4,7 @@ import { useState, useEffect } from 'react'
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
-import { Loader2, Key, Eye, EyeOff } from "lucide-react"
+import { Loader2, Eye, EyeOff } from "lucide-react"
 import Link from "next/link"
 import { signIn } from "@/lib/auth/auth-client"
 import { toast } from "@/components/ui/sonner"
@@ -19,7 +19,6 @@ export function SignInTab({ onSwitchToSignUp }: SignInTabProps) {
   const [email, setEmail] = useState("")
   const [password, setPassword] = useState("")
   const [loading, setLoading] = useState(false)
-  const [passkeyLoading, setPasskeyLoading] = useState(false)
   const [showPassword, setShowPassword] = useState(false)
   const [lastAuthMethod, setLastAuthMethod] = useState<AuthMethod | null>(null)
 
@@ -41,7 +40,11 @@ export function SignInTab({ onSwitchToSignUp }: SignInTabProps) {
           toast.success("Successfully signed in!")
         },
         onError: (ctx) => {
-          toast.error(ctx.error.message)
+          if (ctx.error.code === 'TWO_FACTOR_REQUIRED') {
+            window.location.href = '/auth/two-factor'
+          } else {
+            toast.error(ctx.error.message)
+          }
         }
       })
     } catch (error) {
@@ -67,19 +70,7 @@ export function SignInTab({ onSwitchToSignUp }: SignInTabProps) {
   }
 
 
-  const handlePasskeySignIn = async () => {
-    setPasskeyLoading(true)
-    
-    try {
-      await signIn.passkey()
-      saveLastAuthMethod("passkey")
-      toast.success("Successfully signed in with passkey!")
-    } catch (error) {
-      toast.error(error instanceof Error ? error.message : "Failed to sign in with passkey")
-    } finally {
-      setPasskeyLoading(false)
-    }
-  }
+
 
   return (
     <div className="bg-card border h-full flex flex-col">
@@ -193,23 +184,6 @@ export function SignInTab({ onSwitchToSignUp }: SignInTabProps) {
               Continue with Google
             </Button>
             <LastUsedBadge show={lastAuthMethod === "google"} className="absolute -top-2 -right-2" />
-          </div>
-
-          <div className="relative">
-            <Button 
-              variant="outline" 
-              className="w-full" 
-              onClick={handlePasskeySignIn}
-              disabled={passkeyLoading}
-            >
-              {passkeyLoading ? (
-                <Loader2 className="w-4 h-4 animate-spin mr-2" />
-              ) : (
-                <Key className="w-4 h-4 mr-2" />
-              )}
-              Sign in with Passkey
-            </Button>
-            <LastUsedBadge show={lastAuthMethod === "passkey"} className="absolute -top-2 -right-2" />
           </div>
         </div>
 

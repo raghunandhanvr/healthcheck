@@ -2,7 +2,7 @@
 
 import { Suspense } from 'react'
 import { useSearchParams } from 'next/navigation'
-import { Mail, CheckCircle2, AlertCircle, ArrowLeft } from 'lucide-react'
+import { CheckCircle2, AlertCircle, ArrowLeft } from 'lucide-react'
 import Link from 'next/link'
 import { Button } from '@/components/ui/button'
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card'
@@ -62,11 +62,6 @@ function VerifyEmailContent() {
         <div className="order-1 lg:order-2 w-full max-w-md mx-auto lg:mx-0">
           <Card>
             <CardHeader className="text-center">
-              <div className="flex justify-center mb-4">
-                <div className="w-12 h-12 bg-blue-100 dark:bg-blue-900/20 rounded-full flex items-center justify-center">
-                  <Mail className="w-6 h-6 text-blue-600 dark:text-blue-400" />
-                </div>
-              </div>
               <CardTitle>Check your email</CardTitle>
               <CardDescription>
                 We&apos;ve sent a verification link to your email address

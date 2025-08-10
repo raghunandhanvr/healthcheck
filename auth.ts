@@ -72,7 +72,7 @@ export const auth = betterAuth({
     organization({
       allowUserToCreateOrganization: true,
       organizationLimit: 2,
-      membershipLimit: 50,
+      membershipLimit: 5,
       creatorRole: "owner",
       invitationExpiresIn: 60 * 60 * 48,
       cancelPendingInvitationsOnReInvite: true,

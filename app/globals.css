@@ -108,7 +108,6 @@
   --tracking-normal: 0em;
   --spacing: 0.25rem;
 
-
   --navbar-height: 3.5rem;
 
   --black: #000000;
@@ -151,6 +150,14 @@
   --border: #242424;
   --input: #333333;
   --ring: #a4a4a4;
+  --sidebar: hsl(240 5.9% 10%);
+  --sidebar-foreground: hsl(240 4.8% 95.9%);
+  --sidebar-primary: hsl(224.3 76.3% 48%);
+  --sidebar-primary-foreground: hsl(0 0% 100%);
+  --sidebar-accent: hsl(240 3.7% 15.9%);
+  --sidebar-accent-foreground: hsl(240 4.8% 95.9%);
+  --sidebar-border: hsl(240 3.7% 15.9%);
+  --sidebar-ring: hsl(217.2 91.2% 59.8%);
 }
 
 @layer base {
@@ -199,4 +206,9 @@
       padding: 0 2rem;
     }
   }
+}
+
+/* Page Container */
+.page-container {
+  @apply container mx-auto px-4 py-6 max-w-6xl;
 }

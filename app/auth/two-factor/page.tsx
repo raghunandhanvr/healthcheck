@@ -3,17 +3,19 @@
 import { useState } from 'react'
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card"
-import { Input } from "@/components/ui/input"
-import { Loader2, ArrowLeft, Mail } from "lucide-react"
+import { InputOTP, InputOTPGroup, InputOTPSlot } from "@/components/ui/input-otp"
+import { Loader2, ArrowLeft, CheckCircle } from "lucide-react"
 import Link from "next/link"
-import { authClient } from "@/lib/auth/auth-client"
+import { client } from "@/lib/auth/auth-client"
 import { toast } from "@/components/ui/sonner"
 import { Globe } from '@/components/ui/globe'
+import { useRouter } from 'next/navigation'
 
-export default function ForgotPasswordPage() {
-  const [email, setEmail] = useState("")
+export default function TwoFactorPage() {
+  const [totpCode, setTotpCode] = useState("")
   const [loading, setLoading] = useState(false)
-  const [emailSent, setEmailSent] = useState(false)
+  const [success, setSuccess] = useState(false)
+  const router = useRouter()
 
   const globeConfig = {
     width: 800,
@@ -43,34 +45,41 @@ export default function ForgotPasswordPage() {
     ],
   }
 
-  const handleResetPassword = async (e: React.FormEvent) => {
+  const handleTotpVerification = async (e: React.FormEvent) => {
     e.preventDefault()
+    if (totpCode.length !== 6 || !/^\d+$/.test(totpCode)) {
+      toast.error("TOTP code must be 6 digits")
+      return
+    }
+
     setLoading(true)
-    
     try {
-      const response = await authClient.forgetPassword({
-        email,
-        redirectTo: `${window.location.origin}/auth/reset-password`,
+      const res = await client.twoFactor.verifyTotp({
+        code: totpCode,
       })
       
-      if (response.error) {
-        toast.error(response.error.message)
+      if (res.data?.token) {
+        setSuccess(true)
+        toast.success("Two-factor authentication successful!")
+        setTimeout(() => {
+          router.push("/console")
+        }, 1500)
       } else {
-        setEmailSent(true)
-        toast.success("Password reset email sent! Check your inbox.")
+        toast.error("Invalid TOTP code")
       }
     } catch (error) {
-      toast.error(error instanceof Error ? error.message : "Failed to send reset email")
+      toast.error(error instanceof Error ? error.message : "Invalid verification code")
     } finally {
       setLoading(false)
     }
   }
 
-  if (emailSent) {
+
+
+  if (success) {
     return (
       <div className="layout-container centered pt-24">
         <div className="grid lg:grid-cols-2 gap-8 lg:gap-16 items-center w-full max-w-6xl">
-
           <div className="order-2 lg:order-1 flex flex-col items-center justify-center relative hidden lg:flex">
             <div className="relative w-full max-w-md aspect-square">
               <Globe config={globeConfig} className="w-full h-full" />
@@ -79,62 +88,25 @@ export default function ForgotPasswordPage() {
               <p className="text-sm text-muted-foreground">
                 Your servers are up and running
               </p>
-              <p className="text-xs text-muted-foreground/70">
-                Reset your password securely
+              <p className="text-xs text-muted-foreground/70 text-center">
+                Authentication successful
               </p>
             </div>
           </div>
-
 
           <div className="order-1 lg:order-2 w-full max-w-md mx-auto lg:mx-0">
             <Card>
               <CardHeader>
                 <div className="flex justify-center mb-4">
                   <div className="w-12 h-12 bg-green-100 dark:bg-green-900/20 rounded-full flex items-center justify-center">
-                    <Mail className="w-6 h-6 text-green-600 dark:text-green-400" />
+                    <CheckCircle className="w-6 h-6 text-green-600 dark:text-green-400" />
                   </div>
                 </div>
-                <CardTitle>Check your email</CardTitle>
-                <CardDescription>
-                  We&apos;ve sent a password reset link to your email address
+                <CardTitle className="text-center">Authentication Successful</CardTitle>
+                <CardDescription className="text-center">
+                  Redirecting you to the dashboard...
                 </CardDescription>
               </CardHeader>
-              
-              <CardContent className="space-y-6">
-                <div className="bg-muted/50 rounded-lg p-4">
-                  <p className="text-sm text-muted-foreground mb-1">
-                    Email sent to:
-                  </p>
-                  <p className="font-mono text-sm font-medium break-all">
-                    {email}
-                  </p>
-                </div>
-
-                <div className="space-y-4">
-                  <p className="text-sm text-muted-foreground">
-                    Click the link in your email to reset your password. The link will expire in 1 hour.
-                  </p>
-                  
-                  <p className="text-sm text-muted-foreground">
-                    Didn&apos;t receive the email? Check your spam folder or{' '}
-                    <button
-                      onClick={() => setEmailSent(false)}
-                      className="text-primary hover:underline"
-                    >
-                      try again
-                    </button>
-                  </p>
-                </div>
-
-                <div className="text-center border-t pt-6">
-                  <Link href="/auth">
-                    <Button variant="ghost" size="sm">
-                      <ArrowLeft className="w-4 h-4 mr-2" />
-                      Back to sign in
-                    </Button>
-                  </Link>
-                </div>
-              </CardContent>
             </Card>
           </div>
         </div>
@@ -145,8 +117,7 @@ export default function ForgotPasswordPage() {
   return (
     <div className="layout-container centered pt-24">
       <div className="grid lg:grid-cols-2 gap-8 lg:gap-16 items-center w-full max-w-6xl">
-
-        <div className="order-2 lg:order-1 flex-col items-center justify-center relative lg:flex hidden">
+        <div className="order-2 lg:order-1 flex flex-col items-center justify-center relative hidden lg:flex">
           <div className="relative w-full max-w-md aspect-square">
             <Globe config={globeConfig} className="w-full h-full" />
           </div>
@@ -155,44 +126,53 @@ export default function ForgotPasswordPage() {
               Your servers are up and running
             </p>
             <p className="text-xs text-muted-foreground/70">
-              Reset your password securely
+              Complete two-factor authentication
             </p>
           </div>
         </div>
 
-
         <div className="order-1 lg:order-2 w-full max-w-md mx-auto lg:mx-0">
           <Card>
-            <CardHeader>
-              <CardTitle>Forgot your password?</CardTitle>
-              <CardDescription>
-                Enter your email address and we&apos;ll send you a link to reset your password
-              </CardDescription>
+            <CardHeader className="text-center">
+              <CardTitle>Two-Factor Authentication</CardTitle>
             </CardHeader>
             
             <CardContent>
-              <form onSubmit={handleResetPassword} className="space-y-4">
-                <div className="space-y-2">
-                  <Input
-                    id="reset-email"
-                    type="email"
-                    placeholder="your@email.com"
-                    value={email}
-                    onChange={(e) => setEmail(e.target.value)}
-                    required
+              <form onSubmit={handleTotpVerification} className="space-y-4">
+                <div className="space-y-2 flex flex-col items-center">
+                  <InputOTP
+                    value={totpCode}
+                    onChange={(value) => setTotpCode(value)}
+                    maxLength={6}
                     disabled={loading}
                     autoFocus
-                  />
+                  >
+                    <InputOTPGroup>
+                      <InputOTPSlot index={0} />
+                      <InputOTPSlot index={1} />
+                      <InputOTPSlot index={2} />
+                      <InputOTPSlot index={3} />
+                      <InputOTPSlot index={4} />
+                      <InputOTPSlot index={5} />
+                    </InputOTPGroup>
+                  </InputOTP>
+                  <p className="text-xs text-muted-foreground">
+                    Enter the 6-digit code from your authenticator app
+                  </p>
                 </div>
                 
-                <Button type="submit" className="w-full" disabled={loading || !email.trim()}>
+                <Button 
+                  type="submit" 
+                  className="w-full" 
+                  disabled={loading || totpCode.length !== 6}
+                >
                   {loading ? (
                     <>
                       <Loader2 className="w-4 h-4 animate-spin mr-2" />
-                      Sending reset link...
+                      Verifying...
                     </>
                   ) : (
-                    "Send reset link"
+                    "Verify Code"
                   )}
                 </Button>
               </form>
