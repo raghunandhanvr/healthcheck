@@ -4,7 +4,8 @@ import { useState, useEffect } from 'react'
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
-import { Loader2, Eye, EyeOff } from "lucide-react"
+import { LoaderPinwheelIcon } from "@/components/ui/icons/loader-pinwheel"
+import { EyeOffIcon } from "@/components/ui/icons/eye-off"
 import Link from "next/link"
 import { signIn } from "@/lib/auth/auth-client"
 import { toast } from "@/components/ui/sonner"
@@ -39,11 +40,12 @@ export function SignInTab({ onSwitchToSignUp }: SignInTabProps) {
           saveLastAuthMethod("email")
           toast.success("Successfully signed in!")
         },
-        onError: (ctx) => {
-          if (ctx.error.code === 'TWO_FACTOR_REQUIRED') {
+        onError: (ctx: unknown) => {
+          const errorCtx = ctx as { error: { code?: string; message: string } };
+          if (errorCtx.error.code === 'TWO_FACTOR_REQUIRED') {
             window.location.href = '/auth/two-factor'
           } else {
-            toast.error(ctx.error.message)
+            toast.error(errorCtx.error.message)
           }
         }
       })
@@ -120,11 +122,7 @@ export function SignInTab({ onSwitchToSignUp }: SignInTabProps) {
                 className="absolute inset-y-0 right-0 pr-3 flex items-center"
                 onClick={() => setShowPassword(!showPassword)}
               >
-                {showPassword ? (
-                  <EyeOff className="h-4 w-4 text-muted-foreground" />
-                ) : (
-                  <Eye className="h-4 w-4 text-muted-foreground" />
-                )}
+                  <EyeOffIcon size={12} />
               </button>
             </div>
           </div>
@@ -133,7 +131,7 @@ export function SignInTab({ onSwitchToSignUp }: SignInTabProps) {
             <Button type="submit" className="w-full" disabled={loading}>
               {loading ? (
                 <>
-                  <Loader2 className="w-4 h-4 animate-spin mr-2" />
+                  <LoaderPinwheelIcon size={12} />
                   Signing in...
                 </>
               ) : (

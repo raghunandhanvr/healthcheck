@@ -8,6 +8,7 @@ import {
 } from "better-auth/plugins";
 import { passkey } from "better-auth/plugins/passkey";
 import { pgConnection } from "@/lib/database/postgres";
+import { AUTH_MESSAGES, CONFIG } from "@/lib/constants";
 
 export const auth = betterAuth({
   database: pgConnection,
@@ -96,7 +97,7 @@ export const auth = betterAuth({
       defaultRole: "user",
       adminRoles: ["admin"],
       impersonationSessionDuration: 60 * 60 * 2,
-      defaultBanReason: "Violation of terms of service",
+      defaultBanReason: AUTH_MESSAGES.DEFAULT_BAN_REASON,
       defaultBanExpiresIn: 60 * 60 * 24 * 7,
       bannedUserMessage:
         "Your account has been suspended. Please contact support at support@healthcheck.sh if you believe this is an error.",
@@ -152,7 +153,7 @@ export const auth = betterAuth({
     forceHTTPS: true,
     securityHeaders: {
       contentSecurityPolicy: true,
-      xFrameOptions: "DENY",
+      xFrameOptions: CONFIG.SECURITY.X_FRAME_OPTIONS,
       xContentTypeOptions: "nosniff",
       referrerPolicy: "strict-origin-when-cross-origin",
     },

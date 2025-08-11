@@ -5,6 +5,7 @@ import { OTPVerificationTemplate } from "@/components/email/otp-verification";
 import { OrganizationInvitationTemplate } from "@/components/email/organization-invitation";
 import { render } from "@react-email/render";
 import { ReactElement } from "react";
+import { EMAIL_MESSAGES, AUTH_MESSAGES } from "@/lib/constants";
 
 const resend = new Resend(process.env.RESEND_API_KEY);
 
@@ -51,12 +52,12 @@ export const sendVerificationEmail = async ({
   await sendEmail({
     to: user.email,
     from: "healthcheck.sh <verify@healthcheck.sh>",
-    subject: "Verify your email address",
+    subject: EMAIL_MESSAGES.SUBJECTS.VERIFY_EMAIL,
     template: EmailVerificationTemplate({
-      userFirstName: user.name || "User",
+      userFirstName: user.name || AUTH_MESSAGES.DEFAULT_USER_NAME,
       verificationUrl: url,
     }),
-    errorMessage: "Failed to send verification email",
+    errorMessage: EMAIL_MESSAGES.ERROR_MESSAGES.SEND_VERIFICATION_FAILED,
   });
 };
 
@@ -71,12 +72,12 @@ export const sendPasswordResetEmail = async ({
   await sendEmail({
     to: user.email,
     from: "healthcheck.sh <verify@healthcheck.sh>",
-    subject: "Reset your password",
+    subject: EMAIL_MESSAGES.SUBJECTS.RESET_PASSWORD,
     template: PasswordResetTemplate({
-      userFirstName: user.name || "User",
+      userFirstName: user.name || AUTH_MESSAGES.DEFAULT_USER_NAME,
       resetUrl: url,
     }),
-    errorMessage: "Failed to send password reset email",
+    errorMessage: EMAIL_MESSAGES.ERROR_MESSAGES.SEND_RESET_FAILED,
   });
 };
 
@@ -92,10 +93,10 @@ export const sendOTPEmail = async ({
     from: "healthcheck.sh <verify@healthcheck.sh>",
     subject: "Your 2FA verification code",
     template: OTPVerificationTemplate({
-      userFirstName: user.name || "User",
+      userFirstName: user.name || AUTH_MESSAGES.DEFAULT_USER_NAME,
       otp: otp,
     }),
-    errorMessage: "Failed to send OTP email",
+    errorMessage: EMAIL_MESSAGES.ERROR_MESSAGES.SEND_OTP_FAILED,
   });
 };
 
@@ -125,6 +126,6 @@ export const sendOrganizationInvitationEmail = async ({
       inviteLink,
       invitationId,
     }),
-    errorMessage: "Failed to send environment invitation email",
+    errorMessage: EMAIL_MESSAGES.ERROR_MESSAGES.SEND_INVITATION_FAILED,
   });
 };

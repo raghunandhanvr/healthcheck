@@ -11,6 +11,7 @@ import { UsersIcon } from "@/components/ui/icons/users"
 import { GithubIcon } from "@/components/ui/icons/github"
 
 import { Button } from "@/components/ui/button"
+import { MainLayout } from "@/components/layout/main-layout"
 import Link from "next/link"
 
 function FeaturesSectionDemo() {
@@ -133,9 +134,9 @@ function FeaturesSectionDemo() {
               rel="noopener noreferrer"
                              className="inline-flex items-center text-xs sm:text-sm text-primary hover:text-primary/80 transition-colors duration-300 break-all sm:break-normal"
             >
-              <span className="hidden sm:inline">Start contributing on </span>
-              <span className="sm:hidden">Contribute on </span>
-              github.com/raghunandhanvr/healthcheck
+              <span className="hidden sm:inline">Start contributing on {` `}</span>
+              <span className="sm:hidden">Contribute on {` `}</span>
+              <span className="font-mono">github.com/raghunandhanvr/healthcheck.sh</span>
               <svg 
                 className="ml-2 w-4 h-4 flex-shrink-0" 
                 fill="none" 
@@ -309,10 +310,12 @@ const Feature = ({
 
 export default function Home() {
   return (
-    <div className="bg-background">
-      <div className="w-full">
-        <FeaturesSectionDemo />
+    <MainLayout>
+      <div className="bg-background">
+        <div className="w-full">
+          <FeaturesSectionDemo />
+        </div>
       </div>
-    </div>
+    </MainLayout>
   )
 }

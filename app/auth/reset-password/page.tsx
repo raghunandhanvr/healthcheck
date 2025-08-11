@@ -6,9 +6,13 @@ import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
-import { Loader2, CheckCircle2, AlertCircle, Eye, EyeOff } from "lucide-react"
+import { LoaderPinwheelIcon } from "@/components/ui/icons/loader-pinwheel"
+import { CircleCheckIcon } from "@/components/ui/icons/circle-check"
+import { BadgeAlertIcon } from "@/components/ui/icons/badge-alert"
+import { EyeOffIcon } from "@/components/ui/icons/eye-off"
+import { AtSignIcon } from "@/components/ui/icons/at-sign"
 import Link from "next/link"
-import { authClient } from "@/lib/auth/auth-client"
+import { client } from "@/lib/auth/auth-client"
 import { toast } from "@/components/ui/sonner"
 import { Globe } from '@/components/ui/globe'
 
@@ -80,7 +84,7 @@ function ResetPasswordContent() {
     setLoading(true)
     
     try {
-      const response = await authClient.resetPassword({
+      const response = await client.resetPassword({
         newPassword: password,
         token,
       })
@@ -127,7 +131,7 @@ function ResetPasswordContent() {
               <CardHeader className="text-center">
                 <div className="flex justify-center mb-4">
                   <div className="w-12 h-12 bg-red-100 dark:bg-red-900/20 rounded-full flex items-center justify-center">
-                    <AlertCircle className="w-6 h-6 text-red-600 dark:text-red-400" />
+                    <BadgeAlertIcon size={12} />
                   </div>
                 </div>
                 <CardTitle>Invalid reset link</CardTitle>
@@ -188,7 +192,7 @@ function ResetPasswordContent() {
               <CardHeader className="text-center">
                 <div className="flex justify-center mb-4">
                   <div className="w-12 h-12 bg-green-100 dark:bg-green-900/20 rounded-full flex items-center justify-center">
-                    <CheckCircle2 className="w-6 h-6 text-green-600 dark:text-green-400" />
+                    <CircleCheckIcon size={12} />
                   </div>
                 </div>
                 <CardTitle>Password reset successful</CardTitle>
@@ -221,7 +225,7 @@ function ResetPasswordContent() {
       <div className="layout-container centered pt-24">
         <div className="w-full max-w-md mx-auto flex items-center justify-center">
           <div className="flex items-center space-x-2">
-            <Loader2 className="w-4 h-4 animate-spin" />
+            <LoaderPinwheelIcon size={12} />
             <span className="text-sm text-muted-foreground">Validating reset link...</span>
           </div>
         </div>
@@ -281,9 +285,9 @@ function ResetPasswordContent() {
                       onClick={() => setShowPassword(!showPassword)}
                     >
                       {showPassword ? (
-                        <EyeOff className="h-4 w-4 text-muted-foreground" />
+                        <EyeOffIcon size={12} />
                       ) : (
-                        <Eye className="h-4 w-4 text-muted-foreground" />
+                        <AtSignIcon size={12} />
                       )}
                     </button>
                   </div>
@@ -312,9 +316,9 @@ function ResetPasswordContent() {
                       onClick={() => setShowConfirmPassword(!showConfirmPassword)}
                     >
                       {showConfirmPassword ? (
-                        <EyeOff className="h-4 w-4 text-muted-foreground" />
+                        <EyeOffIcon size={12} />
                       ) : (
-                        <Eye className="h-4 w-4 text-muted-foreground" />
+                        <AtSignIcon size={12} />
                       )}
                     </button>
                   </div>
@@ -327,7 +331,7 @@ function ResetPasswordContent() {
                 >
                   {loading ? (
                     <>
-                      <Loader2 className="w-4 h-4 animate-spin mr-2" />
+                      <LoaderPinwheelIcon size={12} />
                       Resetting password...
                     </>
                   ) : (

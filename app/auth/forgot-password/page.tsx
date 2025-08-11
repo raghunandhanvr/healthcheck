@@ -4,9 +4,11 @@ import { useState } from 'react'
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card"
 import { Input } from "@/components/ui/input"
-import { Loader2, ArrowLeft, Mail } from "lucide-react"
+import { LoaderPinwheelIcon } from "@/components/ui/icons/loader-pinwheel"
+import { ArrowLeftIcon } from "@/components/ui/icons/arrow-left"
+import { AtSignIcon } from "@/components/ui/icons/at-sign"
 import Link from "next/link"
-import { authClient } from "@/lib/auth/auth-client"
+import { client } from "@/lib/auth/auth-client"
 import { toast } from "@/components/ui/sonner"
 import { Globe } from '@/components/ui/globe'
 
@@ -48,7 +50,7 @@ export default function ForgotPasswordPage() {
     setLoading(true)
     
     try {
-      const response = await authClient.forgetPassword({
+      const response = await client.forgetPassword({
         email,
         redirectTo: `${window.location.origin}/auth/reset-password`,
       })
@@ -91,7 +93,7 @@ export default function ForgotPasswordPage() {
               <CardHeader>
                 <div className="flex justify-center mb-4">
                   <div className="w-12 h-12 bg-green-100 dark:bg-green-900/20 rounded-full flex items-center justify-center">
-                    <Mail className="w-6 h-6 text-green-600 dark:text-green-400" />
+                    <AtSignIcon size={12} />
                   </div>
                 </div>
                 <CardTitle>Check your email</CardTitle>
@@ -129,7 +131,7 @@ export default function ForgotPasswordPage() {
                 <div className="text-center border-t pt-6">
                   <Link href="/auth">
                     <Button variant="ghost" size="sm">
-                      <ArrowLeft className="w-4 h-4 mr-2" />
+                      <ArrowLeftIcon size={12} />
                       Back to sign in
                     </Button>
                   </Link>
@@ -188,7 +190,7 @@ export default function ForgotPasswordPage() {
                 <Button type="submit" className="w-full" disabled={loading || !email.trim()}>
                   {loading ? (
                     <>
-                      <Loader2 className="w-4 h-4 animate-spin mr-2" />
+                      <LoaderPinwheelIcon size={12} />
                       Sending reset link...
                     </>
                   ) : (
@@ -200,7 +202,7 @@ export default function ForgotPasswordPage() {
               <div className="text-center mt-6 border-t pt-6">
                 <Link href="/auth">
                   <Button variant="ghost" size="sm">
-                    <ArrowLeft className="w-4 h-4 mr-2" />
+                    <ArrowLeftIcon size={12} />
                     Back to sign in
                   </Button>
                 </Link>

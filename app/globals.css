@@ -208,7 +208,175 @@
   }
 }
 
+/* Main Layout Styles */
+.main-content-wrapper {
+  @apply flex-1 flex flex-col overflow-hidden;
+}
+
+.main-scrollable-content {
+  @apply flex-1 overflow-y-auto;
+}
+
+/* Console Layout Styles */
+.console-layout-wrapper {
+  @apply flex flex-1 h-full;
+}
+
+.console-main-content {
+  @apply flex-1 flex flex-col min-h-0 w-full;
+}
+
+.console-page-wrapper {
+  @apply flex-1 w-full;
+}
+
+.console-scrollable-content {
+  @apply h-full w-full overflow-y-auto;
+}
+
 /* Page Container */
 .page-container {
   @apply container mx-auto px-4 py-6 max-w-6xl;
+}
+
+.console-page-container {
+  @apply w-full;
+  max-width: 100%;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+@media (min-width: 640px) {
+  .console-page-container {
+    max-width: 80%;
+  }
+}
+
+
+.console-sidebar-redesign {
+  @apply bg-surface-secondary/95 backdrop-blur border-r border-border;
+  width: 12rem;
+  flex-shrink: 0;
+  height: calc(100vh - var(--navbar-height));
+  position: sticky;
+  top: var(--navbar-height);
+  transition: width 0.2s ease-in-out, padding 0.2s ease-in-out;
+}
+
+.console-sidebar-redesign[data-state="collapsed"] {
+  width: 3rem;
+}
+
+.console-sidebar-redesign[data-state="collapsed"] .console-sidebar-content-redesign {
+  @apply px-1;
+}
+
+.console-sidebar-content-redesign {
+  @apply bg-surface-secondary/95 backdrop-blur px-2 pt-3;
+}
+
+@media (max-width: 768px) {
+  .console-sidebar-redesign {
+    width: 18rem;
+    @apply fixed inset-y-0 left-0 z-40 transform transition-transform duration-300 ease-in-out;
+    top: var(--navbar-height);
+    height: calc(100vh - var(--navbar-height));
+  }
+  
+  .console-sidebar-redesign[data-mobile="closed"] {
+    transform: translateX(-100%);
+  }
+  
+  .console-sidebar-redesign[data-mobile="open"] {
+    transform: translateX(0);
+  }
+}
+
+.console-sidebar-menu-redesign {
+  @apply space-y-0.5;
+}
+
+.console-sidebar-menu-item-redesign {
+  @apply relative;
+}
+
+.console-sidebar-link-redesign {
+  @apply flex items-center gap-3 px-3 py-2.5 rounded-md transition-colors duration-200 w-full text-left;
+}
+
+.console-sidebar-menu-button-redesign {
+  @apply relative w-full;
+}
+
+.console-sidebar-menu-button-redesign:hover .console-sidebar-link-redesign {
+  @apply bg-accent/30;
+}
+
+.console-sidebar-menu-button-redesign.active .console-sidebar-link-redesign {
+  @apply bg-primary/10;
+}
+
+.console-sidebar-menu-button-redesign.active::after {
+  content: '';
+  @apply absolute right-0 top-0 bottom-0 w-1 bg-primary;
+  border-radius: 0;
+}
+
+.console-sidebar-menu-icon-redesign {
+  @apply shrink-0 flex items-center;
+  stroke-width: 1.5;
+}
+
+.console-sidebar-menu-icon-redesign.active-icon {
+  @apply text-primary;
+}
+
+.console-sidebar-menu-icon-redesign.inactive-icon {
+  @apply text-muted-foreground;
+}
+
+.console-sidebar-menu-label {
+  @apply text-xs font-normal;
+}
+
+.console-sidebar-menu-label.active-text {
+  @apply text-foreground;
+}
+
+.console-sidebar-menu-label.inactive-text {
+  @apply text-muted-foreground;
+}
+
+.console-sidebar-footer-redesign {
+  @apply bg-surface-secondary/95 backdrop-blur mt-auto px-2 pb-2;
+}
+
+.console-sidebar-redesign[data-state="collapsed"] .console-sidebar-footer-redesign {
+  @apply px-1;
+}
+
+.console-sidebar-collapse-section {
+  @apply pt-2 border-t border-border mt-2;
+}
+
+.console-sidebar-redesign[data-state="collapsed"] .console-sidebar-collapse-section {
+  @apply px-1;
+}
+
+.console-sidebar-collapse-button {
+  @apply p-2 rounded-md hover:bg-accent/30 transition-colors duration-200 flex items-center gap-1 min-w-0 w-full;
+}
+
+.console-sidebar-redesign[data-state="collapsed"] .console-sidebar-collapse-button {
+  @apply justify-center;
+  width: 100%;
+}
+
+.console-sidebar-collapse-button svg {
+  @apply size-3.5 text-muted-foreground;
+  stroke-width: 1.5;
+}
+
+.console-sidebar-collapse-text {
+  @apply text-xs font-normal text-muted-foreground whitespace-nowrap;
 }

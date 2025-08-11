@@ -4,7 +4,9 @@ import { useState } from 'react'
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card"
 import { InputOTP, InputOTPGroup, InputOTPSlot } from "@/components/ui/input-otp"
-import { Loader2, ArrowLeft, CheckCircle } from "lucide-react"
+import { LoaderPinwheelIcon } from "@/components/ui/icons/loader-pinwheel"
+import { ArrowLeftIcon } from "@/components/ui/icons/arrow-left"
+import { CircleCheckIcon } from "@/components/ui/icons/circle-check"
 import Link from "next/link"
 import { client } from "@/lib/auth/auth-client"
 import { toast } from "@/components/ui/sonner"
@@ -99,7 +101,7 @@ export default function TwoFactorPage() {
               <CardHeader>
                 <div className="flex justify-center mb-4">
                   <div className="w-12 h-12 bg-green-100 dark:bg-green-900/20 rounded-full flex items-center justify-center">
-                    <CheckCircle className="w-6 h-6 text-green-600 dark:text-green-400" />
+                    <CircleCheckIcon size={12} />
                   </div>
                 </div>
                 <CardTitle className="text-center">Authentication Successful</CardTitle>
@@ -168,7 +170,7 @@ export default function TwoFactorPage() {
                 >
                   {loading ? (
                     <>
-                      <Loader2 className="w-4 h-4 animate-spin mr-2" />
+                      <LoaderPinwheelIcon size={12} />
                       Verifying...
                     </>
                   ) : (
@@ -180,7 +182,7 @@ export default function TwoFactorPage() {
               <div className="text-center mt-6 border-t pt-6">
                 <Link href="/auth">
                   <Button variant="ghost" size="sm">
-                    <ArrowLeft className="w-4 h-4 mr-2" />
+                    <ArrowLeftIcon size={12} />
                     Back to sign in
                   </Button>
                 </Link>

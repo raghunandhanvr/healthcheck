@@ -1,25 +1,25 @@
 'use client'
 
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useCallback, useMemo } from 'react'
 import Link from 'next/link'
-import { usePathname, useRouter } from 'next/navigation'
+import { usePathname } from 'next/navigation'
 import { Button } from '@/components/ui/button'
-import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
-import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuSeparator, DropdownMenuTrigger } from '@/components/ui/dropdown-menu'
 import { ThemeSwitcher } from '@/components/ui/theme-switcher'
 import { Logo } from '@/components/ui/logo'
 import { CpuIcon } from '@/components/ui/icons/cpu'
 import { HomeIcon } from '@/components/ui/icons/home'
 import { GithubIcon } from '@/components/ui/icons/github'
-import { useSession, signOut } from '@/lib/auth/auth-client'
-import { Settings, LogOut } from 'lucide-react'
-import { toast } from '@/components/ui/sonner'
+import { useSession } from '@/lib/auth/auth-client'
+import { ProfileDropdown } from './profile-dropdown'
+import { useSidebarContext } from '@/lib/providers/sidebar-provider'
+import { SidebarMenuItem } from '@/lib/interface/sidebar'
+import { ChevronDownIcon } from '@/components/ui/icons/chevron-down'
 
 export default function TopNavbar() {
   const pathname = usePathname()
-  const router = useRouter()
   const { data: session } = useSession()
   const [mounted, setMounted] = useState(false)
+  const [mobileNavOpen, setMobileNavOpen] = useState(false)
   
   const user = session?.user
   const isConsole = pathname.startsWith('/console')
@@ -29,110 +29,197 @@ export default function TopNavbar() {
   useEffect(() => {
     setMounted(true)
   }, [])
-  
-  const handleSignOut = async () => {
-    try {
-      await signOut({
-        fetchOptions: {
-          onSuccess: () => {
-            toast.success("Signed out successfully")
-            router.push('/')
-          },
-          onError: () => {
-            toast.error("Error signing out")
-          }
-        }
-      })
-    } catch {
-      toast.error("Error signing out")
+
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      const target = event.target as Element
+      if (mobileNavOpen && !target.closest('.mobile-nav-container')) {
+        setMobileNavOpen(false)
+      }
     }
-  }
+
+    if (mobileNavOpen) {
+      document.addEventListener('mousedown', handleClickOutside)
+      return () => document.removeEventListener('mousedown', handleClickOutside)
+    }
+  }, [mobileNavOpen])
+
+  useEffect(() => {
+    setMobileNavOpen(false)
+  }, [pathname])
+
+  const toggleMobileNav = useCallback(() => {
+    setMobileNavOpen(prev => !prev)
+  }, [])
+
+  const closeMobileNav = useCallback(() => {
+    setMobileNavOpen(false)
+  }, [])
 
   return (
-    <nav className={`sticky top-0 z-50 w-full bg-surface-secondary/95 backdrop-blur ${!isAuth ? 'border-b border-border' : ''}`}>
-      <div className={`w-full px-5 sm:px-6 lg:px-8 ${(isMarketing || isAuth) ? 'lg:max-w-7xl lg:mx-auto lg:px-0' : ''}`}>
-        <div className="flex h-14 items-center justify-between">
-          
-          <Link href="/" className="flex items-center">
-            <Logo />
-          </Link>
-          
-          <div className="flex items-center gap-4">
-
-            {mounted && user && isMarketing && (
-              <div className="hidden sm:block text-sm text-muted-foreground">
-                Welcome back, <span className="font-medium">{user.name}</span>
-              </div>
-            )}
-
-            {mounted && (
-              <>
-                {user && (isMarketing || isAuth) && !isConsole && (
-                  <Button size="sm" asChild>
-                    <Link href="/console" className="flex items-center gap-2">
-                      <CpuIcon size={16} />
-                      Console
-                    </Link>
-                  </Button>
-                )}
-                
-                {!user && !isConsole && (
-                  <Button size="sm" asChild>
-                    <Link href={isAuth ? "/" : "/auth"} className="flex items-center gap-2">
-                      {isAuth ? <HomeIcon size={16} /> : <CpuIcon size={16} />}
-                      {isAuth ? "Home" : "Console"}
-                    </Link>
-                  </Button>
-                )}
-              </>
-            )}
-
-            {mounted && user && isConsole && (
-              <DropdownMenu>
-                <DropdownMenuTrigger asChild>
-                  <Button variant="ghost" size="sm" className="h-8 w-8 rounded-full p-0">
-                    <Avatar className="h-8 w-8">
-                      <AvatarImage src={user.image || undefined} alt={user.name} />
-                      <AvatarFallback className="text-xs">
-                        {user.name.split(' ').map(n => n[0]).join('').toUpperCase().slice(0, 2)}
-                      </AvatarFallback>
-                    </Avatar>
-                  </Button>
-                </DropdownMenuTrigger>
-                <DropdownMenuContent align="end" className="w-56">
-                  <div className="p-2">
-                    <p className="font-medium text-sm">{user.name}</p>
-                    <p className="text-xs text-muted-foreground truncate">{user.email}</p>
+    <>
+      <nav className={`sticky top-0 z-50 w-full bg-surface-secondary/95 backdrop-blur ${!isAuth ? 'border-b border-border' : ''}`}>
+        <div className={`w-full px-5 sm:px-6 lg:px-8 ${(isMarketing || isAuth) ? 'lg:max-w-7xl lg:mx-auto lg:px-0' : ''}`}>
+          <div className="flex h-14 items-center justify-between">
+            <div className="flex items-center gap-3">
+              <Link href={user ? "/console" : "/"} className="flex items-center">
+                <Logo />
+              </Link>
+              
+              {isConsole && (
+                <div className="md:hidden mobile-nav-container">
+                  <div className="flex items-center gap-2">
+                    <span className="text-muted-foreground">/</span>
+                    <Button
+                      variant="ghost"
+                      size="sm"
+                      className="h-8 px-2 gap-2 hover:bg-sidebar-accent/50"
+                      onClick={toggleMobileNav}
+                    >
+                      <MobileActiveItem />
+                      <ChevronDownIcon 
+                        size={14} 
+                        className={`transition-transform duration-200 ${mobileNavOpen ? 'rotate-180' : ''}`}
+                      />
+                    </Button>
                   </div>
-                  <DropdownMenuSeparator />
-                  <DropdownMenuItem asChild>
-                    <Link href="/console/profile">
-                      <Settings className="mr-2 h-4 w-4" />
-                      Profile
-                    </Link>
-                  </DropdownMenuItem>
-                  <DropdownMenuSeparator />
-                  <DropdownMenuItem onClick={handleSignOut} className="text-red-600">
-                    <LogOut className="mr-2 h-4 w-4" />
-                    Logout
-                  </DropdownMenuItem>
-                </DropdownMenuContent>
-              </DropdownMenu>
-            )}
+                </div>
+              )}
+            </div>
+            
+            <div className="flex items-center gap-4">
 
-            <Link 
-              href="https://github.com/raghunandhanvr/healthcheck" 
-              target="_blank" 
-              rel="noopener noreferrer"
-              className="h-4 w-4 rounded-full flex items-center justify-center text-muted-foreground hover:text-foreground transition-colors"
-            >
-              <GithubIcon size={15} />
-            </Link>
+              {mounted && user && isMarketing && (
+                <div className="hidden sm:block text-sm text-muted-foreground">
+                  Welcome back, <span className="font-medium">{user.name}</span>
+                </div>
+              )}
 
-            <ThemeSwitcher />
+              {mounted && (
+                <>
+                  {user && (isMarketing || isAuth) && !isConsole && (
+                    <Button size="sm" asChild>
+                      <Link href="/console" className="flex items-center gap-2">
+                        <CpuIcon size={15} />
+                        Console
+                      </Link>
+                    </Button>
+                  )}
+                  
+                  {!user && !isConsole && (
+                    <Button size="sm" asChild>
+                      <Link href={isAuth ? "/" : "/auth"} className="flex items-center gap-2">
+                        {isAuth ? <HomeIcon size={15} /> : <CpuIcon size={15} />}
+                        {isAuth ? "Home" : "Console"}
+                      </Link>
+                    </Button>
+                  )}
+                </>
+              )}
+
+              {mounted && user && isConsole && (
+                <ProfileDropdown user={user} />
+              )}
+
+              {!isConsole && (
+                <>
+                  <Link 
+                    href="https://github.com/raghunandhanvr/healthcheck" 
+                    target="_blank" 
+                    rel="noopener noreferrer"
+                    className="h-4 w-4 rounded-full flex items-center justify-center text-muted-foreground hover:text-foreground transition-colors"
+                  >
+                    <GithubIcon size={15} />
+                  </Link>
+
+                  <ThemeSwitcher />
+                </>
+              )}
+
+              {mounted && user && isConsole && <ThemeSwitcher />}
+            </div>
           </div>
         </div>
+      </nav>
+      
+      {isConsole && mobileNavOpen && (
+        <div className="md:hidden bg-surface-secondary/95 backdrop-blur border-b border-border mobile-nav-container relative z-40">
+          <MobileNavigationMenu onClose={closeMobileNav} />
+        </div>
+      )}
+    </>
+  )
+}
+
+function MobileActiveItem() {
+  const { menuItems, currentPath } = useSidebarContext()
+  
+  const activeItem = useMemo(() => 
+    menuItems.find(item => item.href === currentPath), 
+    [menuItems, currentPath]
+  )
+  
+  if (!activeItem) {
+    return <span className="text-xs font-normal text-muted-foreground">Console</span>
+  }
+  
+  const Icon = activeItem.icon
+  
+  return (
+    <div className="flex items-center gap-2">
+      <Icon size={14} className="shrink-0 flex items-center stroke-[1.5] text-primary" />
+      <span className="text-xs font-normal text-foreground">{activeItem.label}</span>
+    </div>
+  )
+}
+
+function MobileNavigationMenu({ onClose }: { onClose: () => void }) {
+  const { menuItems, currentPath } = useSidebarContext()
+  
+  const navigationItems = useMemo(() => 
+    menuItems.map(item => ({
+      ...item,
+      isActive: currentPath === item.href
+    })), 
+    [menuItems, currentPath]
+  )
+  
+  return (
+    <div className="px-5 sm:px-6 lg:px-8 py-3">
+      <div className="space-y-0.5">
+        {navigationItems.map((item) => {
+          const Icon = item.icon
+          
+          return (
+            <Link
+              key={item.id}
+              href={item.href}
+              onClick={onClose}
+              className={`flex items-center gap-3 px-3 py-2.5 rounded-md transition-colors duration-200 w-full ${
+                item.isActive
+                  ? 'bg-primary/10'
+                  : 'hover:bg-accent/30'
+              }`}
+            >
+              <Icon 
+                size={14} 
+                className={`shrink-0 flex items-center stroke-[1.5] ${
+                  item.isActive 
+                    ? 'text-primary' 
+                    : 'text-muted-foreground'
+                }`} 
+              />
+              <span className={`text-xs font-normal ${
+                item.isActive 
+                  ? 'text-foreground' 
+                  : 'text-muted-foreground'
+              }`}>
+                {item.label}
+              </span>
+            </Link>
+          )
+        })}
       </div>
-    </nav>
+    </div>
   )
 }

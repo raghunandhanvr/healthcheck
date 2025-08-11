@@ -2,7 +2,7 @@ import { PageHeader } from "@/components/layout/page-header";
 
 export default function ConsolePage() {
   return (
-    <div className="page-container">
+    <div className="console-page-container">
         <PageHeader title="Console" />
 
         <p>

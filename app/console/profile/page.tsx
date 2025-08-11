@@ -1,12 +1,13 @@
 "use client"
 
 import { useState, useEffect } from "react"
-import { useSession, authClient } from "@/lib/auth/auth-client"
-import { Loader2 } from "lucide-react"
+import { useSession, client } from "@/lib/auth/auth-client"
+import { LoaderPinwheelIcon } from "@/components/ui/icons/loader-pinwheel"
 import { PageHeader } from "@/components/layout/page-header"
 import { EmailVerificationBanner } from "./_components/email-verification-banner"
 import { ActiveSessions } from "./_components/active-sessions"
 import { ProfileCard } from "./_components/profile-card"
+import { UserWithProvider } from "@/lib/types/api/user"
 
 interface SessionItem {
   session: {
@@ -20,6 +21,7 @@ interface SessionItem {
 export default function ProfilePage() {
   const { data: session, isPending } = useSession()
   const [activeSessions, setActiveSessions] = useState<SessionItem[]>([])
+  const [userDetails, setUserDetails] = useState<UserWithProvider | null>(null)
 
   useEffect(() => {
     if (session) {
@@ -29,7 +31,11 @@ export default function ProfilePage() {
 
   const loadProfileData = async () => {
     try {
-      const sessionsResponse = await authClient.multiSession.listDeviceSessions()
+      const [sessionsResponse, userResponse] = await Promise.all([
+        client.multiSession.listDeviceSessions(),
+        fetch('/api/user').then(res => res.ok ? res.json() : null)
+      ]);
+
       if (sessionsResponse.data) {
         setActiveSessions(
           sessionsResponse.data.map((item: SessionItem) => ({
@@ -42,6 +48,10 @@ export default function ProfilePage() {
           })),
         )
       }
+
+      if (userResponse) {
+        setUserDetails(userResponse);
+      }
     } catch (error) {
       console.error("Failed to load profile data:", error)
     }
@@ -49,16 +59,16 @@ export default function ProfilePage() {
 
   if (isPending || !session) {
     return (
-      <div className="page-container">
+      <div className="console-page-container">
         <div className="flex items-center justify-center">
-          <Loader2 className="w-6 h-6 animate-spin" />
+          <LoaderPinwheelIcon size={12} />
         </div>
       </div>
     )
   }
 
   return (
-    <div className="page-container">
+    <div className="console-page-container">
       {/* Email Verification Banner */}
       <EmailVerificationBanner isVerified={session.user.emailVerified} />
 
@@ -67,7 +77,7 @@ export default function ProfilePage() {
 
       {/* Mobile Layout: Profile Card First */}
       <div className="block lg:hidden mb-6">
-        <ProfileCard user={session.user} />
+        <ProfileCard user={session.user} userDetails={userDetails} />
       </div>
 
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 lg:gap-8">
@@ -81,7 +91,7 @@ export default function ProfilePage() {
 
         {/* Right Sidebar - Profile (Desktop Only) */}
         <div className="hidden lg:block lg:col-span-4">
-          <ProfileCard user={session.user} />
+          <ProfileCard user={session.user} userDetails={userDetails} />
         </div>
       </div>
     </div>

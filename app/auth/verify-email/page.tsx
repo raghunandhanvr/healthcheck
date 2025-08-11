@@ -2,7 +2,9 @@
 
 import { Suspense } from 'react'
 import { useSearchParams } from 'next/navigation'
-import { CheckCircle2, AlertCircle, ArrowLeft } from 'lucide-react'
+import { CircleCheckIcon } from "@/components/ui/icons/circle-check"
+import { BadgeAlertIcon } from "@/components/ui/icons/badge-alert"
+import { ArrowLeftIcon } from "@/components/ui/icons/arrow-left"
 import Link from 'next/link'
 import { Button } from '@/components/ui/button'
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card'
@@ -82,7 +84,7 @@ function VerifyEmailContent() {
 
               <div className="space-y-4">
                 <div className="flex items-start space-x-3">
-                  <CheckCircle2 className="w-4 h-4 text-green-600 dark:text-green-400 flex-shrink-0 mt-1" />
+                  <CircleCheckIcon size={12} />
                   <div className="text-sm">
                     <p className="font-medium">Click the verification link</p>
                     <p className="text-muted-foreground text-xs">
@@ -92,7 +94,7 @@ function VerifyEmailContent() {
                 </div>
 
                 <div className="flex items-start space-x-3">
-                  <AlertCircle className="w-4 h-4 text-amber-600 dark:text-amber-400 flex-shrink-0 mt-1" />
+                  <BadgeAlertIcon size={12} />
                   <div className="text-sm">
                     <p className="font-medium">Check your spam folder</p>
                     <p className="text-muted-foreground text-xs">
@@ -119,7 +121,7 @@ function VerifyEmailContent() {
                 <div className="text-center">
                   <Link href="/auth">
                     <Button variant="ghost" size="sm">
-                      <ArrowLeft className="w-4 h-4 mr-2" />
+                      <ArrowLeftIcon size={12} />
                       Back to sign in
                     </Button>
                   </Link>

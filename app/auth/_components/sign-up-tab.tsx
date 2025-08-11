@@ -5,7 +5,8 @@ import { useRouter } from 'next/navigation'
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
-import { Loader2, Eye, EyeOff } from "lucide-react"
+import { LoaderPinwheelIcon } from "@/components/ui/icons/loader-pinwheel"
+import { EyeOffIcon } from "@/components/ui/icons/eye-off"
 import Image from "next/image"
 import { signUp, signIn } from "@/lib/auth/auth-client"
 import { toast } from "@/components/ui/sonner"
@@ -173,11 +174,7 @@ export function SignUpTab() {
                 className="absolute inset-y-0 right-0 pr-3 flex items-center"
                 onClick={() => setShowPassword(!showPassword)}
               >
-                {showPassword ? (
-                  <EyeOff className="h-4 w-4 text-muted-foreground" />
-                ) : (
-                  <Eye className="h-4 w-4 text-muted-foreground" />
-                )}
+                  <EyeOffIcon size={12} />
               </button>
             </div>
             <PasswordStrength password={password} />
@@ -202,11 +199,7 @@ export function SignUpTab() {
                 className="absolute inset-y-0 right-0 pr-3 flex items-center"
                 onClick={() => setShowConfirmPassword(!showConfirmPassword)}
               >
-                {showConfirmPassword ? (
-                  <EyeOff className="h-4 w-4 text-muted-foreground" />
-                ) : (
-                  <Eye className="h-4 w-4 text-muted-foreground" />
-                )}
+                  <EyeOffIcon size={12} />
               </button>
             </div>
           </div>
@@ -251,7 +244,7 @@ export function SignUpTab() {
           <Button type="submit" className="w-full" disabled={loading}>
             {loading ? (
               <>
-                <Loader2 className="w-4 h-4 animate-spin mr-2" />
+                <LoaderPinwheelIcon size={12} />
                 Creating account...
               </>
             ) : (

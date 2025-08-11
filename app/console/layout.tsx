@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { ConsoleLayout } from '@/components/layout/console-layout'
 
 export const metadata: Metadata = {
   title: "Dashboard – healthcheck.sh",
@@ -21,10 +22,14 @@ export const metadata: Metadata = {
   },
 };
 
-export default function ConsoleLayout({
+export default function Layout({
   children,
 }: {
   children: React.ReactNode;
 }) {
-  return children;
+  return (
+    <ConsoleLayout>
+      {children}
+    </ConsoleLayout>
+  );
 }

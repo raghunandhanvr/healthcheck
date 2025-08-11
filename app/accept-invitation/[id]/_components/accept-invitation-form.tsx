@@ -2,10 +2,13 @@
 
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
-import { authClient } from "@/lib/auth/auth-client";
+import { client } from "@/lib/auth/auth-client";
 import { useState } from "react";
 import { useRouter } from "next/navigation";
-import { Building, Mail, User, Loader2 } from "lucide-react";
+import { FoldersIcon } from "@/components/ui/icons/folders"
+import { AtSignIcon } from "@/components/ui/icons/at-sign"
+import { UserIcon } from "@/components/ui/icons/user"
+import { LoaderPinwheelIcon } from "@/components/ui/icons/loader-pinwheel"
 import { toast } from "@/components/ui/sonner";
 
 interface Invitation {
@@ -39,7 +42,7 @@ export function AcceptInvitationForm({ invitation }: AcceptInvitationFormProps) 
     setError("");
 
     try {
-      await authClient.organization.acceptInvitation({
+      await client.organization.acceptInvitation({
         invitationId: invitation.id,
       });
       
@@ -59,7 +62,7 @@ export function AcceptInvitationForm({ invitation }: AcceptInvitationFormProps) 
     setError("");
 
     try {
-      await authClient.organization.rejectInvitation({
+      await client.organization.rejectInvitation({
         invitationId: invitation.id,
       });
       
@@ -79,7 +82,7 @@ export function AcceptInvitationForm({ invitation }: AcceptInvitationFormProps) 
       <CardHeader className="text-center">
         <div className="flex justify-center mb-4">
           <div className="bg-primary/10 p-4 rounded-full">
-            <Building className="w-8 h-8 text-primary" />
+            <FoldersIcon size={12} />
           </div>
         </div>
         <CardTitle>Organization Invitation</CardTitle>
@@ -92,7 +95,7 @@ export function AcceptInvitationForm({ invitation }: AcceptInvitationFormProps) 
         <div className="space-y-4">
           <div className="bg-muted/50 p-4 rounded-md space-y-3">
             <div className="flex items-center gap-3">
-              <Building className="w-4 h-4 text-muted-foreground" />
+              <FoldersIcon size={12} />
               <div>
                 <p className="font-medium">{invitation.organization.name}</p>
                 <p className="text-sm text-muted-foreground">Organization</p>
@@ -100,7 +103,7 @@ export function AcceptInvitationForm({ invitation }: AcceptInvitationFormProps) 
             </div>
             
             <div className="flex items-center gap-3">
-              <User className="w-4 h-4 text-muted-foreground" />
+              <UserIcon size={12} />
               <div>
                 <p className="font-medium">{invitation.inviter.user.name}</p>
                 <p className="text-sm text-muted-foreground">Invited by</p>
@@ -108,7 +111,7 @@ export function AcceptInvitationForm({ invitation }: AcceptInvitationFormProps) 
             </div>
             
             <div className="flex items-center gap-3">
-              <Mail className="w-4 h-4 text-muted-foreground" />
+              <AtSignIcon size={12} />
               <div>
                 <p className="font-medium capitalize">{invitation.role}</p>
                 <p className="text-sm text-muted-foreground">Role</p>
@@ -130,7 +133,7 @@ export function AcceptInvitationForm({ invitation }: AcceptInvitationFormProps) 
             className="flex-1"
             disabled={loading}
           >
-            {loading ? <Loader2 className="w-4 h-4 animate-spin" /> : 'Decline'}
+            {loading ? <LoaderPinwheelIcon size={12} /> : 'Decline'}
           </Button>
           <Button
             onClick={handleAccept}
@@ -139,7 +142,7 @@ export function AcceptInvitationForm({ invitation }: AcceptInvitationFormProps) 
           >
             {loading ? (
               <>
-                <Loader2 className="w-4 h-4 animate-spin mr-2" />
+                <LoaderPinwheelIcon size={12} />
                 Accepting...
               </>
             ) : (

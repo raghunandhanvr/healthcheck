@@ -1,5 +1,7 @@
 import { Button } from "@/components/ui/button"
-import { Smartphone, Monitor, X } from "lucide-react"
+import { MonitorCheckIcon } from "@/components/ui/icons/monitor-check"
+import { XIcon } from "@/components/ui/icons/x"
+import { DEVICE_CONSTANTS, UI_MESSAGES } from "@/lib/constants"
 
 interface SessionItem {
   session: {
@@ -17,28 +19,28 @@ interface ActiveSessionsProps {
 
 export function ActiveSessions({ activeSessions, currentSessionId }: ActiveSessionsProps) {
   const getDeviceIcon = (userAgent?: string | null) => {
-    if (!userAgent) return <Monitor className="w-4 h-4" />
+    if (!userAgent) return <MonitorCheckIcon size={12} />
     return userAgent.toLowerCase().includes("mobile") ? (
-      <Smartphone className="w-4 h-4" />
+      <MonitorCheckIcon size={12} />
     ) : (
-      <Monitor className="w-4 h-4" />
+      <MonitorCheckIcon size={12} />
     )
   }
 
   const getDeviceName = (userAgent?: string | null) => {
-    if (!userAgent) return "Unknown Device"
+    if (!userAgent) return UI_MESSAGES.LABELS.UNKNOWN_DEVICE
     
     // Extract browser and OS info
-    const browser = userAgent.includes("Chrome") ? "Chrome" :
-                   userAgent.includes("Firefox") ? "Firefox" :
-                   userAgent.includes("Safari") ? "Safari" :
-                   userAgent.includes("Edge") ? "Edge" : "Browser"
+    const browser = userAgent.includes("Chrome") ? DEVICE_CONSTANTS.BROWSERS.CHROME :
+                   userAgent.includes("Firefox") ? DEVICE_CONSTANTS.BROWSERS.FIREFOX :
+                   userAgent.includes("Safari") ? DEVICE_CONSTANTS.BROWSERS.SAFARI :
+                   userAgent.includes("Edge") ? DEVICE_CONSTANTS.BROWSERS.EDGE : DEVICE_CONSTANTS.BROWSERS.BROWSER
     
-    const os = userAgent.includes("Windows") ? "Windows" :
-               userAgent.includes("Mac") ? "macOS" :
-               userAgent.includes("Linux") ? "Linux" :
-               userAgent.includes("Android") ? "Android" :
-               userAgent.includes("iOS") ? "iOS" : "OS"
+    const os = userAgent.includes("Windows") ? DEVICE_CONSTANTS.OPERATING_SYSTEMS.WINDOWS :
+               userAgent.includes("Mac") ? DEVICE_CONSTANTS.OPERATING_SYSTEMS.MACOS :
+               userAgent.includes("Linux") ? DEVICE_CONSTANTS.OPERATING_SYSTEMS.LINUX :
+               userAgent.includes("Android") ? DEVICE_CONSTANTS.OPERATING_SYSTEMS.ANDROID :
+               userAgent.includes("iOS") ? DEVICE_CONSTANTS.OPERATING_SYSTEMS.IOS : DEVICE_CONSTANTS.OPERATING_SYSTEMS.OS
     
     return `${browser} on ${os}`
   }
@@ -54,7 +56,7 @@ export function ActiveSessions({ activeSessions, currentSessionId }: ActiveSessi
       
       {activeSessions.length === 0 ? (
         <div className="text-center py-12 text-muted-foreground">
-          <Monitor className="w-8 h-8 mx-auto mb-2 opacity-50" />
+          <MonitorCheckIcon size={12} />
           <p className="text-sm">No active sessions found</p>
         </div>
       ) : (
@@ -77,7 +79,7 @@ export function ActiveSessions({ activeSessions, currentSessionId }: ActiveSessi
                   <div className="flex-1 min-w-0">
                     <div className="flex items-center gap-2 mb-1">
                       <p className="font-medium text-sm">
-                        {isCurrentSession ? "Current Session" : "Other Session"}
+                        {isCurrentSession ? UI_MESSAGES.LABELS.CURRENT_SESSION : UI_MESSAGES.LABELS.OTHER_SESSION}
                       </p>
                       {isCurrentSession && (
                         <span className="text-xs bg-muted text-muted-foreground px-2 py-0.5 rounded-full">
@@ -98,9 +100,9 @@ export function ActiveSessions({ activeSessions, currentSessionId }: ActiveSessi
                       size="sm" 
                       variant="ghost" 
                       className="text-muted-foreground hover:text-destructive hover:bg-destructive/10"
-                      title="Revoke session"
+                      title={UI_MESSAGES.TITLES.REVOKE_SESSION}
                     >
-                      <X className="w-4 h-4" />
+                      <XIcon size={12} />
                     </Button>
                   )}
                 </div>

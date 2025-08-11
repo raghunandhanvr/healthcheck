@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import { IBM_Plex_Sans, IBM_Plex_Mono } from 'next/font/google';
 import "./globals.css";
 import { ThemeProvider } from "@/lib/providers/theme-provider";
-import TopNavbar from '@/components/layout/top-navbar';
+import { LayoutWrapper } from '@/components/layout/layout-wrapper';
 import { Toaster } from "@/components/ui/sonner";
 
 const ibmPlexSans = IBM_Plex_Sans({
@@ -91,12 +91,9 @@ export default function RootLayout({
           enableSystem
           disableTransitionOnChange
         >
-          <div className="min-h-screen flex flex-col bg-background">
-            <TopNavbar />
-            <main className="flex-1 overflow-x-hidden">
-              {children}
-            </main>
-          </div>
+          <LayoutWrapper>
+            {children}
+          </LayoutWrapper>
           <Toaster />
         </ThemeProvider>
       </body>

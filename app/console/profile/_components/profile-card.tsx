@@ -7,9 +7,10 @@ import { Badge } from "@/components/ui/badge"
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog"
 import { LogOut, Edit, Mail, Shield, ShieldOff, Loader2, Eye, EyeOff } from "lucide-react"
 import { toast } from "@/components/ui/sonner"
-import { authClient, client } from "@/lib/auth/auth-client"
+import { client } from "@/lib/auth/auth-client"
 import { useRouter } from "next/navigation"
 import QRCode from "react-qr-code"
+import { UserWithProvider } from "@/lib/types/api/user"
 
 interface ProfileCardProps {
   user: {
@@ -19,9 +20,10 @@ interface ProfileCardProps {
     emailVerified?: boolean | null
     twoFactorEnabled?: boolean | null
   }
+  userDetails?: UserWithProvider | null
 }
 
-export function ProfileCard({ user }: ProfileCardProps) {
+export function ProfileCard({ user, userDetails }: ProfileCardProps) {
   const router = useRouter()
   const [showEditProfile, setShowEditProfile] = useState(false)
   const [showChangePassword, setShowChangePassword] = useState(false)
@@ -48,7 +50,7 @@ export function ProfileCard({ user }: ProfileCardProps) {
     if (!editName.trim()) return
     setLoading(true)
     try {
-      await authClient.updateUser({ name: editName })
+      await client.updateUser({ name: editName })
       toast.success("Profile updated successfully")
       setShowEditProfile(false)
     } catch {
@@ -69,7 +71,7 @@ export function ProfileCard({ user }: ProfileCardProps) {
     }
     setLoading(true)
     try {
-      await authClient.changePassword({
+      await client.changePassword({
         currentPassword,
         newPassword,
         revokeOtherSessions: false,
@@ -97,7 +99,7 @@ export function ProfileCard({ user }: ProfileCardProps) {
         await client.twoFactor.disable({
           password: twoFaPassword,
           fetchOptions: {
-            onError(context) {
+            onError(context: { error: { message: string } }) {
               toast.error(context.error.message)
             },
             onSuccess() {
@@ -117,7 +119,7 @@ export function ProfileCard({ user }: ProfileCardProps) {
           await client.twoFactor.verifyTotp({
             code: twoFaPassword,
             fetchOptions: {
-              onError(context) {
+              onError(context: { error: { message: string } }) {
                 setIsPendingTwoFa(false)
                 setTwoFaPassword("")
                 toast.error(context.error.message)
@@ -140,10 +142,10 @@ export function ProfileCard({ user }: ProfileCardProps) {
           await client.twoFactor.enable({
             password: twoFaPassword,
             fetchOptions: {
-              onError(context) {
+              onError(context: { error: { message: string } }) {
                 toast.error(context.error.message)
               },
-              onSuccess(ctx) {
+              onSuccess(ctx: { data: { totpURI: string } }) {
                 setTwoFactorVerifyURI(ctx.data.totpURI)
                 setTwoFaPassword("")
               },
@@ -160,7 +162,7 @@ export function ProfileCard({ user }: ProfileCardProps) {
   const handleSignOut = async () => {
     setLoading(true)
     try {
-      await authClient.signOut()
+      await client.signOut()
       router.push("/")
     } catch {
       toast.error("Failed to sign out")
@@ -185,7 +187,7 @@ export function ProfileCard({ user }: ProfileCardProps) {
               <p className="text-sm text-muted-foreground">{user.email}</p>
               {user.emailVerified && (
                 <Badge variant="outline" className="text-xs px-1.5 py-0.5">
-                  <Mail className="w-3 h-3 mr-1" />
+                  <Mail size={15} />
                   Verified
                 </Badge>
               )}
@@ -195,7 +197,8 @@ export function ProfileCard({ user }: ProfileCardProps) {
 
         {/* Security Actions */}
         <div className="space-y-3 mb-6">
-          <Dialog open={showChangePassword} onOpenChange={setShowChangePassword}>
+          {userDetails?.hasCredentialsProvider && (
+            <Dialog open={showChangePassword} onOpenChange={setShowChangePassword}>
             <DialogTrigger asChild>
               <Button variant="outline" size="sm" className="w-full">
                 Change Password
@@ -223,7 +226,7 @@ export function ProfileCard({ user }: ProfileCardProps) {
                       className="absolute right-0 top-0 h-full px-3 py-2 hover:bg-transparent"
                       onClick={() => setShowPasswords((prev) => ({ ...prev, current: !prev.current }))}
                     >
-                      {showPasswords.current ? <EyeOff className="h-4 w-4" /> : <Eye className="h-4 w-4" />}
+                      {showPasswords.current ? <EyeOff size={15} /> : <Eye size={15} />}
                     </Button>
                   </div>
                 </div>
@@ -244,7 +247,7 @@ export function ProfileCard({ user }: ProfileCardProps) {
                       className="absolute right-0 top-0 h-full px-3 py-2 hover:bg-transparent"
                       onClick={() => setShowPasswords((prev) => ({ ...prev, new: !prev.new }))}
                     >
-                      {showPasswords.new ? <EyeOff className="h-4 w-4" /> : <Eye className="h-4 w-4" />}
+                      {showPasswords.new ? <EyeOff size={15} /> : <Eye size={15} />}
                     </Button>
                   </div>
                 </div>
@@ -265,7 +268,7 @@ export function ProfileCard({ user }: ProfileCardProps) {
                       className="absolute right-0 top-0 h-full px-3 py-2 hover:bg-transparent"
                       onClick={() => setShowPasswords((prev) => ({ ...prev, confirm: !prev.confirm }))}
                     >
-                      {showPasswords.confirm ? <EyeOff className="h-4 w-4" /> : <Eye className="h-4 w-4" />}
+                      {showPasswords.confirm ? <EyeOff size={15} /> : <Eye size={15} />}
                     </Button>
                   </div>
                 </div>
@@ -274,15 +277,16 @@ export function ProfileCard({ user }: ProfileCardProps) {
                     Cancel
                   </Button>
                   <Button onClick={handleChangePassword} disabled={loading} className="flex-1">
-                    {loading ? <Loader2 className="w-4 h-4 animate-spin" /> : "Change"}
+                    {loading ? <Loader2 size={15} /> : "Change"}
                   </Button>
                 </div>
               </div>
             </DialogContent>
           </Dialog>
+          )}
 
           <div className="flex gap-2">
-            
+            {userDetails?.hasCredentialsProvider && (
             <Dialog open={twoFactorDialog} onOpenChange={setTwoFactorDialog}>
               <DialogTrigger asChild>
                 <Button 
@@ -292,12 +296,12 @@ export function ProfileCard({ user }: ProfileCardProps) {
                 >
                   {user.twoFactorEnabled ? (
                     <>
-                      <ShieldOff className="w-4 h-4 mr-1" />
+                      <ShieldOff size={15} />
                       Disable 2FA
                     </>
                   ) : (
                     <>
-                      <Shield className="w-4 h-4 mr-1" />
+                      <Shield size={15} />
                       Enable 2FA
                     </>
                   )}
@@ -343,7 +347,7 @@ export function ProfileCard({ user }: ProfileCardProps) {
                     Cancel
                   </Button>
                   <Button onClick={handle2FAToggle} disabled={isPendingTwoFa} className="flex-1">
-                    {isPendingTwoFa ? <Loader2 className="w-4 h-4 animate-spin mr-2" /> : null}
+                    {isPendingTwoFa ? <Loader2 size={15} /> : null}
                     {user.twoFactorEnabled
                       ? "Disable 2FA"
                       : twoFactorVerifyURI
@@ -353,6 +357,7 @@ export function ProfileCard({ user }: ProfileCardProps) {
                 </div>
               </DialogContent>
             </Dialog>
+            )}
           </div>
         </div>
 
@@ -361,7 +366,7 @@ export function ProfileCard({ user }: ProfileCardProps) {
           <Dialog open={showEditProfile} onOpenChange={setShowEditProfile}>
             <DialogTrigger asChild>
               <Button variant="outline" className="w-full bg-transparent">
-                <Edit className="w-4 h-4 mr-2" />
+                <Edit size={15} />
                 Edit Profile
               </Button>
             </DialogTrigger>
@@ -384,7 +389,7 @@ export function ProfileCard({ user }: ProfileCardProps) {
                     Cancel
                   </Button>
                   <Button onClick={handleUpdateProfile} disabled={loading} className="flex-1">
-                    {loading ? <Loader2 className="w-4 h-4 animate-spin" /> : "Save"}
+                    {loading ? <Loader2 size={15} /> : "Save"}
                   </Button>
                 </div>
               </div>
@@ -392,7 +397,7 @@ export function ProfileCard({ user }: ProfileCardProps) {
           </Dialog>
 
           <Button variant="destructive" onClick={handleSignOut} disabled={loading} className="w-full">
-            <LogOut className="w-4 h-4 mr-2" />
+            <LogOut size={15} />
             {loading ? "Signing out..." : "Sign Out"}
           </Button>
         </div>
