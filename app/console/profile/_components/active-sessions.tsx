@@ -2,6 +2,7 @@ import { Button } from "@/components/ui/button"
 import { MonitorCheckIcon } from "@/components/ui/icons/monitor-check"
 import { XIcon } from "@/components/ui/icons/x"
 import { DEVICE_CONSTANTS, UI_MESSAGES } from "@/lib/constants"
+import { Skeleton } from "@/components/ui/skeleton"
 
 interface SessionItem {
   session: {
@@ -15,9 +16,10 @@ interface SessionItem {
 interface ActiveSessionsProps {
   activeSessions: SessionItem[]
   currentSessionId?: string
+  isLoading?: boolean
 }
 
-export function ActiveSessions({ activeSessions, currentSessionId }: ActiveSessionsProps) {
+export function ActiveSessions({ activeSessions, currentSessionId, isLoading }: ActiveSessionsProps) {
   const getDeviceIcon = (userAgent?: string | null) => {
     if (!userAgent) return <MonitorCheckIcon size={12} />
     return userAgent.toLowerCase().includes("mobile") ? (
@@ -43,6 +45,43 @@ export function ActiveSessions({ activeSessions, currentSessionId }: ActiveSessi
                userAgent.includes("iOS") ? DEVICE_CONSTANTS.OPERATING_SYSTEMS.IOS : DEVICE_CONSTANTS.OPERATING_SYSTEMS.OS
     
     return `${browser} on ${os}`
+  }
+
+  if (isLoading) {
+    return (
+      <div className="space-y-4">
+        <div className="flex items-center justify-between">
+          <Skeleton className="h-7 w-32" />
+          <Skeleton className="h-5 w-20" />
+        </div>
+        
+        <div className="space-y-3">
+          {[...Array(3)].map((_, index) => (
+            <div
+              key={index}
+              className="p-4 rounded-lg border bg-muted/20"
+            >
+              <div className="flex items-start gap-3">
+                <div className="p-2 rounded-full bg-muted">
+                  <Skeleton className="w-3 h-3" />
+                </div>
+                
+                <div className="flex-1 min-w-0">
+                  <div className="flex items-center gap-2 mb-1">
+                    <Skeleton className="h-4 w-24" />
+                    <Skeleton className="h-4 w-12 rounded-full" />
+                  </div>
+                  <Skeleton className="h-4 w-36 mb-1" />
+                  <Skeleton className="h-3 w-full" />
+                </div>
+                
+                <Skeleton className="w-8 h-8" />
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+    )
   }
 
   return (

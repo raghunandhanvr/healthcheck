@@ -11,6 +11,7 @@ import { client } from "@/lib/auth/auth-client"
 import { useRouter } from "next/navigation"
 import QRCode from "react-qr-code"
 import { UserWithProvider } from "@/lib/types/api/user"
+import { Skeleton } from "@/components/ui/skeleton"
 
 interface ProfileCardProps {
   user: {
@@ -21,9 +22,10 @@ interface ProfileCardProps {
     twoFactorEnabled?: boolean | null
   }
   userDetails?: UserWithProvider | null
+  isLoading?: boolean
 }
 
-export function ProfileCard({ user, userDetails }: ProfileCardProps) {
+export function ProfileCard({ user, userDetails, isLoading }: ProfileCardProps) {
   const router = useRouter()
   const [showEditProfile, setShowEditProfile] = useState(false)
   const [showChangePassword, setShowChangePassword] = useState(false)
@@ -169,6 +171,37 @@ export function ProfileCard({ user, userDetails }: ProfileCardProps) {
     } finally {
       setLoading(false)
     }
+  }
+
+  if (isLoading) {
+    return (
+      <div className="lg:sticky lg:top-8">
+        <div className="border rounded-lg p-4 lg:p-6 bg-muted/20">
+          {/* Profile Info Skeleton */}
+          <div className="text-center space-y-3 mb-6">
+            <Skeleton className="w-16 h-16 lg:w-20 lg:h-20 mx-auto rounded-full" />
+            <div className="space-y-2">
+              <Skeleton className="h-5 w-32 mx-auto" />
+              <Skeleton className="h-4 w-48 mx-auto" />
+            </div>
+          </div>
+
+          {/* Security Actions Skeleton */}
+          <div className="space-y-3 mb-6">
+            <Skeleton className="h-8 w-full" />
+            <div className="flex gap-2">
+              <Skeleton className="h-8 flex-1" />
+            </div>
+          </div>
+
+          {/* Profile Actions Skeleton */}
+          <div className="space-y-3">
+            <Skeleton className="h-9 w-full" />
+            <Skeleton className="h-9 w-full" />
+          </div>
+        </div>
+      </div>
+    )
   }
 
   return (
