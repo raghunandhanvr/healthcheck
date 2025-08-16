@@ -177,16 +177,14 @@ export function ProfileCard({ user, userDetails, isLoading }: ProfileCardProps) 
     return (
       <div className="lg:sticky lg:top-8">
         <div className="border rounded-lg p-4 lg:p-6 bg-muted/20">
-          {/* Profile Info Skeleton */}
           <div className="text-center space-y-3 mb-6">
             <Skeleton className="w-16 h-16 lg:w-20 lg:h-20 mx-auto rounded-full" />
-            <div className="space-y-2">
+            <div className="space-y-2 px-2">
               <Skeleton className="h-5 w-32 mx-auto" />
-              <Skeleton className="h-4 w-48 mx-auto" />
+              <Skeleton className="h-4 w-48 mx-auto max-w-full" />
             </div>
           </div>
 
-          {/* Security Actions Skeleton */}
           <div className="space-y-3 mb-6">
             <Skeleton className="h-8 w-full" />
             <div className="flex gap-2">
@@ -194,7 +192,6 @@ export function ProfileCard({ user, userDetails, isLoading }: ProfileCardProps) 
             </div>
           </div>
 
-          {/* Profile Actions Skeleton */}
           <div className="space-y-3">
             <Skeleton className="h-9 w-full" />
             <Skeleton className="h-9 w-full" />
@@ -207,19 +204,18 @@ export function ProfileCard({ user, userDetails, isLoading }: ProfileCardProps) 
   return (
     <div className="lg:sticky lg:top-8">
       <div className="border rounded-lg p-4 lg:p-6 bg-muted/20">
-        {/* Profile Info */}
         <div className="text-center space-y-3 mb-6">
           <Avatar className="w-16 h-16 lg:w-20 lg:h-20 mx-auto">
-            <AvatarImage src={user.image || undefined} />
+            <AvatarImage src={user.image || userDetails?.image || undefined} />
             <AvatarFallback className="text-lg">{user.name?.charAt(0)?.toUpperCase()}</AvatarFallback>
           </Avatar>
 
-          <div>
-            <p className="text-base font-medium">{user.name}</p>
-            <div className="flex items-center justify-center gap-2 flex-wrap mt-1">
-              <p className="text-sm text-muted-foreground">{user.email}</p>
+          <div className="w-full min-w-0">
+            <p className="text-base font-medium truncate px-2">{user.name}</p>
+            <div className="flex items-center justify-center gap-2 flex-wrap mt-1 px-2">
+              <p className="text-sm text-muted-foreground truncate max-w-full min-w-0">{user.email}</p>
               {user.emailVerified && (
-                <Badge variant="outline" className="text-xs px-1.5 py-0.5">
+                <Badge variant="outline" className="text-xs px-1.5 py-0.5 shrink-0">
                   <Mail size={15} />
                   Verified
                 </Badge>
@@ -228,7 +224,6 @@ export function ProfileCard({ user, userDetails, isLoading }: ProfileCardProps) 
           </div>
         </div>
 
-        {/* Security Actions */}
         <div className="space-y-3 mb-6">
           {userDetails?.hasCredentialsProvider && (
             <Dialog open={showChangePassword} onOpenChange={setShowChangePassword}>
@@ -237,7 +232,7 @@ export function ProfileCard({ user, userDetails, isLoading }: ProfileCardProps) 
                 Change Password
               </Button>
             </DialogTrigger>
-            <DialogContent className="sm:max-w-md">
+            <DialogContent className="sm:max-w-md mx-4 max-w-[calc(100vw-2rem)]">
               <DialogHeader>
                 <DialogTitle>Change Password</DialogTitle>
               </DialogHeader>
@@ -325,29 +320,33 @@ export function ProfileCard({ user, userDetails, isLoading }: ProfileCardProps) 
                 <Button 
                   variant={user.twoFactorEnabled ? "destructive" : "default"} 
                   size="sm" 
-                  className="flex-1"
+                  className="flex-1 min-w-0"
                 >
                   {user.twoFactorEnabled ? (
                     <>
-                      <ShieldOff size={15} />
-                      Disable 2FA
+                      <ShieldOff size={15} className="shrink-0" />
+                      <span className="truncate">Disable 2FA</span>
                     </>
                   ) : (
                     <>
-                      <Shield size={15} />
-                      Enable 2FA
+                      <Shield size={15} className="shrink-0" />
+                      <span className="truncate">Enable 2FA</span>
                     </>
                   )}
                 </Button>
               </DialogTrigger>
-              <DialogContent className="sm:max-w-md">
+              <DialogContent className="sm:max-w-md mx-4 max-w-[calc(100vw-2rem)]">
                 <DialogHeader>
                   <DialogTitle>{user.twoFactorEnabled ? "Disable 2FA" : "Enable 2FA"}</DialogTitle>
                 </DialogHeader>
                 {twoFactorVerifyURI ? (
                   <div className="space-y-4">
                     <div className="flex justify-center">
-                      <QRCode value={twoFactorVerifyURI} size={200} />
+                      <QRCode 
+                        value={twoFactorVerifyURI} 
+                        size={Math.min(200, 160)} 
+                        className="max-w-full h-auto"
+                      />
                     </div>
                     <p className="text-sm text-muted-foreground text-center">
                       Scan the QR code with your TOTP app, then enter the 6-digit code
@@ -394,16 +393,15 @@ export function ProfileCard({ user, userDetails, isLoading }: ProfileCardProps) 
           </div>
         </div>
 
-        {/* Profile Actions */}
         <div className="space-y-3">
           <Dialog open={showEditProfile} onOpenChange={setShowEditProfile}>
             <DialogTrigger asChild>
-              <Button variant="outline" className="w-full bg-transparent">
-                <Edit size={15} />
-                Edit Profile
+              <Button variant="outline" className="w-full bg-transparent min-w-0">
+                <Edit size={15} className="shrink-0" />
+                <span className="truncate">Edit Profile</span>
               </Button>
             </DialogTrigger>
-            <DialogContent className="sm:max-w-md">
+            <DialogContent className="sm:max-w-md mx-4 max-w-[calc(100vw-2rem)]">
               <DialogHeader>
                 <DialogTitle>Edit Profile</DialogTitle>
               </DialogHeader>
@@ -429,9 +427,9 @@ export function ProfileCard({ user, userDetails, isLoading }: ProfileCardProps) 
             </DialogContent>
           </Dialog>
 
-          <Button variant="destructive" onClick={handleSignOut} disabled={loading} className="w-full">
-            <LogOut size={15} />
-            {loading ? "Signing out..." : "Sign Out"}
+          <Button variant="destructive" onClick={handleSignOut} disabled={loading} className="w-full min-w-0">
+            <LogOut size={15} className="shrink-0" />
+            <span className="truncate">{loading ? "Signing out..." : "Sign Out"}</span>
           </Button>
         </div>
       </div>

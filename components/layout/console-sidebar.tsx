@@ -26,7 +26,7 @@ export function ConsoleSidebar() {
       variant="sidebar" 
       side="left" 
       collapsible="icon"
-      className="console-sidebar-redesign"
+      className="console-sidebar-fn"
       data-state={state}
     >
       <SidebarContent className="console-sidebar-content-redesign">

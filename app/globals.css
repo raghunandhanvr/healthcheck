@@ -252,8 +252,7 @@
   }
 }
 
-
-.console-sidebar-redesign {
+.console-sidebar-fn {
   @apply bg-surface-secondary/95 backdrop-blur border-r border-border;
   width: 12rem;
   flex-shrink: 0;
@@ -263,11 +262,11 @@
   transition: width 0.2s ease-in-out, padding 0.2s ease-in-out;
 }
 
-.console-sidebar-redesign[data-state="collapsed"] {
+.console-sidebar-fn[data-state="collapsed"] {
   width: 3rem;
 }
 
-.console-sidebar-redesign[data-state="collapsed"] .console-sidebar-content-redesign {
+.console-sidebar-fn[data-state="collapsed"] .console-sidebar-content-redesign {
   @apply px-1;
 }
 
@@ -276,18 +275,18 @@
 }
 
 @media (max-width: 768px) {
-  .console-sidebar-redesign {
+  .console-sidebar-fn {
     width: 18rem;
     @apply fixed inset-y-0 left-0 z-40 transform transition-transform duration-300 ease-in-out;
     top: var(--navbar-height);
     height: calc(100vh - var(--navbar-height));
   }
   
-  .console-sidebar-redesign[data-mobile="closed"] {
+  .console-sidebar-fn[data-mobile="closed"] {
     transform: translateX(-100%);
   }
   
-  .console-sidebar-redesign[data-mobile="open"] {
+  .console-sidebar-fn[data-mobile="open"] {
     transform: translateX(0);
   }
 }
@@ -351,7 +350,7 @@
   @apply bg-surface-secondary/95 backdrop-blur mt-auto px-2 pb-2;
 }
 
-.console-sidebar-redesign[data-state="collapsed"] .console-sidebar-footer-redesign {
+.console-sidebar-fn[data-state="collapsed"] .console-sidebar-footer-redesign {
   @apply px-1;
 }
 
@@ -359,7 +358,7 @@
   @apply pt-2 border-t border-border mt-2;
 }
 
-.console-sidebar-redesign[data-state="collapsed"] .console-sidebar-collapse-section {
+.console-sidebar-fn[data-state="collapsed"] .console-sidebar-collapse-section {
   @apply px-1;
 }
 
@@ -367,7 +366,7 @@
   @apply p-2 rounded-md hover:bg-accent/30 transition-colors duration-200 flex items-center gap-1 min-w-0 w-full;
 }
 
-.console-sidebar-redesign[data-state="collapsed"] .console-sidebar-collapse-button {
+.console-sidebar-fn[data-state="collapsed"] .console-sidebar-collapse-button {
   @apply justify-center;
   width: 100%;
 }

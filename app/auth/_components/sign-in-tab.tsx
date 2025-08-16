@@ -1,16 +1,16 @@
 'use client'
 
-import { useState, useEffect } from 'react'
 import { Button } from "@/components/ui/button"
+import { EyeOffIcon } from "@/components/ui/icons/eye-off"
+import { LoaderPinwheelIcon } from "@/components/ui/icons/loader-pinwheel"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
-import { LoaderPinwheelIcon } from "@/components/ui/icons/loader-pinwheel"
-import { EyeOffIcon } from "@/components/ui/icons/eye-off"
-import Link from "next/link"
-import { signIn } from "@/lib/auth/auth-client"
-import { toast } from "@/components/ui/sonner"
-import { getLastAuthMethod, saveLastAuthMethod, type AuthMethod } from "@/lib/auth/last-auth-method"
 import { LastUsedBadge } from "@/components/ui/last-used-badge"
+import { toast } from "@/components/ui/sonner"
+import { signIn } from "@/lib/auth/auth-client"
+import { getLastAuthMethod, saveLastAuthMethod, type AuthMethod } from "@/lib/auth/last-auth-method"
+import Link from "next/link"
+import { useEffect, useState } from 'react'
 
 interface SignInTabProps {
   onSwitchToSignUp?: () => void

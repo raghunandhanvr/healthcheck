@@ -21,18 +21,17 @@ interface ActiveSessionsProps {
 
 export function ActiveSessions({ activeSessions, currentSessionId, isLoading }: ActiveSessionsProps) {
   const getDeviceIcon = (userAgent?: string | null) => {
-    if (!userAgent) return <MonitorCheckIcon size={12} />
+    if (!userAgent) return <MonitorCheckIcon size={16} />
     return userAgent.toLowerCase().includes("mobile") ? (
-      <MonitorCheckIcon size={12} />
+      <MonitorCheckIcon size={16} />
     ) : (
-      <MonitorCheckIcon size={12} />
+      <MonitorCheckIcon size={16} />
     )
   }
 
   const getDeviceName = (userAgent?: string | null) => {
     if (!userAgent) return UI_MESSAGES.LABELS.UNKNOWN_DEVICE
     
-    // Extract browser and OS info
     const browser = userAgent.includes("Chrome") ? DEVICE_CONSTANTS.BROWSERS.CHROME :
                    userAgent.includes("Firefox") ? DEVICE_CONSTANTS.BROWSERS.FIREFOX :
                    userAgent.includes("Safari") ? DEVICE_CONSTANTS.BROWSERS.SAFARI :
@@ -63,7 +62,7 @@ export function ActiveSessions({ activeSessions, currentSessionId, isLoading }: 
             >
               <div className="flex items-start gap-3">
                 <div className="p-2 rounded-full bg-muted">
-                  <Skeleton className="w-3 h-3" />
+                  <Skeleton className="w-4 h-4" />
                 </div>
                 
                 <div className="flex-1 min-w-0">
@@ -95,8 +94,10 @@ export function ActiveSessions({ activeSessions, currentSessionId, isLoading }: 
       
       {activeSessions.length === 0 ? (
         <div className="text-center py-12 text-muted-foreground">
-          <MonitorCheckIcon size={12} />
-          <p className="text-sm">No active sessions found</p>
+          <div className="flex flex-col items-center space-y-3">
+            <MonitorCheckIcon size={48} className="opacity-50" />
+            <p className="text-sm">No active sessions found</p>
+          </div>
         </div>
       ) : (
         <div className="space-y-3">

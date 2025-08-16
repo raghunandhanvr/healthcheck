@@ -12,7 +12,6 @@ import { GithubIcon } from '@/components/ui/icons/github'
 import { useSession } from '@/lib/auth/auth-client'
 import { ProfileDropdown } from './profile-dropdown'
 import { useSidebarContext } from '@/lib/providers/sidebar-provider'
-import { SidebarMenuItem } from '@/lib/interface/sidebar'
 import { ChevronDownIcon } from '@/components/ui/icons/chevron-down'
 
 export default function TopNavbar() {

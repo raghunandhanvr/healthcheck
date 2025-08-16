@@ -1,13 +1,13 @@
 "use client"
 
-import { useState, useEffect } from "react"
+import React from "react"
 import { useSession, client } from "@/lib/auth/auth-client"
 import { LoaderPinwheelIcon } from "@/components/ui/icons/loader-pinwheel"
 import { PageHeader } from "@/components/layout/page-header"
 import { EmailVerificationBanner } from "./_components/email-verification-banner"
 import { ActiveSessions } from "./_components/active-sessions"
 import { ProfileCard } from "./_components/profile-card"
-import { UserWithProvider } from "@/lib/types/api/user"
+import { useUserProfile } from "@/lib/api/hooks/user"
 
 interface SessionItem {
   session: {
@@ -20,22 +20,24 @@ interface SessionItem {
 
 export default function ProfilePage() {
   const { data: session, isPending } = useSession()
-  const [activeSessions, setActiveSessions] = useState<SessionItem[]>([])
-  const [userDetails, setUserDetails] = useState<UserWithProvider | null>(null)
+  const [activeSessions, setActiveSessions] = React.useState<SessionItem[]>([])
+  
+  const { 
+    data: userDetails, 
+    loading: userLoading 
+  } = useUserProfile({ 
+    enabled: Boolean(session?.user?.id) 
+  })
 
-  useEffect(() => {
-    if (session) {
-      loadProfileData()
+  React.useEffect(() => {
+    if (session?.user?.id) {
+      loadActiveSessions()
     }
-  }, [session])
+  }, [session?.user?.id])
 
-  const loadProfileData = async () => {
+  const loadActiveSessions = async () => {
     try {
-      const [sessionsResponse, userResponse] = await Promise.all([
-        client.multiSession.listDeviceSessions(),
-        fetch('/api/user').then(res => res.ok ? res.json() : null)
-      ]);
-
+      const sessionsResponse = await client.multiSession.listDeviceSessions()
       if (sessionsResponse.data) {
         setActiveSessions(
           sessionsResponse.data.map((item: SessionItem) => ({
@@ -45,15 +47,11 @@ export default function ProfilePage() {
               token: item.session.token,
             },
             user: item.user,
-          })),
+          }))
         )
       }
-
-      if (userResponse) {
-        setUserDetails(userResponse);
-      }
     } catch (error) {
-      console.error("Failed to load profile data:", error)
+      console.error("Failed to load sessions:", error)
     }
   }
 
@@ -69,29 +67,31 @@ export default function ProfilePage() {
 
   return (
     <div className="console-page-container">
-      {/* Email Verification Banner */}
       <EmailVerificationBanner isVerified={session.user.emailVerified} />
-
-      {/* Page Title */}
       <PageHeader title="Profile Settings" />
-
-      {/* Mobile Layout: Profile Card First */}
       <div className="block lg:hidden mb-6">
-        <ProfileCard user={session.user} userDetails={userDetails} />
+        <ProfileCard 
+          user={session.user} 
+          userDetails={userDetails} 
+          isLoading={userLoading && !userDetails}
+        />
       </div>
 
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 lg:gap-8">
-        {/* Main Content - Active Sessions Only */}
         <div className="lg:col-span-8">
           <ActiveSessions 
             activeSessions={activeSessions} 
-            currentSessionId={session.session?.id} 
+            currentSessionId={session.session?.id}
+            isLoading={activeSessions.length === 0}
           />
         </div>
 
-        {/* Right Sidebar - Profile (Desktop Only) */}
         <div className="hidden lg:block lg:col-span-4">
-          <ProfileCard user={session.user} userDetails={userDetails} />
+          <ProfileCard 
+            user={session.user} 
+            userDetails={userDetails} 
+            isLoading={userLoading && !userDetails}
+          />
         </div>
       </div>
     </div>
