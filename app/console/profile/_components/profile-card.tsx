@@ -5,6 +5,7 @@ import { Label } from "@/components/ui/label"
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
 import { Badge } from "@/components/ui/badge"
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog"
+import { Card, CardContent } from "@/components/ui/card"
 import { LogOut, Edit, Mail, Shield, ShieldOff, Loader2, Eye, EyeOff } from "lucide-react"
 import { toast } from "@/components/ui/sonner"
 import { client } from "@/lib/auth/auth-client"
@@ -176,34 +177,37 @@ export function ProfileCard({ user, userDetails, isLoading }: ProfileCardProps) 
   if (isLoading) {
     return (
       <div className="lg:sticky lg:top-8">
-        <div className="border rounded-lg p-4 lg:p-6 bg-muted/20">
-          <div className="text-center space-y-3 mb-6">
-            <Skeleton className="w-16 h-16 lg:w-20 lg:h-20 mx-auto rounded-full" />
-            <div className="space-y-2 px-2">
-              <Skeleton className="h-5 w-32 mx-auto" />
-              <Skeleton className="h-4 w-48 mx-auto max-w-full" />
+        <Card className="rounded-lg">
+          <CardContent className="p-4 lg:p-6">
+            <div className="text-center space-y-3 mb-6">
+              <Skeleton className="w-16 h-16 lg:w-20 lg:h-20 mx-auto rounded-full" />
+              <div className="space-y-2 px-2">
+                <Skeleton className="h-5 w-32 mx-auto" />
+                <Skeleton className="h-4 w-48 mx-auto max-w-full" />
+              </div>
             </div>
-          </div>
 
-          <div className="space-y-3 mb-6">
-            <Skeleton className="h-8 w-full" />
-            <div className="flex gap-2">
-              <Skeleton className="h-8 flex-1" />
+            <div className="space-y-3 mb-6">
+              <Skeleton className="h-8 w-full" />
+              <div className="flex gap-2">
+                <Skeleton className="h-8 flex-1" />
+              </div>
             </div>
-          </div>
 
-          <div className="space-y-3">
-            <Skeleton className="h-9 w-full" />
-            <Skeleton className="h-9 w-full" />
-          </div>
-        </div>
+            <div className="space-y-3">
+              <Skeleton className="h-9 w-full" />
+              <Skeleton className="h-9 w-full" />
+            </div>
+          </CardContent>
+        </Card>
       </div>
     )
   }
 
   return (
     <div className="lg:sticky lg:top-8">
-      <div className="border rounded-lg p-4 lg:p-6 bg-muted/20">
+      <Card className="rounded-lg">
+        <CardContent className="p-4 lg:p-6">
         <div className="text-center space-y-3 mb-6">
           <Avatar className="w-16 h-16 lg:w-20 lg:h-20 mx-auto">
             <AvatarImage src={user.image || userDetails?.image || undefined} />
@@ -432,7 +436,8 @@ export function ProfileCard({ user, userDetails, isLoading }: ProfileCardProps) 
             <span className="truncate">{loading ? "Signing out..." : "Sign Out"}</span>
           </Button>
         </div>
-      </div>
+        </CardContent>
+      </Card>
     </div>
   )
 }

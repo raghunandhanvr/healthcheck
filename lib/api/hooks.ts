@@ -49,6 +49,9 @@ export function useApi<T>(
   const intervalRef = useRef<NodeJS.Timeout | null>(null)
   const mountedRef = useRef<boolean>(true)
   const lastUrlRef = useRef<string | undefined>(undefined)
+  const fetchDataRef = useRef<(() => Promise<void>) | null>(null)
+  const hasInitialFetched = useRef<boolean>(false)
+  const isFirstRender = useRef<boolean>(true)
 
   // Get current URL
   const getCurrentUrl = useCallback(() => {
@@ -107,6 +110,9 @@ export function useApi<T>(
     }
   }, [getCurrentUrl, enabled, onSuccess, onError])
 
+  // Update ref with latest fetchData
+  fetchDataRef.current = fetchData
+
   // Refetch function
   const refetch = useCallback(async () => {
     await fetchData()
@@ -136,39 +142,48 @@ export function useApi<T>(
     mountedRef.current = true
 
     const currentUrl = getCurrentUrl()
-    if (!lazy && immediate && enabled && currentUrl) {
-      fetchData()
-    } else if (refetchOnMount && state.lastFetched && currentUrl) {
-      fetchData()
+    
+    // Only fetch on the very first render with the right conditions
+    if (isFirstRender.current && !lazy && immediate && enabled && currentUrl && !hasInitialFetched.current) {
+      hasInitialFetched.current = true
+      fetchDataRef.current?.()
+    } else if (refetchOnMount && state.lastFetched && currentUrl && !isFirstRender.current) {
+      fetchDataRef.current?.()
     }
+    
+    isFirstRender.current = false
 
     return () => {
       mountedRef.current = false
     }
-  }, [getCurrentUrl, immediate, lazy, enabled, refetchOnMount, fetchData, state.lastFetched])
+  }, [getCurrentUrl, immediate, lazy, enabled, refetchOnMount, state.lastFetched])
 
-  // Effect for URL changes
+  // Effect for URL changes (only after initial render)
   useEffect(() => {
+    if (isFirstRender.current) return // Skip URL changes on first render
+    
     const currentUrl = getCurrentUrl()
     if (currentUrl && currentUrl !== lastUrlRef.current) {
       lastUrlRef.current = currentUrl
       if (!lazy && enabled) {
-        fetchData()
+        fetchDataRef.current?.()
       }
     }
-  }, [getCurrentUrl, lazy, enabled, fetchData])
+  }, [getCurrentUrl, lazy, enabled])
 
   // Effect for refetch interval
   useEffect(() => {
     if (refetchInterval && enabled && !lazy) {
-      intervalRef.current = setInterval(fetchData, refetchInterval)
+      intervalRef.current = setInterval(() => {
+        fetchDataRef.current?.()
+      }, refetchInterval)
       return () => {
         if (intervalRef.current) {
           clearInterval(intervalRef.current)
         }
       }
     }
-  }, [refetchInterval, enabled, lazy, fetchData])
+  }, [refetchInterval, enabled, lazy])
 
   // Cleanup on unmount
   useEffect(() => {

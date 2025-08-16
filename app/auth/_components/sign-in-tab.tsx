@@ -210,7 +210,7 @@ export function SignInTab({ onSwitchToSignUp }: SignInTabProps) {
               onClick={onSwitchToSignUp}
               className="text-primary font-medium hover:text-primary/80 transition-colors"
             >
-              Switch to Sign Up
+              Create a new account
             </button>
           </p>
         </div>

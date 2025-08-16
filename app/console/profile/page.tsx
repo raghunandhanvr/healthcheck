@@ -21,21 +21,23 @@ interface SessionItem {
 export default function ProfilePage() {
   const { data: session, isPending } = useSession()
   const [activeSessions, setActiveSessions] = React.useState<SessionItem[]>([])
+  const [sessionsLoading, setSessionsLoading] = React.useState(false)
   
   const { 
     data: userDetails, 
     loading: userLoading 
   } = useUserProfile({ 
-    enabled: Boolean(session?.user?.id) 
+    enabled: Boolean(session?.user?.id),
+    immediate: true,
+    refetchOnMount: false
   })
 
-  React.useEffect(() => {
-    if (session?.user?.id) {
-      loadActiveSessions()
-    }
-  }, [session?.user?.id])
+  const [hasLoadedSessions, setHasLoadedSessions] = React.useState(false)
 
-  const loadActiveSessions = async () => {
+  const loadActiveSessions = React.useCallback(async () => {
+    if (sessionsLoading || hasLoadedSessions) return
+    
+    setSessionsLoading(true)
     try {
       const sessionsResponse = await client.multiSession.listDeviceSessions()
       if (sessionsResponse.data) {
@@ -49,11 +51,20 @@ export default function ProfilePage() {
             user: item.user,
           }))
         )
+        setHasLoadedSessions(true)
       }
     } catch (error) {
       console.error("Failed to load sessions:", error)
+    } finally {
+      setSessionsLoading(false)
     }
-  }
+  }, [sessionsLoading, hasLoadedSessions])
+
+  React.useEffect(() => {
+    if (session?.user?.id && !hasLoadedSessions) {
+      loadActiveSessions()
+    }
+  }, [session?.user?.id, hasLoadedSessions, loadActiveSessions])
 
   if (isPending || !session) {
     return (
@@ -82,7 +93,7 @@ export default function ProfilePage() {
           <ActiveSessions 
             activeSessions={activeSessions} 
             currentSessionId={session.session?.id}
-            isLoading={activeSessions.length === 0}
+            isLoading={sessionsLoading}
           />
         </div>
 

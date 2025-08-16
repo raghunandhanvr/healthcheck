@@ -1,12 +1,12 @@
-'use client'
+"use client"
 
-import { useState, useEffect } from 'react'
+import { Globe } from "@/components/ui/globe"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
-import { SignInTab } from './_components/sign-in-tab'
-import { SignUpTab } from './_components/sign-up-tab'
-import { Globe } from '@/components/ui/globe'
-import { cn } from '@/lib/utils/common'
-import { useSession } from '@/lib/auth/auth-client'
+import { useSession } from "@/lib/auth/auth-client"
+import { cn } from "@/lib/utils/common"
+import { useEffect, useState } from "react"
+import { SignInTab } from "./_components/sign-in-tab"
+import { SignUpTab } from "./_components/sign-up-tab"
 
 export default function AuthPage() {
   const [activeTab, setActiveTab] = useState("signin")
@@ -14,9 +14,9 @@ export default function AuthPage() {
 
   useEffect(() => {
     if (session && !isPending) {
-      const redirect = new URLSearchParams(window.location.search).get('redirect')
+      const redirect = new URLSearchParams(window.location.search).get("redirect")
       setTimeout(() => {
-        window.location.replace(redirect || '/console')
+        window.location.replace(redirect || "/console")
       }, 200)
     }
   }, [session, isPending])
@@ -32,7 +32,7 @@ export default function AuthPage() {
     mapSamples: 16000,
     mapBrightness: 1.2,
     baseColor: [1, 1, 1] as [number, number, number],
-    markerColor: [9/255, 105/255, 218/255] as [number, number, number],
+    markerColor: [9 / 255, 105 / 255, 218 / 255] as [number, number, number],
     glowColor: [1, 1, 1] as [number, number, number],
     markers: [
       { location: [14.5995, 120.9842] as [number, number], size: 0.03 },
@@ -57,9 +57,7 @@ export default function AuthPage() {
               <Globe config={globeConfig} className="w-full h-full" />
             </div>
             <div className="text-center mt-8 space-y-2">
-              <p className="text-sm text-muted-foreground">
-                Your servers are up and running
-              </p>
+              <p className="text-sm text-muted-foreground">Your servers are up and running</p>
               <p className="text-xs text-muted-foreground/70">
                 Monitor your infrastructure with confidence
               </p>
@@ -68,45 +66,45 @@ export default function AuthPage() {
         </div>
 
         <div className="w-full max-w-md mx-auto lg:mx-0">
-        <Tabs value={activeTab} onValueChange={setActiveTab} className="w-full">
-          <div className="relative">
-            <TabsList className="grid w-full grid-cols-2 h-9 p-1 bg-muted/50 mb-4">
-              <TabsTrigger 
-                value="signin" 
-                className={cn(
-                  "relative h-7 text-sm font-medium transition-all",
-                  "data-[state=active]:bg-background data-[state=active]:text-foreground",
-                  "data-[state=inactive]:text-muted-foreground hover:text-foreground"
-                )}
-              >
-                Sign In
-              </TabsTrigger>
-              <TabsTrigger 
-                value="signup"
-                className={cn(
-                  "relative h-7 text-sm font-medium transition-all",
-                  "data-[state=active]:bg-background data-[state=active]:text-foreground",
-                  "data-[state=inactive]:text-muted-foreground hover:text-foreground"
-                )}
-              >
-                Sign Up
-              </TabsTrigger>
-            </TabsList>
+          <Tabs value={activeTab} onValueChange={setActiveTab} className="w-full">
             <div className="relative">
-              <TabsContent value="signin" className="m-0 data-[state=inactive]:hidden">
-                <div className="min-h-[700px]">
-                  <SignInTab onSwitchToSignUp={() => setActiveTab("signup")} />
-                </div>
-              </TabsContent>
-              
-              <TabsContent value="signup" className="m-0 data-[state=inactive]:hidden">
-                <div className="min-h-[700px]">
-                  <SignUpTab />
-                </div>
-              </TabsContent>
+              <TabsList className="grid w-full grid-cols-2 h-9 p-1 bg-muted/50 mb-4">
+                <TabsTrigger
+                  value="signin"
+                  className={cn(
+                    "relative h-7 text-sm font-medium transition-all",
+                    "data-[state=active]:bg-background data-[state=active]:text-foreground",
+                    "data-[state=inactive]:text-muted-foreground hover:text-foreground"
+                  )}
+                >
+                  Sign In
+                </TabsTrigger>
+                <TabsTrigger
+                  value="signup"
+                  className={cn(
+                    "relative h-7 text-sm font-medium transition-all",
+                    "data-[state=active]:bg-background data-[state=active]:text-foreground",
+                    "data-[state=inactive]:text-muted-foreground hover:text-foreground"
+                  )}
+                >
+                  Sign Up
+                </TabsTrigger>
+              </TabsList>
+              <div className="relative">
+                <TabsContent value="signin" className="m-0 data-[state=inactive]:hidden">
+                  <div className="min-h-[700px]">
+                    <SignInTab onSwitchToSignUp={() => setActiveTab("signup")} />
+                  </div>
+                </TabsContent>
+
+                <TabsContent value="signup" className="m-0 data-[state=inactive]:hidden">
+                  <div className="min-h-[700px]">
+                    <SignUpTab />
+                  </div>
+                </TabsContent>
+              </div>
             </div>
-          </div>
-        </Tabs>
+          </Tabs>
         </div>
       </div>
     </div>
