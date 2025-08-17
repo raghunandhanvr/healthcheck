@@ -1,3 +1,4 @@
+import { ApiErrorHandler } from "@/components/api-error-handler"
 import { CommandPalette } from "@/components/command-palette"
 import { ShortcutsHandler } from "@/components/shortcuts-handler"
 import { Toaster } from "@/components/ui/sonner"
@@ -100,6 +101,7 @@ export default function RootLayout({
           disableTransitionOnChange
         >
           <SidebarProvider>
+            <ApiErrorHandler />
             <div className="h-full flex flex-col bg-background">{children}</div>
             <CommandPalette />
             <ShortcutsHandler />

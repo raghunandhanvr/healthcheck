@@ -23,11 +23,16 @@ export default function ProfilePage() {
   const [activeSessions, setActiveSessions] = React.useState<SessionItem[]>([])
   const [sessionsLoading, setSessionsLoading] = React.useState(false)
 
-  const { data: userDetails, loading: userLoading } = useUserProfile({
+  const { data: userDetails, loading: userLoading, refetch: refetchUserDetails } = useUserProfile({
     enabled: Boolean(session?.user?.id),
     immediate: true,
-    refetchOnMount: false,
   })
+
+  React.useEffect(() => {
+    if (session?.user?.id && !userDetails && !userLoading) {
+      refetchUserDetails()
+    }
+  }, [session?.user?.id, userDetails, userLoading, refetchUserDetails])
 
   const [hasLoadedSessions, setHasLoadedSessions] = React.useState(false)
 

@@ -1,6 +1,12 @@
 import { API_CONFIG } from "./routes"
 import type { ApiResponse } from "./response"
 
+let redirectTo429: (() => void) | null = null
+
+export function setRedirect429Handler(handler: () => void) {
+  redirectTo429 = handler
+}
+
 export class ApiClient {
   private baseUrl: string
   private defaultHeaders: HeadersInit
@@ -39,6 +45,9 @@ export class ApiClient {
       const data: ApiResponse<T> = await response.json()
 
       if (!response.ok) {
+        if (response.status === 429 && redirectTo429) {
+          redirectTo429()
+        }
         throw new ApiError(data.error?.message || "Request failed", {
           status: response.status,
           code: data.error?.code || "UNKNOWN_ERROR",
