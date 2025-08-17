@@ -13,6 +13,7 @@ import { GithubIcon } from "@/components/ui/icons/github"
 import { IdCardIcon } from "@/components/ui/icons/id-card"
 import { LogoutIcon } from "@/components/ui/icons/logout"
 import { toast } from "@/components/ui/sonner"
+import { ThemeSwitcher } from "@/components/ui/theme-switcher"
 import { signOut } from "@/lib/auth/auth-client"
 import Link from "next/link"
 import { useRouter } from "next/navigation"
@@ -75,7 +76,6 @@ export function ProfileDropdown({ user }: ProfileDropdownProps) {
             Profile
           </Link>
         </DropdownMenuItem>
-        <DropdownMenuSeparator />
         <DropdownMenuItem asChild>
           <Link
             href="https://github.com/raghunandhanvr/dataatmos"
@@ -87,13 +87,19 @@ export function ProfileDropdown({ user }: ProfileDropdownProps) {
             GitHub
           </Link>
         </DropdownMenuItem>
-        <DropdownMenuSeparator />
         <DropdownMenuItem onClick={handleSignOut} className="text-red-600">
           <div className="mr-2 text-red-600">
             <LogoutIcon size={15} />
           </div>
           Logout
         </DropdownMenuItem>
+        <DropdownMenuSeparator />
+        <div className="p-2">
+          <div className="flex items-center justify-between">
+            <span className="text-xs text-muted-foreground">Theme</span>
+            <ThemeSwitcher />
+          </div>
+        </div>
       </DropdownMenuContent>
     </DropdownMenu>
   )

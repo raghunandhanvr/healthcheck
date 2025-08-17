@@ -120,7 +120,11 @@ export default function TopNavbar() {
                 </>
               )}
 
-              {mounted && user && isConsole && <ProfileDropdown user={user} />}
+              {mounted && user && isConsole && (
+                <div className="flex items-center gap-2">
+                  <ProfileDropdown user={user} />
+                </div>
+              )}
 
               {!isConsole && (
                 <>
@@ -149,7 +153,7 @@ export default function TopNavbar() {
                 </>
               )}
 
-              {mounted && user && isConsole && <ThemeSwitcher />}
+              {/* Remove the theme toggle for signed-in users in console */}
             </div>
           </div>
         </div>
