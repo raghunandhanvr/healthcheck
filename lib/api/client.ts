@@ -135,6 +135,85 @@ export class ApiError extends Error {
 
 export const apiClient = new ApiClient()
 
+export class JWTApiClient extends ApiClient {
+  private jwtToken: string | null = null
+
+  constructor(baseUrl = "", defaultHeaders: HeadersInit = {}) {
+    super(baseUrl, defaultHeaders)
+  }
+
+  setJWTToken(token: string | null) {
+    this.jwtToken = token
+  }
+
+  private async getAuthHeaders(): Promise<HeadersInit> {
+    const headers: HeadersInit = {}
+    
+    if (this.jwtToken) {
+      headers['Authorization'] = `Bearer ${this.jwtToken}`
+    }
+    
+    return headers
+  }
+
+  async get<T>(url: string, options?: RequestInit): Promise<ApiResponse<T>> {
+    const authHeaders = await this.getAuthHeaders()
+    return super.get<T>(url, {
+      ...options,
+      headers: {
+        ...authHeaders,
+        ...options?.headers,
+      },
+    })
+  }
+
+  async post<T>(url: string, data?: unknown, options?: RequestInit): Promise<ApiResponse<T>> {
+    const authHeaders = await this.getAuthHeaders()
+    return super.post<T>(url, data, {
+      ...options,
+      headers: {
+        ...authHeaders,
+        ...options?.headers,
+      },
+    })
+  }
+
+  async put<T>(url: string, data?: unknown, options?: RequestInit): Promise<ApiResponse<T>> {
+    const authHeaders = await this.getAuthHeaders()
+    return super.put<T>(url, data, {
+      ...options,
+      headers: {
+        ...authHeaders,
+        ...options?.headers,
+      },
+    })
+  }
+
+  async patch<T>(url: string, data?: unknown, options?: RequestInit): Promise<ApiResponse<T>> {
+    const authHeaders = await this.getAuthHeaders()
+    return super.patch<T>(url, data, {
+      ...options,
+      headers: {
+        ...authHeaders,
+        ...options?.headers,
+      },
+    })
+  }
+
+  async delete<T>(url: string, options?: RequestInit): Promise<ApiResponse<T>> {
+    const authHeaders = await this.getAuthHeaders()
+    return super.delete<T>(url, {
+      ...options,
+      headers: {
+        ...authHeaders,
+        ...options?.headers,
+      },
+    })
+  }
+}
+
+export const jwtApiClient = new JWTApiClient()
+
 export interface RequestOptions extends RequestInit {
   timeout?: number
 }

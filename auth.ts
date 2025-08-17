@@ -1,6 +1,6 @@
 import { betterAuth } from "better-auth"
 import { nextCookies } from "better-auth/next-js"
-import { admin, multiSession, twoFactor, organization } from "better-auth/plugins"
+import { admin, multiSession, twoFactor, organization, jwt } from "better-auth/plugins"
 import { passkey } from "better-auth/plugins/passkey"
 import { pgConnection } from "@/lib/database/postgres"
 import { AUTH_MESSAGES, CONFIG } from "@/lib/constants"
@@ -60,6 +60,30 @@ export const auth = betterAuth({
 
   plugins: [
     nextCookies(),
+    jwt({
+      jwks: {
+        keyPairConfig: {
+          alg: "EdDSA",
+          crv: "Ed25519"
+        }
+      },
+      jwt: {
+        definePayload: ({ user }) => {
+          return {
+            id: user.id,
+            username: user.name,
+            email: user.email,
+            role: user.role,
+          }
+        },
+        issuer: process.env.BETTER_AUTH_URL || "http://localhost:3000",
+        audience: process.env.BETTER_AUTH_URL || "http://localhost:3000",
+        expirationTime: "1h",
+        getSubject: (session) => {
+          return session.user.id
+        }
+      }
+    }),
     organization({
       allowUserToCreateOrganization: true,
       organizationLimit: 2,
