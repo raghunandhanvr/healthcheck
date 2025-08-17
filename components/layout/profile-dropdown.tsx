@@ -10,6 +10,7 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu"
 import { GithubIcon } from "@/components/ui/icons/github"
+import { HomeIcon } from "@/components/ui/icons/home"
 import { IdCardIcon } from "@/components/ui/icons/id-card"
 import { LogoutIcon } from "@/components/ui/icons/logout"
 import { toast } from "@/components/ui/sonner"
@@ -85,6 +86,12 @@ export function ProfileDropdown({ user }: ProfileDropdownProps) {
           >
             <GithubIcon size={15} className="mr-2" />
             GitHub
+          </Link>
+        </DropdownMenuItem>
+        <DropdownMenuItem asChild>
+          <Link href="/" className="flex items-center">
+            <HomeIcon size={15} className="mr-2" />
+            Homepage
           </Link>
         </DropdownMenuItem>
         <DropdownMenuItem onClick={handleSignOut} className="text-red-600">

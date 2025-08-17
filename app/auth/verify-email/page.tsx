@@ -43,7 +43,7 @@ function VerifyEmailContent() {
   }
 
   return (
-    <div className="layout-container centered pt-24">
+    <div className="layout-container centered">
       <div className="grid lg:grid-cols-2 gap-8 lg:gap-16 items-center w-full max-w-6xl">
         <div className="order-2 lg:order-1 flex flex-col items-center justify-center relative">
           <div className="relative w-full max-w-md aspect-square">
@@ -138,7 +138,7 @@ export default function VerifyEmailPage() {
   return (
     <Suspense
       fallback={
-        <div className="layout-container centered pt-24">
+        <div className="layout-container centered">
           <div className="w-full max-w-md mx-auto flex items-center justify-center">Loading...</div>
         </div>
       }

@@ -1,4 +1,7 @@
 import { ConsoleLayout } from "@/components/layout/console-layout"
+import TopNavbar from "@/components/layout/top-navbar"
+import { SidebarProvider } from "@/components/ui/sidebar"
+import { SidebarProvider as ConsoleSidebarProvider } from "@/lib/providers/sidebar-provider"
 import type { Metadata } from "next"
 
 export const metadata: Metadata = {
@@ -26,5 +29,16 @@ export const metadata: Metadata = {
 }
 
 export default function Layout({ children }: { children: React.ReactNode }) {
-  return <ConsoleLayout>{children}</ConsoleLayout>
+  return (
+    <ConsoleSidebarProvider>
+      <SidebarProvider>
+        <div className="h-full flex flex-col">
+          <TopNavbar />
+          <div className="flex-1 flex overflow-hidden">
+            <ConsoleLayout>{children}</ConsoleLayout>
+          </div>
+        </div>
+      </SidebarProvider>
+    </ConsoleSidebarProvider>
+  )
 }

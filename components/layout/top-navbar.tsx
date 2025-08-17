@@ -59,7 +59,7 @@ export default function TopNavbar() {
   return (
     <>
       <nav
-        className={`sticky top-0 z-50 w-full bg-surface-secondary/95 backdrop-blur ${!isAuth ? "border-b border-border" : ""}`}
+        className={`sticky top-0 z-50 w-screen bg-surface-secondary/95 backdrop-blur ${!isAuth ? "border-b border-border" : ""}`}
       >
         <div
           className={`w-full px-5 sm:px-6 lg:px-8 ${isMarketing || isAuth ? "lg:max-w-7xl lg:mx-auto lg:px-0" : ""}`}

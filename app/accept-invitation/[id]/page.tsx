@@ -24,7 +24,7 @@ export default async function AcceptInvitationPage({
     }
 
     return (
-      <div className="layout-container centered pt-24">
+      <div className="layout-container centered">
         <div className="w-full max-w-md mx-auto">
           <AcceptInvitationForm
             invitation={{

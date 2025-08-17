@@ -1,7 +1,7 @@
 "use client"
 
-import { ChevronLeftIcon } from "@/components/ui/icons/chevron-left"
-import { ChevronRightIcon } from "@/components/ui/icons/chevron-right"
+import { PanelLeftCloseIcon } from "@/components/ui/icons/panel-left-close"
+import { PanelLeftOpenIcon } from "@/components/ui/icons/panel-left-open"
 import {
   Sidebar,
   SidebarContent,
@@ -9,7 +9,7 @@ import {
   SidebarMenu,
   SidebarMenuButton,
   SidebarMenuItem,
-  SidebarTrigger,
+  SidebarSeparator,
   useSidebar,
 } from "@/components/ui/sidebar"
 import { useIsMobile } from "@/hooks/use-mobile"
@@ -18,7 +18,7 @@ import Link from "next/link"
 
 export function ConsoleSidebar() {
   const { menuItems, currentPath } = useSidebarContext()
-  const { state, setOpenMobile } = useSidebar()
+  const { state, setOpenMobile, toggleSidebar } = useSidebar()
   const isMobile = useIsMobile()
 
   return (
@@ -66,16 +66,27 @@ export function ConsoleSidebar() {
       </SidebarContent>
 
       <SidebarFooter className="console-sidebar-footer-fn">
-        <div className="console-sidebar-collapse-section">
-          <SidebarTrigger className="console-sidebar-collapse-button">
-            {state === "collapsed" ? <ChevronRightIcon size={14} /> : <ChevronLeftIcon size={14} />}
-            <span
-              className={`console-sidebar-collapse-text ${state === "collapsed" && !isMobile ? "sr-only" : ""}`}
+        <SidebarSeparator className="mx-0 w-full" />
+        <SidebarMenu>
+          <SidebarMenuItem>
+            <SidebarMenuButton
+              tooltip={state === "collapsed" ? "Expand Menu" : undefined}
+              className="console-sidebar-collapse-button hover:bg-transparent hover:text-current transition-none"
+              onClick={toggleSidebar}
             >
-              {state === "collapsed" ? "Expand" : "Collapse"}
-            </span>
-          </SidebarTrigger>
-        </div>
+              {state === "collapsed" ? (
+                <PanelLeftOpenIcon size={14} className="pointer-events-none" />
+              ) : (
+                <PanelLeftCloseIcon size={14} className="pointer-events-none" />
+              )}
+              <span
+                className={`console-sidebar-collapse-text ${state === "collapsed" && !isMobile ? "sr-only" : ""}`}
+              >
+                {state === "collapsed" ? "Expand Menu" : "Collapse Menu"}
+              </span>
+            </SidebarMenuButton>
+          </SidebarMenuItem>
+        </SidebarMenu>
       </SidebarFooter>
     </Sidebar>
   )
