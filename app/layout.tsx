@@ -1,5 +1,8 @@
 import { Toaster } from "@/components/ui/sonner"
 import { ThemeProvider } from "@/lib/providers/theme-provider"
+import { SidebarProvider } from "@/lib/providers/sidebar-provider"
+import { CommandPalette } from "@/components/command-palette"
+import { ShortcutsHandler } from "@/components/shortcuts-handler"
 import { Analytics } from "@vercel/analytics/next"
 import { SpeedInsights } from "@vercel/speed-insights/next"
 import type { Metadata } from "next"
@@ -94,12 +97,16 @@ export default function RootLayout({
           enableSystem
           disableTransitionOnChange
         >
-          <div className="h-full flex flex-col bg-background">
-            {children}
-          </div>
-          <Toaster />
-          <Analytics />
-          <SpeedInsights />
+          <SidebarProvider>
+            <div className="h-full flex flex-col bg-background">
+              {children}
+            </div>
+            <CommandPalette />
+            <ShortcutsHandler />
+            <Toaster />
+            <Analytics />
+            <SpeedInsights />
+          </SidebarProvider>
         </ThemeProvider>
       </body>
     </html>
