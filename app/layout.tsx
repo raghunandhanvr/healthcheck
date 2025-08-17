@@ -5,6 +5,7 @@ import { SpeedInsights } from "@vercel/speed-insights/next"
 import type { Metadata } from "next"
 import { IBM_Plex_Mono, IBM_Plex_Sans } from "next/font/google"
 import "./globals.css"
+import TopNavbar from "@/components/layout/top-navbar"
 
 const ibmPlexSans = IBM_Plex_Sans({
   variable: "--font-ibm-plex-sans",
@@ -94,8 +95,11 @@ export default function RootLayout({
           enableSystem
           disableTransitionOnChange
         >
-          <div className="h-full flex flex-col">
-            {children}
+          <div className="h-full flex flex-col bg-background">
+            <TopNavbar />
+            <div className="flex-1 flex flex-col overflow-hidden">
+              {children}
+            </div>
           </div>
           <Toaster />
           <Analytics />

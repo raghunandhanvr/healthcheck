@@ -1,5 +1,6 @@
-import { LayoutWrapper } from "@/components/layout/layout-wrapper"
 import { ConsoleLayout } from "@/components/layout/console-layout"
+import { SidebarProvider } from "@/components/ui/sidebar"
+import { SidebarProvider as ConsoleSidebarProvider } from "@/lib/providers/sidebar-provider"
 import type { Metadata } from "next"
 
 export const metadata: Metadata = {
@@ -28,8 +29,12 @@ export const metadata: Metadata = {
 
 export default function Layout({ children }: { children: React.ReactNode }) {
   return (
-    <LayoutWrapper isConsole>
-      <ConsoleLayout>{children}</ConsoleLayout>
-    </LayoutWrapper>
+    <ConsoleSidebarProvider>
+      <SidebarProvider>
+        <div className="flex-1 flex overflow-hidden">
+          <ConsoleLayout>{children}</ConsoleLayout>
+        </div>
+      </SidebarProvider>
+    </ConsoleSidebarProvider>
   )
 }

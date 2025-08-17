@@ -276,6 +276,12 @@
   @apply h-full w-full overflow-y-auto;
 }
 
+/* Console specific adjustments */
+.console-offset {
+  margin-top: -3.5rem; /* Offset for navbar height */
+  height: calc(100% + 3.5rem);
+}
+
 /* Page Container */
 .page-container {
   @apply container mx-auto px-4 py-6 max-w-6xl;
