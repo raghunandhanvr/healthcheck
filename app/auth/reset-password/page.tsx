@@ -110,7 +110,7 @@ function ResetPasswordContent() {
 
   if (isValidToken === false) {
     return (
-      <div className="layout-container centered pt-24">
+      <div className="layout-container centered">
         <div className="grid lg:grid-cols-2 gap-8 lg:gap-16 items-center w-full max-w-6xl">
           <div className="order-2 lg:order-1 flex flex-col items-center justify-center relative">
             <div className="relative w-full max-w-md aspect-square">
@@ -162,7 +162,7 @@ function ResetPasswordContent() {
 
   if (resetSuccess) {
     return (
-      <div className="layout-container centered pt-24">
+      <div className="layout-container centered">
         <div className="grid lg:grid-cols-2 gap-8 lg:gap-16 items-center w-full max-w-6xl">
           <div className="order-2 lg:order-1 flex flex-col items-center justify-center relative">
             <div className="relative w-full max-w-md aspect-square">
@@ -204,7 +204,7 @@ function ResetPasswordContent() {
 
   if (isValidToken === null) {
     return (
-      <div className="layout-container centered pt-24">
+      <div className="layout-container centered">
         <div className="w-full max-w-md mx-auto flex items-center justify-center">
           <div className="flex items-center space-x-2">
             <LoaderPinwheelIcon size={12} />
@@ -216,7 +216,7 @@ function ResetPasswordContent() {
   }
 
   return (
-    <div className="layout-container centered pt-24">
+    <div className="layout-container centered">
       <div className="grid lg:grid-cols-2 gap-8 lg:gap-16 items-center w-full max-w-6xl">
         <div className="order-2 lg:order-1 flex flex-col items-center justify-center relative">
           <div className="relative w-full max-w-md aspect-square">
