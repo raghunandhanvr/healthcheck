@@ -1,8 +1,8 @@
-import { Toaster } from "@/components/ui/sonner"
-import { ThemeProvider } from "@/lib/providers/theme-provider"
-import { SidebarProvider } from "@/lib/providers/sidebar-provider"
 import { CommandPalette } from "@/components/command-palette"
 import { ShortcutsHandler } from "@/components/shortcuts-handler"
+import { Toaster } from "@/components/ui/sonner"
+import { SidebarProvider } from "@/lib/providers/sidebar-provider"
+import { ThemeProvider } from "@/lib/providers/theme-provider"
 import { Analytics } from "@vercel/analytics/next"
 import { SpeedInsights } from "@vercel/speed-insights/next"
 import type { Metadata } from "next"
@@ -37,7 +37,7 @@ export const metadata: Metadata = {
     siteName: "Data Atmos",
     images: [
       {
-        url: "/og-image.png",
+        url: "https://raghu.app/api/og?title=Data+Atmos:+The+single+platform+for+all+your+data+needs",
         width: 1200,
         height: 630,
         alt: "Data Atmos – OLTP, OLAP, and AI Orchestration Platform",
@@ -50,7 +50,9 @@ export const metadata: Metadata = {
     title: "Data Atmos – OLTP, OLAP, and AI Orchestration Platform",
     description:
       "Transform your data operations with serverless datastores, real-time analytics, and AI orchestration. OLTP, OLAP, and AI made simple.",
-    images: ["/og-image.png"],
+    images: [
+      "https://raghu.app/api/og?title=Data+Atmos:+The+single+platform+for+all+your+data+needs",
+    ],
     creator: "@dataatmos",
   },
   alternates: {
@@ -98,9 +100,7 @@ export default function RootLayout({
           disableTransitionOnChange
         >
           <SidebarProvider>
-            <div className="h-full flex flex-col bg-background">
-              {children}
-            </div>
+            <div className="h-full flex flex-col bg-background">{children}</div>
             <CommandPalette />
             <ShortcutsHandler />
             <Toaster />
