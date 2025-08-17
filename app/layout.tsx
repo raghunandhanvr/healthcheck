@@ -1,32 +1,36 @@
-import type { Metadata } from "next";
-import { IBM_Plex_Sans, IBM_Plex_Mono } from 'next/font/google';
-import "./globals.css";
-import { ThemeProvider } from "@/lib/providers/theme-provider";
-import { LayoutWrapper } from '@/components/layout/layout-wrapper';
-import { Toaster } from "@/components/ui/sonner";
+import { LayoutWrapper } from "@/components/layout/layout-wrapper"
+import { Toaster } from "@/components/ui/sonner"
+import { ThemeProvider } from "@/lib/providers/theme-provider"
+import { Analytics } from "@vercel/analytics/next"
+import { SpeedInsights } from "@vercel/speed-insights/next"
+import type { Metadata } from "next"
+import { IBM_Plex_Mono, IBM_Plex_Sans } from "next/font/google"
+import "./globals.css"
 
 const ibmPlexSans = IBM_Plex_Sans({
   variable: "--font-ibm-plex-sans",
   subsets: ["latin"],
   weight: ["100", "200", "300", "400", "500", "600", "700"],
-});
+})
 
 const ibmPlexMono = IBM_Plex_Mono({
   variable: "--font-ibm-plex-mono",
   subsets: ["latin"],
   weight: ["100", "200", "300", "400", "500", "600", "700"],
-});
+})
 
 export const metadata: Metadata = {
   metadataBase: new URL("https://dataatmos.ai"),
   title: "Data Atmos – OLTP, OLAP, and AI Orchestration Platform",
-  description: "Data Atmos makes OLTP, OLAP, and AI orchestration easier with serverless datastores, real-time analytics, and modular GPU pods. Transform your data operations with our comprehensive platform.",
+  description:
+    "Data Atmos makes OLTP, OLAP, and AI orchestration easier with serverless datastores, real-time analytics, and modular GPU pods. Transform your data operations with our comprehensive platform.",
   icons: {
     icon: "/favicon.ico",
   },
   openGraph: {
     title: "Data Atmos – OLTP, OLAP, and AI Orchestration Platform",
-    description: "Transform your data operations with serverless datastores, real-time analytics, and AI orchestration. Control plane for OLTP, OLAP, and AI workloads.",
+    description:
+      "Transform your data operations with serverless datastores, real-time analytics, and AI orchestration. Control plane for OLTP, OLAP, and AI workloads.",
     url: "https://dataatmos.ai",
     siteName: "Data Atmos",
     images: [
@@ -42,7 +46,8 @@ export const metadata: Metadata = {
   twitter: {
     card: "summary_large_image",
     title: "Data Atmos – OLTP, OLAP, and AI Orchestration Platform",
-    description: "Transform your data operations with serverless datastores, real-time analytics, and AI orchestration. OLTP, OLAP, and AI made simple.",
+    description:
+      "Transform your data operations with serverless datastores, real-time analytics, and AI orchestration. OLTP, OLAP, and AI made simple.",
     images: ["/og-image.png"],
     creator: "@dataatmos",
   },
@@ -74,30 +79,28 @@ export const metadata: Metadata = {
       url: "https://github.com/raghunandhanvr",
     },
   ],
-};
+}
 
 export default function RootLayout({
   children,
 }: Readonly<{
-  children: React.ReactNode;
+  children: React.ReactNode
 }>) {
   return (
     <html lang="en" suppressHydrationWarning>
-      <body
-        className={`${ibmPlexSans.variable} ${ibmPlexMono.variable} antialiased`}
-      >
+      <body className={`${ibmPlexSans.variable} ${ibmPlexMono.variable} antialiased`}>
         <ThemeProvider
           attribute="class"
           defaultTheme="system"
           enableSystem
           disableTransitionOnChange
         >
-          <LayoutWrapper>
-            {children}
-          </LayoutWrapper>
+          <LayoutWrapper>{children}</LayoutWrapper>
           <Toaster />
+          <Analytics />
+          <SpeedInsights />
         </ThemeProvider>
       </body>
     </html>
-  );
+  )
 }
