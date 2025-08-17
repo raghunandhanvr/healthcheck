@@ -68,13 +68,14 @@ export default function AuthPage() {
         <div className="w-full max-w-md mx-auto lg:mx-0">
           <Tabs value={activeTab} onValueChange={setActiveTab} className="w-full">
             <div className="relative">
-              <TabsList className="grid w-full grid-cols-2 h-9 p-1 bg-muted/50 mb-4">
+              <TabsList className="grid w-full grid-cols-2 h-10 p-0 bg-transparent mb-0">
                 <TabsTrigger
                   value="signin"
                   className={cn(
-                    "relative h-7 text-sm font-medium transition-all",
-                    "data-[state=active]:bg-background data-[state=active]:text-foreground",
-                    "data-[state=inactive]:text-muted-foreground hover:text-foreground"
+                    "relative h-10 text-sm font-medium transition-all border border-b-0",
+                    "data-[state=active]:bg-background data-[state=active]:text-foreground data-[state=active]:border-border",
+                    "data-[state=inactive]:text-muted-foreground hover:text-foreground data-[state=inactive]:border-transparent",
+                    "data-[state=active]:z-10"
                   )}
                 >
                   Sign In
@@ -82,23 +83,24 @@ export default function AuthPage() {
                 <TabsTrigger
                   value="signup"
                   className={cn(
-                    "relative h-7 text-sm font-medium transition-all",
-                    "data-[state=active]:bg-background data-[state=active]:text-foreground",
-                    "data-[state=inactive]:text-muted-foreground hover:text-foreground"
+                    "relative h-10 text-sm font-medium transition-all border border-b-0",
+                    "data-[state=active]:bg-background data-[state=active]:text-foreground data-[state=active]:border-border",
+                    "data-[state=inactive]:text-muted-foreground hover:text-foreground data-[state=inactive]:border-transparent",
+                    "data-[state=active]:z-10"
                   )}
                 >
                   Sign Up
                 </TabsTrigger>
               </TabsList>
-              <div className="relative">
+              <div className="relative -mt-px">
                 <TabsContent value="signin" className="m-0 data-[state=inactive]:hidden">
-                  <div className="min-h-[700px]">
+                  <div className="h-[700px] bg-background border border-border">
                     <SignInTab onSwitchToSignUp={() => setActiveTab("signup")} />
                   </div>
                 </TabsContent>
 
                 <TabsContent value="signup" className="m-0 data-[state=inactive]:hidden">
-                  <div className="min-h-[700px]">
+                  <div className="h-[700px] bg-background border border-border">
                     <SignUpTab />
                   </div>
                 </TabsContent>
