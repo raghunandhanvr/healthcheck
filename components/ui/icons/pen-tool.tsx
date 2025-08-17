@@ -1,18 +1,18 @@
-'use client';
+"use client"
 
-import type { Variants } from 'motion/react';
-import { motion, useAnimation } from 'motion/react';
-import type { HTMLAttributes } from 'react';
-import { forwardRef, useCallback, useImperativeHandle, useRef } from 'react';
-import { cn } from '@/lib/utils/common';
+import type { Variants } from "motion/react"
+import { motion, useAnimation } from "motion/react"
+import type { HTMLAttributes } from "react"
+import { forwardRef, useCallback, useImperativeHandle, useRef } from "react"
+import { cn } from "@/lib/utils/common"
 
 export interface PenToolIconHandle {
-  startAnimation: () => void;
-  stopAnimation: () => void;
+  startAnimation: () => void
+  stopAnimation: () => void
 }
 
 interface PenToolIconProps extends HTMLAttributes<HTMLDivElement> {
-  size?: number;
+  size?: number
 }
 
 const svgVariants: Variants = {
@@ -21,7 +21,7 @@ const svgVariants: Variants = {
     rotate: [0, 0, 8, -3, 8, 0],
     translateY: [0, 2, 0, -1, 0],
   },
-};
+}
 
 const pathVariants: Variants = {
   normal: { pathLength: 1, opacity: 1, pathOffset: 0 },
@@ -30,43 +30,43 @@ const pathVariants: Variants = {
     opacity: [0, 1],
     pathOffset: [0, 1, 0],
   },
-};
+}
 
 const PenToolIcon = forwardRef<PenToolIconHandle, PenToolIconProps>(
   ({ onMouseEnter, onMouseLeave, className, size = 28, ...props }, ref) => {
-    const controls = useAnimation();
-    const isControlledRef = useRef(false);
+    const controls = useAnimation()
+    const isControlledRef = useRef(false)
 
     useImperativeHandle(ref, () => {
-      isControlledRef.current = true;
+      isControlledRef.current = true
 
       return {
-        startAnimation: () => controls.start('animate'),
-        stopAnimation: () => controls.start('normal'),
-      };
-    });
+        startAnimation: () => controls.start("animate"),
+        stopAnimation: () => controls.start("normal"),
+      }
+    })
 
     const handleMouseEnter = useCallback(
       (e: React.MouseEvent<HTMLDivElement>) => {
         if (!isControlledRef.current) {
-          controls.start('animate');
+          controls.start("animate")
         } else {
-          onMouseEnter?.(e);
+          onMouseEnter?.(e)
         }
       },
       [controls, onMouseEnter]
-    );
+    )
 
     const handleMouseLeave = useCallback(
       (e: React.MouseEvent<HTMLDivElement>) => {
         if (!isControlledRef.current) {
-          controls.start('normal');
+          controls.start("normal")
         } else {
-          onMouseLeave?.(e);
+          onMouseLeave?.(e)
         }
       },
       [controls, onMouseLeave]
-    );
+    )
 
     return (
       <div
@@ -104,10 +104,10 @@ const PenToolIcon = forwardRef<PenToolIconHandle, PenToolIconProps>(
           <circle cx="11" cy="11" r="2" />
         </motion.svg>
       </div>
-    );
+    )
   }
-);
+)
 
-PenToolIcon.displayName = 'PenToolIcon';
+PenToolIcon.displayName = "PenToolIcon"
 
-export { PenToolIcon };
+export { PenToolIcon }

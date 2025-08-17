@@ -16,10 +16,7 @@ interface PasswordResetTemplateProps {
   resetUrl: string
 }
 
-export const PasswordResetTemplate = ({ 
-  userFirstName, 
-  resetUrl 
-}: PasswordResetTemplateProps) => (
+export const PasswordResetTemplate = ({ userFirstName, resetUrl }: PasswordResetTemplateProps) => (
   <Html>
     <Head />
     <Preview>Reset your password for Data Atmos</Preview>
@@ -28,43 +25,43 @@ export const PasswordResetTemplate = ({
         <Section style={header}>
           <Text style={logo}>Data Atmos</Text>
         </Section>
-        
+
         <Section style={content}>
           <Heading style={h1}>Reset your password</Heading>
-          
+
+          <Text style={text}>Hello {userFirstName},</Text>
+
           <Text style={text}>
-            Hello {userFirstName},
+            You recently requested to reset your password for your Data Atmos account. Click the
+            button below to create a new password.
           </Text>
-          
-          <Text style={text}>
-            You recently requested to reset your password for your Data Atmos account. 
-            Click the button below to create a new password.
-          </Text>
-          
+
           <Section style={buttonSection}>
             <Button style={button} href={resetUrl}>
               Reset Password
             </Button>
           </Section>
-          
+
           <Text style={smallText}>
-            If the button above doesn&apos;t work, you can also copy and paste this link into your browser:
+            If the button above doesn&apos;t work, you can also copy and paste this link into your
+            browser:
           </Text>
-          
+
           <Link href={resetUrl} style={link}>
             {resetUrl}
           </Link>
-          
+
           <Section style={divider} />
-          
+
           <Text style={footer}>
-            If you didn&apos;t request a password reset, you can safely ignore this email. 
-            Your password won&apos;t be changed until you create a new one using the link above.
-            This password reset link will expire in 1 hour for security reasons.
+            If you didn&apos;t request a password reset, you can safely ignore this email. Your
+            password won&apos;t be changed until you create a new one using the link above. This
+            password reset link will expire in 1 hour for security reasons.
           </Text>
-          
+
           <Text style={signature}>
-            Best regards,<br />
+            Best regards,
+            <br />
             The Data Atmos Team
           </Text>
         </Section>
@@ -75,7 +72,8 @@ export const PasswordResetTemplate = ({
 
 const main = {
   backgroundColor: "#f8f9fa",
-  fontFamily: "Geist, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', sans-serif",
+  fontFamily:
+    "Geist, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', sans-serif",
   margin: "0",
   padding: "0",
 }

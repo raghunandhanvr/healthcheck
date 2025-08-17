@@ -1,51 +1,51 @@
-'use client';
+"use client"
 
-import { motion, useAnimation } from 'framer-motion';
-import type { HTMLAttributes } from 'react';
-import { forwardRef, useCallback, useImperativeHandle, useRef } from 'react';
-import { cn } from '@/lib/utils/common';
+import { motion, useAnimation } from "framer-motion"
+import type { HTMLAttributes } from "react"
+import { forwardRef, useCallback, useImperativeHandle, useRef } from "react"
+import { cn } from "@/lib/utils/common"
 
 export interface WavesIconHandle {
-  startAnimation: () => void;
-  stopAnimation: () => void;
+  startAnimation: () => void
+  stopAnimation: () => void
 }
 
 interface WavesIconProps extends HTMLAttributes<HTMLDivElement> {
-  size?: number;
+  size?: number
 }
 
 const WavesIcon = forwardRef<WavesIconHandle, WavesIconProps>(
   ({ onMouseEnter, onMouseLeave, className, size = 28, ...props }, ref) => {
-    const controls = useAnimation();
-    const isControlledRef = useRef(false);
+    const controls = useAnimation()
+    const isControlledRef = useRef(false)
 
     useImperativeHandle(ref, () => {
-      isControlledRef.current = true;
+      isControlledRef.current = true
       return {
-        startAnimation: () => controls.start('animate'),
-        stopAnimation: () => controls.start('normal'),
-      };
-    });
+        startAnimation: () => controls.start("animate"),
+        stopAnimation: () => controls.start("normal"),
+      }
+    })
 
     const handleMouseEnter = useCallback(
       (e: React.MouseEvent<HTMLDivElement>) => {
         if (!isControlledRef.current) {
-          controls.start('animate');
+          controls.start("animate")
         }
-        onMouseEnter?.(e);
+        onMouseEnter?.(e)
       },
       [controls, onMouseEnter]
-    );
+    )
 
     const handleMouseLeave = useCallback(
       (e: React.MouseEvent<HTMLDivElement>) => {
         if (!isControlledRef.current) {
-          controls.start('normal');
+          controls.start("normal")
         }
-        onMouseLeave?.(e);
+        onMouseLeave?.(e)
       },
       [controls, onMouseLeave]
-    );
+    )
 
     return (
       <div
@@ -72,7 +72,7 @@ const WavesIcon = forwardRef<WavesIconHandle, WavesIconProps>(
               normal: { pathLength: 1 },
               animate: {
                 pathLength: [0, 1],
-                transition: { duration: 0.4, ease: 'linear' },
+                transition: { duration: 0.4, ease: "linear" },
               },
             }}
             animate={controls}
@@ -84,7 +84,7 @@ const WavesIcon = forwardRef<WavesIconHandle, WavesIconProps>(
               normal: { pathLength: 1 },
               animate: {
                 pathLength: [0, 1],
-                transition: { duration: 0.4, ease: 'linear' },
+                transition: { duration: 0.4, ease: "linear" },
               },
             }}
             animate={controls}
@@ -96,16 +96,16 @@ const WavesIcon = forwardRef<WavesIconHandle, WavesIconProps>(
               normal: { pathLength: 1 },
               animate: {
                 pathLength: [0, 1],
-                transition: { duration: 0.4, ease: 'linear' },
+                transition: { duration: 0.4, ease: "linear" },
               },
             }}
             animate={controls}
           />
         </svg>
       </div>
-    );
+    )
   }
-);
+)
 
-WavesIcon.displayName = 'WavesIcon';
-export { WavesIcon };
+WavesIcon.displayName = "WavesIcon"
+export { WavesIcon }

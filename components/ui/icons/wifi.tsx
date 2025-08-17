@@ -1,63 +1,63 @@
-'use client';
+"use client"
 
-import { motion, useAnimation } from 'motion/react';
-import type { HTMLAttributes } from 'react';
-import { forwardRef, useCallback, useImperativeHandle, useRef } from 'react';
-import { cn } from '@/lib/utils/common';
+import { motion, useAnimation } from "motion/react"
+import type { HTMLAttributes } from "react"
+import { forwardRef, useCallback, useImperativeHandle, useRef } from "react"
+import { cn } from "@/lib/utils/common"
 
 export interface WifiIconHandle {
-  startAnimation: () => void;
-  stopAnimation: () => void;
+  startAnimation: () => void
+  stopAnimation: () => void
 }
 
 interface WifiIconProps extends HTMLAttributes<HTMLDivElement> {
-  size?: number;
+  size?: number
 }
 
 const WIFI_LEVELS = [
-  { d: 'M12 20h.01', initialOpacity: 1, delay: 0 },
-  { d: 'M8.5 16.429a5 5 0 0 1 7 0', initialOpacity: 1, delay: 0.1 },
-  { d: 'M5 12.859a10 10 0 0 1 14 0', initialOpacity: 1, delay: 0.2 },
-  { d: 'M2 8.82a15 15 0 0 1 20 0', initialOpacity: 1, delay: 0.3 },
-];
+  { d: "M12 20h.01", initialOpacity: 1, delay: 0 },
+  { d: "M8.5 16.429a5 5 0 0 1 7 0", initialOpacity: 1, delay: 0.1 },
+  { d: "M5 12.859a10 10 0 0 1 14 0", initialOpacity: 1, delay: 0.2 },
+  { d: "M2 8.82a15 15 0 0 1 20 0", initialOpacity: 1, delay: 0.3 },
+]
 
 const WifiIcon = forwardRef<WifiIconHandle, WifiIconProps>(
   ({ onMouseEnter, onMouseLeave, className, size = 28, ...props }, ref) => {
-    const controls = useAnimation();
+    const controls = useAnimation()
 
-    const isControlledRef = useRef(false);
+    const isControlledRef = useRef(false)
 
     useImperativeHandle(ref, () => {
-      isControlledRef.current = true;
+      isControlledRef.current = true
 
       return {
         startAnimation: async () => {
-          await controls.start('fadeOut');
-          controls.start('fadeIn');
+          await controls.start("fadeOut")
+          controls.start("fadeIn")
         },
-        stopAnimation: () => controls.start('fadeIn'),
-      };
-    });
+        stopAnimation: () => controls.start("fadeIn"),
+      }
+    })
 
     const handleMouseEnter = useCallback(
       async (e: React.MouseEvent<HTMLDivElement>) => {
         if (!isControlledRef.current) {
-          await controls.start('fadeOut');
-          controls.start('fadeIn');
+          await controls.start("fadeOut")
+          controls.start("fadeIn")
         } else {
-          onMouseEnter?.(e);
+          onMouseEnter?.(e)
         }
       },
       [controls, onMouseEnter]
-    );
+    )
 
     const handleMouseLeave = useCallback(
       (e: React.MouseEvent<HTMLDivElement>) => {
-        controls.start('fadeIn');
-        onMouseLeave?.(e);
+        controls.start("fadeIn")
+        onMouseLeave?.(e)
       },
       [controls, onMouseLeave]
-    );
+    )
 
     return (
       <div
@@ -91,7 +91,7 @@ const WifiIcon = forwardRef<WifiIconHandle, WifiIconProps>(
                 fadeIn: {
                   opacity: 1,
                   transition: {
-                    type: 'spring',
+                    type: "spring",
                     stiffness: 300,
                     damping: 20,
                     delay: level.delay,
@@ -102,10 +102,10 @@ const WifiIcon = forwardRef<WifiIconHandle, WifiIconProps>(
           ))}
         </svg>
       </div>
-    );
+    )
   }
-);
+)
 
-WifiIcon.displayName = 'WifiIcon';
+WifiIcon.displayName = "WifiIcon"
 
-export { WifiIcon };
+export { WifiIcon }

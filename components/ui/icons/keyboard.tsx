@@ -1,90 +1,90 @@
-'use client';
+"use client"
 
-import { AnimatePresence, motion, useAnimation } from 'motion/react';
-import { useEffect, useState } from 'react';
-import type { HTMLAttributes } from 'react';
-import { forwardRef, useCallback, useImperativeHandle, useRef } from 'react';
-import { cn } from '@/lib/utils/common';
+import { AnimatePresence, motion, useAnimation } from "motion/react"
+import { useEffect, useState } from "react"
+import type { HTMLAttributes } from "react"
+import { forwardRef, useCallback, useImperativeHandle, useRef } from "react"
+import { cn } from "@/lib/utils/common"
 
 export interface KeyboardIconHandle {
-  startAnimation: () => void;
-  stopAnimation: () => void;
+  startAnimation: () => void
+  stopAnimation: () => void
 }
 
 interface KeyboardIconProps extends HTMLAttributes<HTMLDivElement> {
-  size?: number;
+  size?: number
 }
 
 const KEYBOARD_PATHS = [
-  { id: 'key1', d: 'M10 8h.01' },
-  { id: 'key2', d: 'M12 12h.01' },
-  { id: 'key3', d: 'M14 8h.01' },
-  { id: 'key4', d: 'M16 12h.01' },
-  { id: 'key5', d: 'M18 8h.01' },
-  { id: 'key6', d: 'M6 8h.01' },
-  { id: 'key7', d: 'M7 16h10' },
-  { id: 'key8', d: 'M8 12h.01' },
-];
+  { id: "key1", d: "M10 8h.01" },
+  { id: "key2", d: "M12 12h.01" },
+  { id: "key3", d: "M14 8h.01" },
+  { id: "key4", d: "M16 12h.01" },
+  { id: "key5", d: "M18 8h.01" },
+  { id: "key6", d: "M6 8h.01" },
+  { id: "key7", d: "M7 16h10" },
+  { id: "key8", d: "M8 12h.01" },
+]
 
 const KeyboardIcon = forwardRef<KeyboardIconHandle, KeyboardIconProps>(
   ({ onMouseEnter, onMouseLeave, className, size = 28, ...props }, ref) => {
-    const [isHovered, setIsHovered] = useState(false);
-    const controls = useAnimation();
+    const [isHovered, setIsHovered] = useState(false)
+    const controls = useAnimation()
 
-    const isControlledRef = useRef(false);
+    const isControlledRef = useRef(false)
 
     useImperativeHandle(ref, () => {
-      isControlledRef.current = true;
+      isControlledRef.current = true
 
       return {
         startAnimation: () => setIsHovered(true),
         stopAnimation: () => setIsHovered(false),
-      };
-    });
+      }
+    })
 
     const handleMouseEnter = useCallback(
       (e: React.MouseEvent<HTMLDivElement>) => {
         if (!isControlledRef.current) {
-          setIsHovered(true);
+          setIsHovered(true)
         } else {
-          onMouseEnter?.(e);
+          onMouseEnter?.(e)
         }
       },
       [onMouseEnter]
-    );
+    )
 
     const handleMouseLeave = useCallback(
       (e: React.MouseEvent<HTMLDivElement>) => {
         if (!isControlledRef.current) {
-          setIsHovered(false);
+          setIsHovered(false)
         } else {
-          onMouseLeave?.(e);
+          onMouseLeave?.(e)
         }
       },
       [onMouseLeave]
-    );
+    )
 
     useEffect(() => {
       const animateKeys = async () => {
         if (isHovered) {
-          await controls.start((i) => ({
+          await controls.start(i => ({
             opacity: [1, 0.2, 1],
             transition: {
               duration: 1.5,
               times: [0, 0.5, 1],
               delay: i * 0.2 * Math.random(),
               repeat: 1,
-              repeatType: 'reverse',
+              repeatType: "reverse",
             },
-          }));
+          }))
         } else {
-          controls.stop();
-          controls.set({ opacity: 1 });
+          controls.stop()
+          controls.set({ opacity: 1 })
         }
-      };
+      }
 
-      animateKeys();
-    }, [isHovered, controls]);
+      animateKeys()
+    }, [isHovered, controls])
 
     return (
       <div
@@ -118,10 +118,10 @@ const KeyboardIcon = forwardRef<KeyboardIconHandle, KeyboardIconProps>(
           </AnimatePresence>
         </svg>
       </div>
-    );
+    )
   }
-);
+)
 
-KeyboardIcon.displayName = 'KeyboardIcon';
+KeyboardIcon.displayName = "KeyboardIcon"
 
-export { KeyboardIcon };
+export { KeyboardIcon }

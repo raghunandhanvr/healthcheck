@@ -1,13 +1,13 @@
-import { FoldersIcon } from "@/components/ui/icons/folders";
-import { UsersIcon } from "@/components/ui/icons/users";
-import { CircleDollarSignIcon } from "@/components/ui/icons/circle-dollar-sign";
-import { SettingsIcon } from "@/components/ui/icons/settings";
-import { SquareActivityIcon } from "@/components/ui/icons/square-activity";
-import { CogIcon } from "@/components/ui/icons/cog";
-import { MonitorCheckIcon } from "@/components/ui/icons/monitor-check";
-import { FileTextIcon } from "@/components/ui/icons/file-text";
-import { SquareStackIcon } from "@/components/ui/icons/square-stack";
-import { SidebarConfig } from "@/lib/interface/sidebar";
+import { FoldersIcon } from "@/components/ui/icons/folders"
+import { UsersIcon } from "@/components/ui/icons/users"
+import { CircleDollarSignIcon } from "@/components/ui/icons/circle-dollar-sign"
+import { SettingsIcon } from "@/components/ui/icons/settings"
+import { SquareActivityIcon } from "@/components/ui/icons/square-activity"
+import { CogIcon } from "@/components/ui/icons/cog"
+import { MonitorCheckIcon } from "@/components/ui/icons/monitor-check"
+import { FileTextIcon } from "@/components/ui/icons/file-text"
+import { SquareStackIcon } from "@/components/ui/icons/square-stack"
+import { SidebarConfig } from "@/lib/interface/sidebar"
 
 export const SIDEBAR_CONFIG: SidebarConfig = {
   "/console/organization": [
@@ -88,24 +88,24 @@ export const SIDEBAR_CONFIG: SidebarConfig = {
       href: "/console/profile",
     },
   ],
-};
+}
 
 export function getSidebarItems(pathname: string) {
   if (pathname.startsWith("/console/organization/")) {
-    return SIDEBAR_CONFIG["/console/organization"] || [];
+    return SIDEBAR_CONFIG["/console/organization"] || []
   }
 
   if (pathname.startsWith("/console/project/")) {
-    return SIDEBAR_CONFIG["/console/project"] || [];
+    return SIDEBAR_CONFIG["/console/project"] || []
   }
 
   if (pathname.startsWith("/console/profile")) {
-    return SIDEBAR_CONFIG["/console/profile"] || [];
+    return SIDEBAR_CONFIG["/console/profile"] || []
   }
 
   if (pathname.match(/^\/console\/[^\/]+$/) && !pathname.includes("/profile")) {
-    return SIDEBAR_CONFIG["/console/organization"] || [];
+    return SIDEBAR_CONFIG["/console/organization"] || []
   }
 
-  return [];
+  return []
 }

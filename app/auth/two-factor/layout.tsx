@@ -1,7 +1,3 @@
-export default function TwoFactorLayout({
-  children,
-}: {
-  children: React.ReactNode
-}) {
+export default function TwoFactorLayout({ children }: { children: React.ReactNode }) {
   return children
 }

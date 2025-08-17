@@ -1,54 +1,54 @@
-'use client';
+"use client"
 
-import { motion, useAnimation } from 'motion/react';
-import type { HTMLAttributes } from 'react';
-import { forwardRef, useCallback, useImperativeHandle, useRef } from 'react';
-import { cn } from '@/lib/utils/common';
+import { motion, useAnimation } from "motion/react"
+import type { HTMLAttributes } from "react"
+import { forwardRef, useCallback, useImperativeHandle, useRef } from "react"
+import { cn } from "@/lib/utils/common"
 
 export interface FlaskIconHandle {
-  startAnimation: () => void;
-  stopAnimation: () => void;
+  startAnimation: () => void
+  stopAnimation: () => void
 }
 
 interface FlaskIconProps extends HTMLAttributes<HTMLDivElement> {
-  size?: number;
+  size?: number
 }
 
 const FlaskIcon = forwardRef<FlaskIconHandle, FlaskIconProps>(
   ({ onMouseEnter, onMouseLeave, className, size = 28, ...props }, ref) => {
-    const controls = useAnimation();
-    const isControlledRef = useRef(false);
+    const controls = useAnimation()
+    const isControlledRef = useRef(false)
 
     useImperativeHandle(ref, () => {
-      isControlledRef.current = true;
+      isControlledRef.current = true
 
       return {
-        startAnimation: () => controls.start('animate'),
-        stopAnimation: () => controls.start('normal'),
-      };
-    });
+        startAnimation: () => controls.start("animate"),
+        stopAnimation: () => controls.start("normal"),
+      }
+    })
 
     const handleMouseEnter = useCallback(
       (e: React.MouseEvent<HTMLDivElement>) => {
         if (!isControlledRef.current) {
-          controls.start('animate');
+          controls.start("animate")
         } else {
-          onMouseEnter?.(e);
+          onMouseEnter?.(e)
         }
       },
       [controls, onMouseEnter]
-    );
+    )
 
     const handleMouseLeave = useCallback(
       (e: React.MouseEvent<HTMLDivElement>) => {
         if (!isControlledRef.current) {
-          controls.start('normal');
+          controls.start("normal")
         } else {
-          onMouseLeave?.(e);
+          onMouseLeave?.(e)
         }
       },
       [controls, onMouseLeave]
-    );
+    )
 
     return (
       <div
@@ -74,7 +74,7 @@ const FlaskIcon = forwardRef<FlaskIconHandle, FlaskIconProps>(
                 translateY: -12,
                 rotate: [0, 5, -5, 3, -3, 0],
                 transition: {
-                  ease: 'linear',
+                  ease: "linear",
                   rotate: { duration: 0.8 },
                 },
               },
@@ -98,7 +98,7 @@ const FlaskIcon = forwardRef<FlaskIconHandle, FlaskIconProps>(
                   duration: 0.8,
                   scale: {
                     duration: 0.3,
-                    type: 'spring',
+                    type: "spring",
                     bounce: 0.4,
                     stiffness: 150,
                     damping: 10,
@@ -110,10 +110,10 @@ const FlaskIcon = forwardRef<FlaskIconHandle, FlaskIconProps>(
           />
         </svg>
       </div>
-    );
+    )
   }
-);
+)
 
-FlaskIcon.displayName = 'FlaskIcon';
+FlaskIcon.displayName = "FlaskIcon"
 
-export { FlaskIcon };
+export { FlaskIcon }

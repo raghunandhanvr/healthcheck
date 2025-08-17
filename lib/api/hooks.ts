@@ -1,8 +1,8 @@
 "use client"
 
-import { useState, useEffect, useCallback, useRef } from 'react'
-import { apiClient, ApiError } from './client'
-import type { ApiResponse } from './response'
+import { useState, useEffect, useCallback, useRef } from "react"
+import { apiClient, ApiError } from "./client"
+import type { ApiResponse } from "./response"
 
 export interface UseApiState<T> {
   data: T | null
@@ -55,7 +55,7 @@ export function useApi<T>(
 
   // Get current URL
   const getCurrentUrl = useCallback(() => {
-    return typeof url === 'function' ? url() : url
+    return typeof url === "function" ? url() : url
   }, [url])
 
   // Fetch function
@@ -69,7 +69,7 @@ export function useApi<T>(
 
     try {
       const response: ApiResponse<T> = await apiClient.get(currentUrl)
-      
+
       if (!mountedRef.current) return
 
       if (response.success && response.data !== undefined) {
@@ -81,25 +81,23 @@ export function useApi<T>(
         }))
         onSuccess?.(response.data)
       } else {
-        throw new ApiError(
-          response.error?.message || 'Request failed',
-          {
-            status: 500,
-            code: response.error?.code || 'UNKNOWN_ERROR',
-            details: response.error?.details,
-          }
-        )
+        throw new ApiError(response.error?.message || "Request failed", {
+          status: 500,
+          code: response.error?.code || "UNKNOWN_ERROR",
+          details: response.error?.details,
+        })
       }
     } catch (error) {
       if (!mountedRef.current) return
 
-      const apiError = error instanceof ApiError 
-        ? error 
-        : new ApiError('Unexpected error', {
-            status: 500,
-            code: 'UNEXPECTED_ERROR',
-            details: error,
-          })
+      const apiError =
+        error instanceof ApiError
+          ? error
+          : new ApiError("Unexpected error", {
+              status: 500,
+              code: "UNEXPECTED_ERROR",
+              details: error,
+            })
 
       setState(prev => ({
         ...prev,
@@ -142,15 +140,22 @@ export function useApi<T>(
     mountedRef.current = true
 
     const currentUrl = getCurrentUrl()
-    
+
     // Only fetch on the very first render with the right conditions
-    if (isFirstRender.current && !lazy && immediate && enabled && currentUrl && !hasInitialFetched.current) {
+    if (
+      isFirstRender.current &&
+      !lazy &&
+      immediate &&
+      enabled &&
+      currentUrl &&
+      !hasInitialFetched.current
+    ) {
       hasInitialFetched.current = true
       fetchDataRef.current?.()
     } else if (refetchOnMount && state.lastFetched && currentUrl && !isFirstRender.current) {
       fetchDataRef.current?.()
     }
-    
+
     isFirstRender.current = false
 
     return () => {
@@ -161,7 +166,7 @@ export function useApi<T>(
   // Effect for URL changes (only after initial render)
   useEffect(() => {
     if (isFirstRender.current) return // Skip URL changes on first render
-    
+
     const currentUrl = getCurrentUrl()
     if (currentUrl && currentUrl !== lastUrlRef.current) {
       lastUrlRef.current = currentUrl
@@ -204,7 +209,7 @@ export function useApi<T>(
 
 export function useLazyApi<T>(
   url: string | (() => string),
-  options: Omit<UseApiOptions, 'immediate' | 'lazy'> = {}
+  options: Omit<UseApiOptions, "immediate" | "lazy"> = {}
 ) {
   return useApi<T>(url, { ...options, immediate: false, lazy: true })
 }
@@ -225,12 +230,12 @@ export function useMutation<TData = unknown, TVariables = unknown>() {
       url: string,
       variables?: TVariables,
       options: {
-        method?: 'POST' | 'PUT' | 'PATCH' | 'DELETE'
+        method?: "POST" | "PUT" | "PATCH" | "DELETE"
         onSuccess?: (data: TData) => void
         onError?: (error: ApiError) => void
       } = {}
     ) => {
-      const { method = 'POST', onSuccess, onError } = options
+      const { method = "POST", onSuccess, onError } = options
 
       setState(prev => ({ ...prev, loading: true, error: null }))
 
@@ -238,16 +243,16 @@ export function useMutation<TData = unknown, TVariables = unknown>() {
         let response: ApiResponse<TData>
 
         switch (method) {
-          case 'POST':
+          case "POST":
             response = await apiClient.post<TData>(url, variables)
             break
-          case 'PUT':
+          case "PUT":
             response = await apiClient.put<TData>(url, variables)
             break
-          case 'PATCH':
+          case "PATCH":
             response = await apiClient.patch<TData>(url, variables)
             break
-          case 'DELETE':
+          case "DELETE":
             response = await apiClient.delete<TData>(url)
             break
           default:
@@ -263,23 +268,21 @@ export function useMutation<TData = unknown, TVariables = unknown>() {
           onSuccess?.(response.data)
           return response.data
         } else {
-          throw new ApiError(
-            response.error?.message || 'Mutation failed',
-            {
-              status: 500,
-              code: response.error?.code || 'MUTATION_ERROR',
-              details: response.error?.details,
-            }
-          )
+          throw new ApiError(response.error?.message || "Mutation failed", {
+            status: 500,
+            code: response.error?.code || "MUTATION_ERROR",
+            details: response.error?.details,
+          })
         }
       } catch (error) {
-        const apiError = error instanceof ApiError 
-          ? error 
-          : new ApiError('Unexpected error', {
-              status: 500,
-              code: 'UNEXPECTED_ERROR',
-              details: error,
-            })
+        const apiError =
+          error instanceof ApiError
+            ? error
+            : new ApiError("Unexpected error", {
+                status: 500,
+                code: "UNEXPECTED_ERROR",
+                details: error,
+              })
 
         setState({
           data: null,

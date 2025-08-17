@@ -91,8 +91,9 @@ const FEATURES = {
   right: [
     { title: "Global Infrastructure", size: "full", type: "globe" },
     {
-      title: "Your Final Data Platform",
-      description: "All your data. One platform. Zero hassle.",
+      title: "Stop Database Chaos Forever",
+      description:
+        "One platform. Infinite scale. Zero headaches. Deploy production-ready databases in 60 seconds.",
       size: "full",
       type: "cta",
     },
@@ -192,21 +193,22 @@ const Feature = ({
       >
         <div className="relative flex flex-col h-full justify-center items-center text-center">
           <p className="text-lg lg:text-xl font-bold text-white mb-2">{title}</p>
-          <p className="text-sm lg:text-base text-white/90">Free forever plan available</p>
           <p className="text-sm lg:text-base text-white/90 leading-relaxed my-6 max-w-sm">
             {description}
           </p>
-          <Link href="/auth">
-            <ShimmerButton
-              className="bg-white text-black font-medium text-sm lg:text-base px-6 py-2 shadow-lg hover:shadow-xl transition-all duration-300 flex items-center gap-2"
-              background="rgba(255, 255, 255, 1)"
-              shimmerColor="#000000"
-              borderRadius="8px"
-            >
-              Get Started Free
-              <ArrowRightIcon size={14} />
-            </ShimmerButton>
-          </Link>
+          <div className="flex flex-col gap-3 w-full max-w-xs">
+            <Link href="/auth" className="w-full">
+              <ShimmerButton
+                className="bg-white text-black font-medium text-sm px-6 py-2 shadow-lg hover:shadow-xl transition-all duration-300 w-full justify-center h-10"
+                background="rgba(255, 255, 255, 1)"
+                shimmerColor="#000000"
+                borderRadius="100px"
+              >
+                Start for Free
+                <ArrowRightIcon className="ml-2" size={14} />
+              </ShimmerButton>
+            </Link>
+          </div>
           <p className="text-xs lg:text-sm text-white/70 mt-3">No credit card required</p>
         </div>
       </div>
@@ -270,7 +272,7 @@ const NewsTicker = () => (
     <style
       dangerouslySetInnerHTML={{
         __html: `
-        @keyframes smoothTickerFlow { 0% { transform: translateX(100%); } 100% { transform: translateX(-100%); } }
+        @keyframes smoothTickerFlow { 0% { transform: translateX(50%); } 100% { transform: translateX(-100%); } }
         @keyframes shimmerGlow { 0% { opacity: 0; transform: translateX(-100%); } 70% { opacity: 0; } 85% { opacity: 1; } 100% { opacity: 0; transform: translateX(100%); } }
       `,
       }}
@@ -313,7 +315,7 @@ const GitHubFooter = () => (
         rel="noopener noreferrer"
         className="inline-flex items-center text-xs sm:text-sm text-primary hover:text-primary/80 transition-colors duration-300 break-all sm:break-normal"
       >
-        <span className="font-mono">github.com/raghunandhanvr/dataatmos</span>
+        <span className="font-mono">github.com/dataatmos</span>
         <svg
           className="ml-2 w-4 h-4 flex-shrink-0"
           fill="none"

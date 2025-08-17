@@ -14,7 +14,7 @@ export const TOAST_MESSAGES = {
     INVITATION_DECLINED: "Invitation declined",
     PASSWORD_RESET_EMAIL_SENT: "Password reset email sent! Check your inbox.",
   },
-  
+
   // Error messages
   ERROR: {
     SIGN_IN_FAILED: "Failed to sign in",
@@ -39,8 +39,8 @@ export const TOAST_MESSAGES = {
     INVITATION_ACCEPT_FAILED: "Failed to accept invitation",
     INVITATION_DECLINE_FAILED: "Failed to decline invitation",
     FETCH_INVITATION_FAILED: "Failed to fetch invitation",
-  }
-} as const;
+  },
+} as const
 
 // Email Messages
 export const EMAIL_MESSAGES = {
@@ -48,20 +48,20 @@ export const EMAIL_MESSAGES = {
     VERIFY_EMAIL: "Verify your email address",
     RESET_PASSWORD: "Reset your password",
   },
-  
+
   ERROR_MESSAGES: {
     SEND_VERIFICATION_FAILED: "Failed to send verification email",
     SEND_RESET_FAILED: "Failed to send password reset email",
     SEND_OTP_FAILED: "Failed to send OTP email",
     SEND_INVITATION_FAILED: "Failed to send environment invitation email",
-  }
-} as const;
+  },
+} as const
 
 // Auth Messages
 export const AUTH_MESSAGES = {
   DEFAULT_BAN_REASON: "Violation of terms of service",
   DEFAULT_USER_NAME: "User",
-} as const;
+} as const
 
 // UI Messages
 export const UI_MESSAGES = {
@@ -70,7 +70,7 @@ export const UI_MESSAGES = {
     ACCEPT_INVITATION: "Accept Invitation",
     VERIFY_CODE: "Verify Code",
   },
-  
+
   LABELS: {
     CONSOLE: "Console",
     PROFILE_SETTINGS: "Profile Settings",
@@ -79,31 +79,31 @@ export const UI_MESSAGES = {
     OTHER_SESSION: "Other Session",
     UNKNOWN_DEVICE: "Unknown Device",
   },
-  
+
   TITLES: {
     REVOKE_SESSION: "Revoke session",
-  }
-} as const;
+  },
+} as const
 
 // Device/Browser Detection
 export const DEVICE_CONSTANTS = {
   BROWSERS: {
     CHROME: "Chrome",
-    FIREFOX: "Firefox", 
+    FIREFOX: "Firefox",
     SAFARI: "Safari",
     EDGE: "Edge",
     BROWSER: "Browser", // fallback
   },
-  
+
   OPERATING_SYSTEMS: {
     WINDOWS: "Windows",
     MACOS: "macOS",
-    LINUX: "Linux", 
+    LINUX: "Linux",
     ANDROID: "Android",
     IOS: "iOS",
     OS: "OS", // fallback
-  }
-} as const;
+  },
+} as const
 
 // Status Constants
 export const STATUS_CONSTANTS = {
@@ -111,11 +111,11 @@ export const STATUS_CONSTANTS = {
     USER: "User",
     ADMIN: "admin",
   },
-  
+
   INVITATION_STATUS: {
     PENDING: "pending",
     ACCEPTED: "accepted",
     REJECTED: "rejected",
     CANCELLED: "cancelled",
-  }
-} as const;
+  },
+} as const

@@ -1,18 +1,24 @@
-import { useState } from "react"
-import { Button } from "@/components/ui/button"
-import { Input } from "@/components/ui/input"
-import { Label } from "@/components/ui/label"
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
 import { Badge } from "@/components/ui/badge"
-import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog"
+import { Button } from "@/components/ui/button"
 import { Card, CardContent } from "@/components/ui/card"
-import { LogOut, Edit, Mail, Shield, ShieldOff, Loader2, Eye, EyeOff } from "lucide-react"
+import {
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from "@/components/ui/dialog"
+import { Input } from "@/components/ui/input"
+import { Label } from "@/components/ui/label"
+import { Skeleton } from "@/components/ui/skeleton"
 import { toast } from "@/components/ui/sonner"
 import { client } from "@/lib/auth/auth-client"
-import { useRouter } from "next/navigation"
-import QRCode from "react-qr-code"
 import { UserWithProvider } from "@/lib/types/api/user"
-import { Skeleton } from "@/components/ui/skeleton"
+import { Edit, Eye, EyeOff, Loader2, LogOut, Mail, Shield, ShieldOff } from "lucide-react"
+import { useRouter } from "next/navigation"
+import { useState } from "react"
+import QRCode from "react-qr-code"
 
 interface ProfileCardProps {
   user: {
@@ -35,7 +41,7 @@ export function ProfileCard({ user, userDetails, isLoading }: ProfileCardProps) 
   const [isPendingTwoFa, setIsPendingTwoFa] = useState(false)
   const [loading, setLoading] = useState(false)
   const [editName, setEditName] = useState(user.name || "")
-  
+
   // Password states
   const [currentPassword, setCurrentPassword] = useState("")
   const [newPassword, setNewPassword] = useState("")
@@ -45,7 +51,7 @@ export function ProfileCard({ user, userDetails, isLoading }: ProfileCardProps) 
     new: false,
     confirm: false,
   })
-  
+
   // 2FA states
   const [twoFaPassword, setTwoFaPassword] = useState("")
 
@@ -208,234 +214,265 @@ export function ProfileCard({ user, userDetails, isLoading }: ProfileCardProps) 
     <div className="lg:sticky lg:top-8">
       <Card className="rounded-lg">
         <CardContent className="p-4 lg:p-6">
-        <div className="text-center space-y-3 mb-6">
-          <Avatar className="w-16 h-16 lg:w-20 lg:h-20 mx-auto">
-            <AvatarImage src={user.image || userDetails?.image || undefined} />
-            <AvatarFallback className="text-lg">{user.name?.charAt(0)?.toUpperCase()}</AvatarFallback>
-          </Avatar>
+          <div className="text-center space-y-3 mb-6">
+            <Avatar className="w-16 h-16 lg:w-20 lg:h-20 mx-auto">
+              <AvatarImage src={user.image || userDetails?.image || undefined} />
+              <AvatarFallback className="text-lg">
+                {user.name?.charAt(0)?.toUpperCase()}
+              </AvatarFallback>
+            </Avatar>
 
-          <div className="w-full min-w-0">
-            <p className="text-base font-medium truncate px-2">{user.name}</p>
-            <div className="flex items-center justify-center gap-2 flex-wrap mt-1 px-2">
-              <p className="text-sm text-muted-foreground truncate max-w-full min-w-0">{user.email}</p>
-              {user.emailVerified && (
-                <Badge variant="outline" className="text-xs px-1.5 py-0.5 shrink-0">
-                  <Mail size={15} />
-                  Verified
-                </Badge>
+            <div className="w-full min-w-0">
+              <p className="text-base font-medium truncate px-2">{user.name}</p>
+              <div className="flex items-center justify-center gap-2 flex-wrap mt-1 px-2">
+                <p className="text-sm text-muted-foreground truncate max-w-full min-w-0">
+                  {user.email}
+                </p>
+                {user.emailVerified && (
+                  <Badge variant="outline" className="text-xs px-1.5 py-0.5 shrink-0">
+                    <Mail size={15} />
+                    Verified
+                  </Badge>
+                )}
+              </div>
+            </div>
+          </div>
+
+          <div className="space-y-3 mb-6">
+            {userDetails?.hasCredentialsProvider && (
+              <Dialog open={showChangePassword} onOpenChange={setShowChangePassword}>
+                <DialogTrigger asChild>
+                  <Button variant="outline" size="sm" className="w-full">
+                    Change Password
+                  </Button>
+                </DialogTrigger>
+                <DialogContent className="sm:max-w-md mx-4 max-w-[calc(100vw-2rem)]">
+                  <DialogHeader>
+                    <DialogTitle>Change Password</DialogTitle>
+                  </DialogHeader>
+                  <div className="space-y-4">
+                    <div className="space-y-2">
+                      <Label htmlFor="current-pwd">Current Password</Label>
+                      <div className="relative">
+                        <Input
+                          id="current-pwd"
+                          type={showPasswords.current ? "text" : "password"}
+                          value={currentPassword}
+                          onChange={e => setCurrentPassword(e.target.value)}
+                          className="pr-10"
+                        />
+                        <Button
+                          type="button"
+                          variant="ghost"
+                          size="sm"
+                          className="absolute right-0 top-0 h-full px-3 py-2 hover:bg-transparent"
+                          onClick={() =>
+                            setShowPasswords(prev => ({ ...prev, current: !prev.current }))
+                          }
+                        >
+                          {showPasswords.current ? <EyeOff size={15} /> : <Eye size={15} />}
+                        </Button>
+                      </div>
+                    </div>
+                    <div className="space-y-2">
+                      <Label htmlFor="new-pwd">New Password</Label>
+                      <div className="relative">
+                        <Input
+                          id="new-pwd"
+                          type={showPasswords.new ? "text" : "password"}
+                          value={newPassword}
+                          onChange={e => setNewPassword(e.target.value)}
+                          className="pr-10"
+                        />
+                        <Button
+                          type="button"
+                          variant="ghost"
+                          size="sm"
+                          className="absolute right-0 top-0 h-full px-3 py-2 hover:bg-transparent"
+                          onClick={() => setShowPasswords(prev => ({ ...prev, new: !prev.new }))}
+                        >
+                          {showPasswords.new ? <EyeOff size={15} /> : <Eye size={15} />}
+                        </Button>
+                      </div>
+                    </div>
+                    <div className="space-y-2">
+                      <Label htmlFor="confirm-pwd">Confirm New Password</Label>
+                      <div className="relative">
+                        <Input
+                          id="confirm-pwd"
+                          type={showPasswords.confirm ? "text" : "password"}
+                          value={confirmPassword}
+                          onChange={e => setConfirmPassword(e.target.value)}
+                          className="pr-10"
+                        />
+                        <Button
+                          type="button"
+                          variant="ghost"
+                          size="sm"
+                          className="absolute right-0 top-0 h-full px-3 py-2 hover:bg-transparent"
+                          onClick={() =>
+                            setShowPasswords(prev => ({ ...prev, confirm: !prev.confirm }))
+                          }
+                        >
+                          {showPasswords.confirm ? <EyeOff size={15} /> : <Eye size={15} />}
+                        </Button>
+                      </div>
+                    </div>
+                    <div className="flex gap-2 pt-2">
+                      <Button
+                        variant="outline"
+                        onClick={() => setShowChangePassword(false)}
+                        className="flex-1"
+                      >
+                        Cancel
+                      </Button>
+                      <Button onClick={handleChangePassword} disabled={loading} className="flex-1">
+                        {loading ? <Loader2 size={15} /> : "Change"}
+                      </Button>
+                    </div>
+                  </div>
+                </DialogContent>
+              </Dialog>
+            )}
+
+            <div className="flex gap-2">
+              {userDetails?.hasCredentialsProvider && (
+                <Dialog open={twoFactorDialog} onOpenChange={setTwoFactorDialog}>
+                  <DialogTrigger asChild>
+                    <Button
+                      variant={user.twoFactorEnabled ? "destructive" : "default"}
+                      size="sm"
+                      className="flex-1 min-w-0"
+                    >
+                      {user.twoFactorEnabled ? (
+                        <>
+                          <ShieldOff size={15} className="shrink-0" />
+                          <span className="truncate">Disable 2FA</span>
+                        </>
+                      ) : (
+                        <>
+                          <Shield size={15} className="shrink-0" />
+                          <span className="truncate">Enable 2FA</span>
+                        </>
+                      )}
+                    </Button>
+                  </DialogTrigger>
+                  <DialogContent className="sm:max-w-md mx-4 max-w-[calc(100vw-2rem)]">
+                    <DialogHeader>
+                      <DialogTitle>
+                        {user.twoFactorEnabled ? "Disable 2FA" : "Enable 2FA"}
+                      </DialogTitle>
+                    </DialogHeader>
+                    {twoFactorVerifyURI ? (
+                      <div className="space-y-4">
+                        <div className="flex justify-center">
+                          <QRCode
+                            value={twoFactorVerifyURI}
+                            size={Math.min(200, 160)}
+                            className="max-w-full h-auto"
+                          />
+                        </div>
+                        <p className="text-sm text-muted-foreground text-center">
+                          Scan the QR code with your TOTP app, then enter the 6-digit code
+                        </p>
+                        <div className="space-y-2">
+                          <Label>Verification Code</Label>
+                          <Input
+                            value={twoFaPassword}
+                            onChange={e => setTwoFaPassword(e.target.value)}
+                            placeholder="Enter 6-digit code"
+                            maxLength={6}
+                          />
+                        </div>
+                      </div>
+                    ) : (
+                      <div className="space-y-4">
+                        <div className="space-y-2">
+                          <Label>Password</Label>
+                          <Input
+                            type="password"
+                            value={twoFaPassword}
+                            onChange={e => setTwoFaPassword(e.target.value)}
+                            placeholder="Enter your password"
+                          />
+                        </div>
+                      </div>
+                    )}
+                    <div className="flex gap-2 pt-2">
+                      <Button
+                        variant="outline"
+                        onClick={() => setTwoFactorDialog(false)}
+                        className="flex-1"
+                      >
+                        Cancel
+                      </Button>
+                      <Button
+                        onClick={handle2FAToggle}
+                        disabled={isPendingTwoFa}
+                        className="flex-1"
+                      >
+                        {isPendingTwoFa ? <Loader2 size={15} /> : null}
+                        {user.twoFactorEnabled
+                          ? "Disable 2FA"
+                          : twoFactorVerifyURI
+                            ? "Verify & Enable"
+                            : "Enable 2FA"}
+                      </Button>
+                    </div>
+                  </DialogContent>
+                </Dialog>
               )}
             </div>
           </div>
-        </div>
 
-        <div className="space-y-3 mb-6">
-          {userDetails?.hasCredentialsProvider && (
-            <Dialog open={showChangePassword} onOpenChange={setShowChangePassword}>
-            <DialogTrigger asChild>
-              <Button variant="outline" size="sm" className="w-full">
-                Change Password
-              </Button>
-            </DialogTrigger>
-            <DialogContent className="sm:max-w-md mx-4 max-w-[calc(100vw-2rem)]">
-              <DialogHeader>
-                <DialogTitle>Change Password</DialogTitle>
-              </DialogHeader>
-              <div className="space-y-4">
-                <div className="space-y-2">
-                  <Label htmlFor="current-pwd">Current Password</Label>
-                  <div className="relative">
-                    <Input
-                      id="current-pwd"
-                      type={showPasswords.current ? "text" : "password"}
-                      value={currentPassword}
-                      onChange={(e) => setCurrentPassword(e.target.value)}
-                      className="pr-10"
-                    />
-                    <Button
-                      type="button"
-                      variant="ghost"
-                      size="sm"
-                      className="absolute right-0 top-0 h-full px-3 py-2 hover:bg-transparent"
-                      onClick={() => setShowPasswords((prev) => ({ ...prev, current: !prev.current }))}
-                    >
-                      {showPasswords.current ? <EyeOff size={15} /> : <Eye size={15} />}
-                    </Button>
-                  </div>
-                </div>
-                <div className="space-y-2">
-                  <Label htmlFor="new-pwd">New Password</Label>
-                  <div className="relative">
-                    <Input
-                      id="new-pwd"
-                      type={showPasswords.new ? "text" : "password"}
-                      value={newPassword}
-                      onChange={(e) => setNewPassword(e.target.value)}
-                      className="pr-10"
-                    />
-                    <Button
-                      type="button"
-                      variant="ghost"
-                      size="sm"
-                      className="absolute right-0 top-0 h-full px-3 py-2 hover:bg-transparent"
-                      onClick={() => setShowPasswords((prev) => ({ ...prev, new: !prev.new }))}
-                    >
-                      {showPasswords.new ? <EyeOff size={15} /> : <Eye size={15} />}
-                    </Button>
-                  </div>
-                </div>
-                <div className="space-y-2">
-                  <Label htmlFor="confirm-pwd">Confirm New Password</Label>
-                  <div className="relative">
-                    <Input
-                      id="confirm-pwd"
-                      type={showPasswords.confirm ? "text" : "password"}
-                      value={confirmPassword}
-                      onChange={(e) => setConfirmPassword(e.target.value)}
-                      className="pr-10"
-                    />
-                    <Button
-                      type="button"
-                      variant="ghost"
-                      size="sm"
-                      className="absolute right-0 top-0 h-full px-3 py-2 hover:bg-transparent"
-                      onClick={() => setShowPasswords((prev) => ({ ...prev, confirm: !prev.confirm }))}
-                    >
-                      {showPasswords.confirm ? <EyeOff size={15} /> : <Eye size={15} />}
-                    </Button>
-                  </div>
-                </div>
-                <div className="flex gap-2 pt-2">
-                  <Button variant="outline" onClick={() => setShowChangePassword(false)} className="flex-1">
-                    Cancel
-                  </Button>
-                  <Button onClick={handleChangePassword} disabled={loading} className="flex-1">
-                    {loading ? <Loader2 size={15} /> : "Change"}
-                  </Button>
-                </div>
-              </div>
-            </DialogContent>
-          </Dialog>
-          )}
-
-          <div className="flex gap-2">
-            {userDetails?.hasCredentialsProvider && (
-            <Dialog open={twoFactorDialog} onOpenChange={setTwoFactorDialog}>
+          <div className="space-y-3">
+            <Dialog open={showEditProfile} onOpenChange={setShowEditProfile}>
               <DialogTrigger asChild>
-                <Button 
-                  variant={user.twoFactorEnabled ? "destructive" : "default"} 
-                  size="sm" 
-                  className="flex-1 min-w-0"
-                >
-                  {user.twoFactorEnabled ? (
-                    <>
-                      <ShieldOff size={15} className="shrink-0" />
-                      <span className="truncate">Disable 2FA</span>
-                    </>
-                  ) : (
-                    <>
-                      <Shield size={15} className="shrink-0" />
-                      <span className="truncate">Enable 2FA</span>
-                    </>
-                  )}
+                <Button variant="outline" className="w-full bg-transparent min-w-0">
+                  <Edit size={15} className="shrink-0" />
+                  <span className="truncate">Edit Profile</span>
                 </Button>
               </DialogTrigger>
               <DialogContent className="sm:max-w-md mx-4 max-w-[calc(100vw-2rem)]">
                 <DialogHeader>
-                  <DialogTitle>{user.twoFactorEnabled ? "Disable 2FA" : "Enable 2FA"}</DialogTitle>
+                  <DialogTitle>Edit Profile</DialogTitle>
                 </DialogHeader>
-                {twoFactorVerifyURI ? (
-                  <div className="space-y-4">
-                    <div className="flex justify-center">
-                      <QRCode 
-                        value={twoFactorVerifyURI} 
-                        size={Math.min(200, 160)} 
-                        className="max-w-full h-auto"
-                      />
-                    </div>
-                    <p className="text-sm text-muted-foreground text-center">
-                      Scan the QR code with your TOTP app, then enter the 6-digit code
-                    </p>
-                    <div className="space-y-2">
-                      <Label>Verification Code</Label>
-                      <Input
-                        value={twoFaPassword}
-                        onChange={(e) => setTwoFaPassword(e.target.value)}
-                        placeholder="Enter 6-digit code"
-                        maxLength={6}
-                      />
-                    </div>
+                <div className="space-y-4">
+                  <div className="space-y-2">
+                    <Label htmlFor="name">Name</Label>
+                    <Input
+                      id="name"
+                      value={editName}
+                      onChange={e => setEditName(e.target.value)}
+                      placeholder="Your name"
+                    />
                   </div>
-                ) : (
-                  <div className="space-y-4">
-                    <div className="space-y-2">
-                      <Label>Password</Label>
-                      <Input
-                        type="password"
-                        value={twoFaPassword}
-                        onChange={(e) => setTwoFaPassword(e.target.value)}
-                        placeholder="Enter your password"
-                      />
-                    </div>
+                  <div className="flex gap-2 pt-2">
+                    <Button
+                      variant="outline"
+                      onClick={() => setShowEditProfile(false)}
+                      className="flex-1"
+                    >
+                      Cancel
+                    </Button>
+                    <Button onClick={handleUpdateProfile} disabled={loading} className="flex-1">
+                      {loading ? <Loader2 size={15} /> : "Save"}
+                    </Button>
                   </div>
-                )}
-                <div className="flex gap-2 pt-2">
-                  <Button variant="outline" onClick={() => setTwoFactorDialog(false)} className="flex-1">
-                    Cancel
-                  </Button>
-                  <Button onClick={handle2FAToggle} disabled={isPendingTwoFa} className="flex-1">
-                    {isPendingTwoFa ? <Loader2 size={15} /> : null}
-                    {user.twoFactorEnabled
-                      ? "Disable 2FA"
-                      : twoFactorVerifyURI
-                        ? "Verify & Enable"
-                        : "Enable 2FA"}
-                  </Button>
                 </div>
               </DialogContent>
             </Dialog>
-            )}
+
+            <Button
+              variant="destructive"
+              onClick={handleSignOut}
+              disabled={loading}
+              className="w-full min-w-0"
+            >
+              <LogOut size={15} className="shrink-0" />
+              <span className="truncate">{loading ? "Signing out..." : "Sign Out"}</span>
+            </Button>
           </div>
-        </div>
-
-        <div className="space-y-3">
-          <Dialog open={showEditProfile} onOpenChange={setShowEditProfile}>
-            <DialogTrigger asChild>
-              <Button variant="outline" className="w-full bg-transparent min-w-0">
-                <Edit size={15} className="shrink-0" />
-                <span className="truncate">Edit Profile</span>
-              </Button>
-            </DialogTrigger>
-            <DialogContent className="sm:max-w-md mx-4 max-w-[calc(100vw-2rem)]">
-              <DialogHeader>
-                <DialogTitle>Edit Profile</DialogTitle>
-              </DialogHeader>
-              <div className="space-y-4">
-                <div className="space-y-2">
-                  <Label htmlFor="name">Name</Label>
-                  <Input
-                    id="name"
-                    value={editName}
-                    onChange={(e) => setEditName(e.target.value)}
-                    placeholder="Your name"
-                  />
-                </div>
-                <div className="flex gap-2 pt-2">
-                  <Button variant="outline" onClick={() => setShowEditProfile(false)} className="flex-1">
-                    Cancel
-                  </Button>
-                  <Button onClick={handleUpdateProfile} disabled={loading} className="flex-1">
-                    {loading ? <Loader2 size={15} /> : "Save"}
-                  </Button>
-                </div>
-              </div>
-            </DialogContent>
-          </Dialog>
-
-          <Button variant="destructive" onClick={handleSignOut} disabled={loading} className="w-full min-w-0">
-            <LogOut size={15} className="shrink-0" />
-            <span className="truncate">{loading ? "Signing out..." : "Sign Out"}</span>
-          </Button>
-        </div>
         </CardContent>
       </Card>
     </div>

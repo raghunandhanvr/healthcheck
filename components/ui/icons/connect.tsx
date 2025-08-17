@@ -1,18 +1,18 @@
-'use client';
+"use client"
 
-import type { Variants } from 'motion/react';
-import { motion, useAnimation } from 'motion/react';
-import type { HTMLAttributes } from 'react';
-import { forwardRef, useCallback, useImperativeHandle, useRef } from 'react';
-import { cn } from '@/lib/utils/common';
+import type { Variants } from "motion/react"
+import { motion, useAnimation } from "motion/react"
+import type { HTMLAttributes } from "react"
+import { forwardRef, useCallback, useImperativeHandle, useRef } from "react"
+import { cn } from "@/lib/utils/common"
 
 export interface ConnectIconHandle {
-  startAnimation: () => void;
-  stopAnimation: () => void;
+  startAnimation: () => void
+  stopAnimation: () => void
 }
 
 interface ConnectIconProps extends HTMLAttributes<HTMLDivElement> {
-  size?: number;
+  size?: number
 }
 
 const plugVariants: Variants = {
@@ -24,7 +24,7 @@ const plugVariants: Variants = {
     x: -3,
     y: 3,
   },
-};
+}
 
 const socketVariants: Variants = {
   normal: {
@@ -35,7 +35,7 @@ const socketVariants: Variants = {
     x: 3,
     y: -3,
   },
-};
+}
 
 const pathVariants = {
   normal: (custom: { x: number; y: number }) => ({
@@ -44,43 +44,43 @@ const pathVariants = {
   animate: (custom: { x: number; y: number }) => ({
     d: `M${custom.x + 2.93} ${custom.y - 2.93} l0.10 -0.10`,
   }),
-};
+}
 
 const ConnectIcon = forwardRef<ConnectIconHandle, ConnectIconProps>(
   ({ onMouseEnter, onMouseLeave, className, size = 28, ...props }, ref) => {
-    const controls = useAnimation();
-    const isControlledRef = useRef(false);
+    const controls = useAnimation()
+    const isControlledRef = useRef(false)
 
     useImperativeHandle(ref, () => {
-      isControlledRef.current = true;
+      isControlledRef.current = true
 
       return {
-        startAnimation: () => controls.start('animate'),
-        stopAnimation: () => controls.start('normal'),
-      };
-    });
+        startAnimation: () => controls.start("animate"),
+        stopAnimation: () => controls.start("normal"),
+      }
+    })
 
     const handleMouseEnter = useCallback(
       (e: React.MouseEvent<HTMLDivElement>) => {
         if (!isControlledRef.current) {
-          controls.start('animate');
+          controls.start("animate")
         } else {
-          onMouseEnter?.(e);
+          onMouseEnter?.(e)
         }
       },
       [controls, onMouseEnter]
-    );
+    )
 
     const handleMouseLeave = useCallback(
       (e: React.MouseEvent<HTMLDivElement>) => {
         if (!isControlledRef.current) {
-          controls.start('normal');
+          controls.start("normal")
         } else {
-          onMouseLeave?.(e);
+          onMouseLeave?.(e)
         }
       },
       [controls, onMouseLeave]
-    );
+    )
 
     return (
       <div
@@ -104,60 +104,60 @@ const ConnectIcon = forwardRef<ConnectIconHandle, ConnectIconProps>(
             d="M19 5l3 -3"
             variants={{
               normal: {
-                d: 'M19 5l3 -3',
+                d: "M19 5l3 -3",
               },
               animate: {
-                d: 'M17 7l5 -5',
+                d: "M17 7l5 -5",
               },
             }}
             animate={controls}
-            transition={{ type: 'spring', stiffness: 500, damping: 30 }}
+            transition={{ type: "spring", stiffness: 500, damping: 30 }}
           />
           <motion.path
             d="m2 22 3-3"
             variants={{
               normal: {
-                d: 'm2 22 3-3',
+                d: "m2 22 3-3",
               },
               animate: {
-                d: 'm2 22 6-6',
+                d: "m2 22 6-6",
               },
             }}
             animate={controls}
-            transition={{ type: 'spring', stiffness: 500, damping: 30 }}
+            transition={{ type: "spring", stiffness: 500, damping: 30 }}
           />
           <motion.path
             d="M6.3 20.3a2.4 2.4 0 0 0 3.4 0L12 18l-6-6-2.3 2.3a2.4 2.4 0 0 0 0 3.4Z"
             variants={socketVariants}
             animate={controls}
-            transition={{ type: 'spring', stiffness: 500, damping: 30 }}
+            transition={{ type: "spring", stiffness: 500, damping: 30 }}
           />
           <motion.path
             variants={pathVariants}
             custom={{ x: 7.5, y: 13.5 }}
             initial="normal"
             animate={controls}
-            transition={{ type: 'spring', stiffness: 500, damping: 30 }}
+            transition={{ type: "spring", stiffness: 500, damping: 30 }}
           />
           <motion.path
             variants={pathVariants}
             custom={{ x: 10.5, y: 16.5 }}
             initial="normal"
             animate={controls}
-            transition={{ type: 'spring', stiffness: 500, damping: 30 }}
+            transition={{ type: "spring", stiffness: 500, damping: 30 }}
           />
           <motion.path
             d="m12 6 6 6 2.3-2.3a2.4 2.4 0 0 0 0-3.4l-2.6-2.6a2.4 2.4 0 0 0-3.4 0Z"
             variants={plugVariants}
             animate={controls}
-            transition={{ type: 'spring', stiffness: 500, damping: 30 }}
+            transition={{ type: "spring", stiffness: 500, damping: 30 }}
           />
         </svg>
       </div>
-    );
+    )
   }
-);
+)
 
-ConnectIcon.displayName = 'ConnectIcon';
+ConnectIcon.displayName = "ConnectIcon"
 
-export { ConnectIcon };
+export { ConnectIcon }

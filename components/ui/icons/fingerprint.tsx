@@ -1,18 +1,18 @@
-'use client';
+"use client"
 
-import type { Variants } from 'motion/react';
-import { motion, useAnimation } from 'motion/react';
-import type { HTMLAttributes } from 'react';
-import { forwardRef, useCallback, useImperativeHandle, useRef } from 'react';
-import { cn } from '@/lib/utils/common';
+import type { Variants } from "motion/react"
+import { motion, useAnimation } from "motion/react"
+import type { HTMLAttributes } from "react"
+import { forwardRef, useCallback, useImperativeHandle, useRef } from "react"
+import { cn } from "@/lib/utils/common"
 
 export interface FingerprintIconHandle {
-  startAnimation: () => void;
-  stopAnimation: () => void;
+  startAnimation: () => void
+  stopAnimation: () => void
 }
 
 interface FingerprintIconProps extends HTMLAttributes<HTMLDivElement> {
-  size?: number;
+  size?: number
 }
 
 const pathVariants: Variants = {
@@ -27,43 +27,43 @@ const pathVariants: Variants = {
       },
     },
   },
-};
+}
 
 const FingerprintIcon = forwardRef<FingerprintIconHandle, FingerprintIconProps>(
   ({ onMouseEnter, onMouseLeave, className, size = 28, ...props }, ref) => {
-    const controls = useAnimation();
-    const isControlledRef = useRef(false);
+    const controls = useAnimation()
+    const isControlledRef = useRef(false)
 
     useImperativeHandle(ref, () => {
-      isControlledRef.current = true;
+      isControlledRef.current = true
 
       return {
-        startAnimation: () => controls.start('animate'),
-        stopAnimation: () => controls.start('normal'),
-      };
-    });
+        startAnimation: () => controls.start("animate"),
+        stopAnimation: () => controls.start("normal"),
+      }
+    })
 
     const handleMouseEnter = useCallback(
       (e: React.MouseEvent<HTMLDivElement>) => {
         if (!isControlledRef.current) {
-          controls.start('animate');
+          controls.start("animate")
         } else {
-          onMouseEnter?.(e);
+          onMouseEnter?.(e)
         }
       },
       [controls, onMouseEnter]
-    );
+    )
 
     const handleMouseLeave = useCallback(
       (e: React.MouseEvent<HTMLDivElement>) => {
         if (!isControlledRef.current) {
-          controls.start('normal');
+          controls.start("normal")
         } else {
-          onMouseLeave?.(e);
+          onMouseLeave?.(e)
         }
       },
       [controls, onMouseLeave]
-    );
+    )
 
     return (
       <div
@@ -119,31 +119,13 @@ const FingerprintIcon = forwardRef<FingerprintIconHandle, FingerprintIconProps>(
             animate={controls}
           />
 
-          <path
-            d="M2 12a10 10 0 0 1 18-6"
-            strokeOpacity={0.4}
-            strokeWidth="2"
-            fill="none"
-          />
-          <motion.path
-            d="M2 12a10 10 0 0 1 18-6"
-            variants={pathVariants}
-            animate={controls}
-          />
+          <path d="M2 12a10 10 0 0 1 18-6" strokeOpacity={0.4} strokeWidth="2" fill="none" />
+          <motion.path d="M2 12a10 10 0 0 1 18-6" variants={pathVariants} animate={controls} />
 
           <path d="M2 16h.01" strokeOpacity={0.4} strokeWidth="2" fill="none" />
-          <motion.path
-            d="M2 16h.01"
-            variants={pathVariants}
-            animate={controls}
-          />
+          <motion.path d="M2 16h.01" variants={pathVariants} animate={controls} />
 
-          <path
-            d="M21.8 16c.2-2 .131-5.354 0-6"
-            strokeOpacity={0.4}
-            strokeWidth="2"
-            fill="none"
-          />
+          <path d="M21.8 16c.2-2 .131-5.354 0-6" strokeOpacity={0.4} strokeWidth="2" fill="none" />
           <motion.path
             d="M21.8 16c.2-2 .131-5.354 0-6"
             variants={pathVariants}
@@ -162,35 +144,21 @@ const FingerprintIcon = forwardRef<FingerprintIconHandle, FingerprintIconProps>(
             animate={controls}
           />
 
-          <path
-            d="M8.65 22c.21-.66.45-1.32.57-2"
-            strokeOpacity={0.4}
-            strokeWidth="2"
-            fill="none"
-          />
+          <path d="M8.65 22c.21-.66.45-1.32.57-2" strokeOpacity={0.4} strokeWidth="2" fill="none" />
           <motion.path
             d="M8.65 22c.21-.66.45-1.32.57-2"
             variants={pathVariants}
             animate={controls}
           />
 
-          <path
-            d="M9 6.8a6 6 0 0 1 9 5.2v2"
-            strokeOpacity={0.4}
-            strokeWidth="2"
-            fill="none"
-          />
-          <motion.path
-            d="M9 6.8a6 6 0 0 1 9 5.2v2"
-            variants={pathVariants}
-            animate={controls}
-          />
+          <path d="M9 6.8a6 6 0 0 1 9 5.2v2" strokeOpacity={0.4} strokeWidth="2" fill="none" />
+          <motion.path d="M9 6.8a6 6 0 0 1 9 5.2v2" variants={pathVariants} animate={controls} />
         </svg>
       </div>
-    );
+    )
   }
-);
+)
 
-FingerprintIcon.displayName = 'FingerprintIcon';
+FingerprintIcon.displayName = "FingerprintIcon"
 
-export { FingerprintIcon };
+export { FingerprintIcon }

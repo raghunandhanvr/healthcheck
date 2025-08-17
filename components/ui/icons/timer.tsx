@@ -1,25 +1,25 @@
-'use client';
+"use client"
 
-import type { Variants } from 'motion/react';
-import { motion, useAnimation } from 'motion/react';
-import type { HTMLAttributes } from 'react';
-import { forwardRef, useCallback, useImperativeHandle, useRef } from 'react';
-import { cn } from '@/lib/utils/common';
+import type { Variants } from "motion/react"
+import { motion, useAnimation } from "motion/react"
+import type { HTMLAttributes } from "react"
+import { forwardRef, useCallback, useImperativeHandle, useRef } from "react"
+import { cn } from "@/lib/utils/common"
 
 export interface TimerIconHandle {
-  startAnimation: () => void;
-  stopAnimation: () => void;
+  startAnimation: () => void
+  stopAnimation: () => void
 }
 
 interface TimerIconProps extends HTMLAttributes<HTMLDivElement> {
-  size?: number;
+  size?: number
 }
 
 const handVariants: Variants = {
   normal: {
     rotate: 0,
-    originX: '0%',
-    originY: '100%',
+    originX: "0%",
+    originY: "100%",
     transition: {
       duration: 0.6,
       ease: [0.4, 0, 0.2, 1],
@@ -27,15 +27,15 @@ const handVariants: Variants = {
   },
   animate: {
     rotate: 300,
-    originX: '0%',
-    originY: '100%',
+    originX: "0%",
+    originY: "100%",
     transition: {
       delay: 0.1,
       duration: 0.6,
       ease: [0.4, 0, 0.2, 1],
     },
   },
-};
+}
 
 const buttonVariants: Variants = {
   normal: {
@@ -50,43 +50,43 @@ const buttonVariants: Variants = {
       ease: [0.4, 0, 0.2, 1],
     },
   },
-};
+}
 
 const TimerIcon = forwardRef<TimerIconHandle, TimerIconProps>(
   ({ onMouseEnter, onMouseLeave, className, size = 28, ...props }, ref) => {
-    const controls = useAnimation();
-    const isControlledRef = useRef(false);
+    const controls = useAnimation()
+    const isControlledRef = useRef(false)
 
     useImperativeHandle(ref, () => {
-      isControlledRef.current = true;
+      isControlledRef.current = true
 
       return {
-        startAnimation: () => controls.start('animate'),
-        stopAnimation: () => controls.start('normal'),
-      };
-    });
+        startAnimation: () => controls.start("animate"),
+        stopAnimation: () => controls.start("normal"),
+      }
+    })
 
     const handleMouseEnter = useCallback(
       (e: React.MouseEvent<HTMLDivElement>) => {
         if (!isControlledRef.current) {
-          controls.start('animate');
+          controls.start("animate")
         } else {
-          onMouseEnter?.(e);
+          onMouseEnter?.(e)
         }
       },
       [controls, onMouseEnter]
-    );
+    )
 
     const handleMouseLeave = useCallback(
       (e: React.MouseEvent<HTMLDivElement>) => {
         if (!isControlledRef.current) {
-          controls.start('normal');
+          controls.start("normal")
         } else {
-          onMouseLeave?.(e);
+          onMouseLeave?.(e)
         }
       },
       [controls, onMouseLeave]
-    );
+    )
 
     return (
       <div
@@ -106,14 +106,7 @@ const TimerIcon = forwardRef<TimerIconHandle, TimerIconProps>(
           strokeLinecap="round"
           strokeLinejoin="round"
         >
-          <motion.line
-            x1="10"
-            x2="14"
-            y1="2"
-            y2="2"
-            animate={controls}
-            variants={buttonVariants}
-          />
+          <motion.line x1="10" x2="14" y1="2" y2="2" animate={controls} variants={buttonVariants} />
           <motion.line
             x1="12"
             x2="15"
@@ -126,10 +119,10 @@ const TimerIcon = forwardRef<TimerIconHandle, TimerIconProps>(
           <circle cx="12" cy="14" r="8" />
         </svg>
       </div>
-    );
+    )
   }
-);
+)
 
-TimerIcon.displayName = 'TimerIcon';
+TimerIcon.displayName = "TimerIcon"
 
-export { TimerIcon };
+export { TimerIcon }

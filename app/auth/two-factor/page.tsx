@@ -1,17 +1,17 @@
-'use client'
+"use client"
 
-import { useState } from 'react'
 import { Button } from "@/components/ui/button"
-import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card"
-import { InputOTP, InputOTPGroup, InputOTPSlot } from "@/components/ui/input-otp"
-import { LoaderPinwheelIcon } from "@/components/ui/icons/loader-pinwheel"
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
+import { Globe } from "@/components/ui/globe"
 import { ArrowLeftIcon } from "@/components/ui/icons/arrow-left"
 import { CircleCheckIcon } from "@/components/ui/icons/circle-check"
-import Link from "next/link"
-import { client } from "@/lib/auth/auth-client"
+import { LoaderPinwheelIcon } from "@/components/ui/icons/loader-pinwheel"
+import { InputOTP, InputOTPGroup, InputOTPSlot } from "@/components/ui/input-otp"
 import { toast } from "@/components/ui/sonner"
-import { Globe } from '@/components/ui/globe'
-import { useRouter } from 'next/navigation'
+import { client } from "@/lib/auth/auth-client"
+import Link from "next/link"
+import { useRouter } from "next/navigation"
+import { useState } from "react"
 
 export default function TwoFactorPage() {
   const [totpCode, setTotpCode] = useState("")
@@ -31,7 +31,7 @@ export default function TwoFactorPage() {
     mapSamples: 16000,
     mapBrightness: 1.2,
     baseColor: [1, 1, 1] as [number, number, number],
-    markerColor: [9/255, 105/255, 218/255] as [number, number, number],
+    markerColor: [9 / 255, 105 / 255, 218 / 255] as [number, number, number],
     glowColor: [1, 1, 1] as [number, number, number],
     markers: [
       { location: [14.5995, 120.9842] as [number, number], size: 0.03 },
@@ -59,7 +59,7 @@ export default function TwoFactorPage() {
       const res = await client.twoFactor.verifyTotp({
         code: totpCode,
       })
-      
+
       if (res.data?.token) {
         setSuccess(true)
         toast.success("Two-factor authentication successful!")
@@ -76,8 +76,6 @@ export default function TwoFactorPage() {
     }
   }
 
-
-
   if (success) {
     return (
       <div className="layout-container centered pt-24">
@@ -87,9 +85,7 @@ export default function TwoFactorPage() {
               <Globe config={globeConfig} className="w-full h-full" />
             </div>
             <div className="text-center mt-6 space-y-2">
-              <p className="text-sm text-muted-foreground">
-                Your servers are up and running
-              </p>
+              <p className="text-sm text-muted-foreground">Your servers are up and running</p>
               <p className="text-xs text-muted-foreground/70 text-center">
                 Authentication successful
               </p>
@@ -124,12 +120,8 @@ export default function TwoFactorPage() {
             <Globe config={globeConfig} className="w-full h-full" />
           </div>
           <div className="text-center mt-6 space-y-2">
-            <p className="text-sm text-muted-foreground">
-              Your servers are up and running
-            </p>
-            <p className="text-xs text-muted-foreground/70">
-              Complete two-factor authentication
-            </p>
+            <p className="text-sm text-muted-foreground">Your servers are up and running</p>
+            <p className="text-xs text-muted-foreground/70">Complete two-factor authentication</p>
           </div>
         </div>
 
@@ -138,13 +130,13 @@ export default function TwoFactorPage() {
             <CardHeader className="text-center">
               <CardTitle>Two-Factor Authentication</CardTitle>
             </CardHeader>
-            
+
             <CardContent>
               <form onSubmit={handleTotpVerification} className="space-y-4">
                 <div className="space-y-2 flex flex-col items-center">
                   <InputOTP
                     value={totpCode}
-                    onChange={(value) => setTotpCode(value)}
+                    onChange={value => setTotpCode(value)}
                     maxLength={6}
                     disabled={loading}
                     autoFocus
@@ -162,10 +154,10 @@ export default function TwoFactorPage() {
                     Enter the 6-digit code from your authenticator app
                   </p>
                 </div>
-                
-                <Button 
-                  type="submit" 
-                  className="w-full" 
+
+                <Button
+                  type="submit"
+                  className="w-full"
                   disabled={loading || totpCode.length !== 6}
                 >
                   {loading ? (

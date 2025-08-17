@@ -1,14 +1,14 @@
-import { API_CONFIG } from './routes'
-import type { ApiResponse } from './response'
+import { API_CONFIG } from "./routes"
+import type { ApiResponse } from "./response"
 
 export class ApiClient {
   private baseUrl: string
   private defaultHeaders: HeadersInit
 
-  constructor(baseUrl = '', defaultHeaders: HeadersInit = {}) {
+  constructor(baseUrl = "", defaultHeaders: HeadersInit = {}) {
     this.baseUrl = baseUrl
     this.defaultHeaders = {
-      'Content-Type': 'application/json',
+      "Content-Type": "application/json",
       ...defaultHeaders,
     }
   }
@@ -39,9 +39,9 @@ export class ApiClient {
       const data: ApiResponse<T> = await response.json()
 
       if (!response.ok) {
-        throw new ApiError(data.error?.message || 'Request failed', {
+        throw new ApiError(data.error?.message || "Request failed", {
           status: response.status,
-          code: data.error?.code || 'UNKNOWN_ERROR',
+          code: data.error?.code || "UNKNOWN_ERROR",
           details: data.error?.details,
         })
       }
@@ -52,11 +52,9 @@ export class ApiClient {
 
       if (
         retryCount < API_CONFIG.RETRY_ATTEMPTS &&
-        (error instanceof TypeError || (error as Error).name === 'AbortError')
+        (error instanceof TypeError || (error as Error).name === "AbortError")
       ) {
-        await new Promise(resolve => 
-          setTimeout(resolve, API_CONFIG.RETRY_DELAY * (retryCount + 1))
-        )
+        await new Promise(resolve => setTimeout(resolve, API_CONFIG.RETRY_DELAY * (retryCount + 1)))
         return this.request<T>(url, options, retryCount + 1)
       }
 
@@ -64,56 +62,44 @@ export class ApiClient {
         throw error
       }
 
-      throw new ApiError('Network error occurred', {
+      throw new ApiError("Network error occurred", {
         status: 0,
-        code: 'NETWORK_ERROR',
+        code: "NETWORK_ERROR",
         details: error,
       })
     }
   }
 
   async get<T>(url: string, options?: RequestInit): Promise<ApiResponse<T>> {
-    return this.request<T>(url, { ...options, method: 'GET' })
+    return this.request<T>(url, { ...options, method: "GET" })
   }
 
-  async post<T>(
-    url: string,
-    data?: unknown,
-    options?: RequestInit
-  ): Promise<ApiResponse<T>> {
+  async post<T>(url: string, data?: unknown, options?: RequestInit): Promise<ApiResponse<T>> {
     return this.request<T>(url, {
       ...options,
-      method: 'POST',
+      method: "POST",
       body: data ? JSON.stringify(data) : undefined,
     })
   }
 
-  async put<T>(
-    url: string,
-    data?: unknown,
-    options?: RequestInit
-  ): Promise<ApiResponse<T>> {
+  async put<T>(url: string, data?: unknown, options?: RequestInit): Promise<ApiResponse<T>> {
     return this.request<T>(url, {
       ...options,
-      method: 'PUT',
+      method: "PUT",
       body: data ? JSON.stringify(data) : undefined,
     })
   }
 
-  async patch<T>(
-    url: string,
-    data?: unknown,
-    options?: RequestInit
-  ): Promise<ApiResponse<T>> {
+  async patch<T>(url: string, data?: unknown, options?: RequestInit): Promise<ApiResponse<T>> {
     return this.request<T>(url, {
       ...options,
-      method: 'PATCH',
+      method: "PATCH",
       body: data ? JSON.stringify(data) : undefined,
     })
   }
 
   async delete<T>(url: string, options?: RequestInit): Promise<ApiResponse<T>> {
-    return this.request<T>(url, { ...options, method: 'DELETE' })
+    return this.request<T>(url, { ...options, method: "DELETE" })
   }
 }
 
@@ -131,7 +117,7 @@ export class ApiError extends Error {
     }
   ) {
     super(message)
-    this.name = 'ApiError'
+    this.name = "ApiError"
     this.status = options.status
     this.code = options.code
     this.details = options.details

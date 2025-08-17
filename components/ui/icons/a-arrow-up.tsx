@@ -1,18 +1,18 @@
-'use client';
+"use client"
 
-import type { Variants } from 'motion/react';
-import { motion, useAnimation } from 'motion/react';
-import type { HTMLAttributes } from 'react';
-import { forwardRef, useCallback, useImperativeHandle, useRef } from 'react';
-import { cn } from '@/lib/utils/common';
+import type { Variants } from "motion/react"
+import { motion, useAnimation } from "motion/react"
+import type { HTMLAttributes } from "react"
+import { forwardRef, useCallback, useImperativeHandle, useRef } from "react"
+import { cn } from "@/lib/utils/common"
 
 export interface AArrowUpIconHandle {
-  startAnimation: () => void;
-  stopAnimation: () => void;
+  startAnimation: () => void
+  stopAnimation: () => void
 }
 
 interface AArrowUpIconProps extends HTMLAttributes<HTMLDivElement> {
-  size?: number;
+  size?: number
 }
 
 const letterVariants: Variants = {
@@ -22,7 +22,7 @@ const letterVariants: Variants = {
     scale: [0.8, 1],
     transition: { duration: 0.3 },
   },
-};
+}
 
 const arrowVariants: Variants = {
   normal: { opacity: 1, y: 0 },
@@ -31,43 +31,43 @@ const arrowVariants: Variants = {
     y: [10, 0], // Changed from [-10, 0] to animate upward
     transition: { duration: 0.3, delay: 0.2 },
   },
-};
+}
 
 const AArrowUpIcon = forwardRef<AArrowUpIconHandle, AArrowUpIconProps>(
   ({ onMouseEnter, onMouseLeave, className, size = 28, ...props }, ref) => {
-    const controls = useAnimation();
-    const isControlledRef = useRef(false);
+    const controls = useAnimation()
+    const isControlledRef = useRef(false)
 
     useImperativeHandle(ref, () => {
-      isControlledRef.current = true;
+      isControlledRef.current = true
 
       return {
-        startAnimation: () => controls.start('animate'),
-        stopAnimation: () => controls.start('normal'),
-      };
-    });
+        startAnimation: () => controls.start("animate"),
+        stopAnimation: () => controls.start("normal"),
+      }
+    })
 
     const handleMouseEnter = useCallback(
       (e: React.MouseEvent<HTMLDivElement>) => {
         if (!isControlledRef.current) {
-          controls.start('animate');
+          controls.start("animate")
         } else {
-          onMouseEnter?.(e);
+          onMouseEnter?.(e)
         }
       },
       [controls, onMouseEnter]
-    );
+    )
 
     const handleMouseLeave = useCallback(
       (e: React.MouseEvent<HTMLDivElement>) => {
         if (!isControlledRef.current) {
-          controls.start('normal');
+          controls.start("normal")
         } else {
-          onMouseLeave?.(e);
+          onMouseLeave?.(e)
         }
       },
       [controls, onMouseLeave]
-    );
+    )
 
     return (
       <div
@@ -88,16 +88,8 @@ const AArrowUpIcon = forwardRef<AArrowUpIconHandle, AArrowUpIconProps>(
           strokeLinejoin="round"
         >
           {/* Letter A - unchanged */}
-          <motion.path
-            d="M3.5 13h6"
-            animate={controls}
-            variants={letterVariants}
-          />
-          <motion.path
-            d="m2 16 4.5-9 4.5 9"
-            animate={controls}
-            variants={letterVariants}
-          />
+          <motion.path d="M3.5 13h6" animate={controls} variants={letterVariants} />
+          <motion.path d="m2 16 4.5-9 4.5 9" animate={controls} variants={letterVariants} />
           {/* Arrow pointing up - modified */}
           <motion.path
             d="M18 16V7" // Vertical line from bottom to top
@@ -111,10 +103,10 @@ const AArrowUpIcon = forwardRef<AArrowUpIconHandle, AArrowUpIconProps>(
           />
         </svg>
       </div>
-    );
+    )
   }
-);
+)
 
-AArrowUpIcon.displayName = 'AArrowUpIcon';
+AArrowUpIcon.displayName = "AArrowUpIcon"
 
-export { AArrowUpIcon };
+export { AArrowUpIcon }

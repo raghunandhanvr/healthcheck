@@ -1,32 +1,32 @@
-import { headers } from "next/headers";
-import { redirect } from "next/navigation";
-import { AcceptInvitationForm } from "./_components/accept-invitation-form";
+import { headers } from "next/headers"
+import { redirect } from "next/navigation"
+import { AcceptInvitationForm } from "./_components/accept-invitation-form"
 
 export default async function AcceptInvitationPage({
   params,
 }: {
-  params: Promise<{ id: string }>;
+  params: Promise<{ id: string }>
 }) {
-  const { id } = await params;
+  const { id } = await params
   try {
     const response = await fetch(`/api/auth/get-invitation?id=${id}`, {
       headers: Object.fromEntries(await headers()),
-    });
-    
+    })
+
     if (!response.ok) {
-      throw new Error('Failed to fetch invitation');
+      throw new Error("Failed to fetch invitation")
     }
-    
-    const invitation = await response.json();
+
+    const invitation = await response.json()
 
     if (!invitation) {
-      redirect("/auth");
+      redirect("/auth")
     }
 
     return (
       <div className="layout-container centered pt-24">
         <div className="w-full max-w-md mx-auto">
-          <AcceptInvitationForm 
+          <AcceptInvitationForm
             invitation={{
               id: invitation.id,
               email: invitation.email,
@@ -38,7 +38,7 @@ export default async function AcceptInvitationPage({
               },
               inviter: {
                 user: {
-                  name: invitation.inviterEmail.split('@')[0],
+                  name: invitation.inviterEmail.split("@")[0],
                   email: invitation.inviterEmail,
                 },
               },
@@ -46,9 +46,9 @@ export default async function AcceptInvitationPage({
           />
         </div>
       </div>
-    );
+    )
   } catch (error) {
-    console.error("Failed to get invitation:", error);
-    redirect("/auth");
+    console.error("Failed to get invitation:", error)
+    redirect("/auth")
   }
 }

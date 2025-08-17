@@ -1,47 +1,47 @@
-'use client';
+"use client"
 
-import { motion, useAnimation } from 'motion/react';
-import type { HTMLAttributes } from 'react';
-import { forwardRef, useCallback, useImperativeHandle, useRef } from 'react';
-import { cn } from '@/lib/utils/common';
+import { motion, useAnimation } from "motion/react"
+import type { HTMLAttributes } from "react"
+import { forwardRef, useCallback, useImperativeHandle, useRef } from "react"
+import { cn } from "@/lib/utils/common"
 
 export interface RotateCCWIconHandle {
-  startAnimation: () => void;
-  stopAnimation: () => void;
+  startAnimation: () => void
+  stopAnimation: () => void
 }
 
 interface RotateCCWIconProps extends HTMLAttributes<HTMLDivElement> {
-  size?: number;
+  size?: number
 }
 
 const RotateCCWIcon = forwardRef<RotateCCWIconHandle, RotateCCWIconProps>(
   ({ onMouseEnter, onMouseLeave, className, size = 28, ...props }, ref) => {
-    const controls = useAnimation();
-    const isControlledRef = useRef(false);
+    const controls = useAnimation()
+    const isControlledRef = useRef(false)
 
     useImperativeHandle(ref, () => {
-      isControlledRef.current = true;
+      isControlledRef.current = true
       return {
-        startAnimation: () => controls.start('animate'),
-        stopAnimation: () => controls.start('normal'),
-      };
-    });
+        startAnimation: () => controls.start("animate"),
+        stopAnimation: () => controls.start("normal"),
+      }
+    })
 
     const handleMouseEnter = useCallback(
       (e: React.MouseEvent<HTMLDivElement>) => {
-        if (!isControlledRef.current) controls.start('animate');
-        else onMouseEnter?.(e);
+        if (!isControlledRef.current) controls.start("animate")
+        else onMouseEnter?.(e)
       },
       [controls, onMouseEnter]
-    );
+    )
 
     const handleMouseLeave = useCallback(
       (e: React.MouseEvent<HTMLDivElement>) => {
-        if (!isControlledRef.current) controls.start('normal');
-        else onMouseLeave?.(e);
+        if (!isControlledRef.current) controls.start("normal")
+        else onMouseLeave?.(e)
       },
       [controls, onMouseLeave]
-    );
+    )
 
     return (
       <div
@@ -60,10 +60,10 @@ const RotateCCWIcon = forwardRef<RotateCCWIconHandle, RotateCCWIconProps>(
           strokeWidth="2"
           strokeLinecap="round"
           strokeLinejoin="round"
-          transition={{ type: 'spring', stiffness: 250, damping: 25 }}
+          transition={{ type: "spring", stiffness: 250, damping: 25 }}
           variants={{
-            normal: { rotate: '0deg' },
-            animate: { rotate: '-50deg' },
+            normal: { rotate: "0deg" },
+            animate: { rotate: "-50deg" },
           }}
           animate={controls}
         >
@@ -71,10 +71,10 @@ const RotateCCWIcon = forwardRef<RotateCCWIconHandle, RotateCCWIconProps>(
           <path d="M3 3v5h5" />
         </motion.svg>
       </div>
-    );
+    )
   }
-);
+)
 
-RotateCCWIcon.displayName = 'RotateCCWIcon';
+RotateCCWIcon.displayName = "RotateCCWIcon"
 
-export { RotateCCWIcon };
+export { RotateCCWIcon }

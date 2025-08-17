@@ -1,76 +1,76 @@
-'use client';
+"use client"
 
-import type { Variants } from 'motion/react';
-import { motion, useAnimation } from 'motion/react';
-import type { HTMLAttributes } from 'react';
-import { forwardRef, useCallback, useImperativeHandle, useRef } from 'react';
-import { cn } from '@/lib/utils/common';
+import type { Variants } from "motion/react"
+import { motion, useAnimation } from "motion/react"
+import type { HTMLAttributes } from "react"
+import { forwardRef, useCallback, useImperativeHandle, useRef } from "react"
+import { cn } from "@/lib/utils/common"
 
 export interface ArrowUpIconHandle {
-  startAnimation: () => void;
-  stopAnimation: () => void;
+  startAnimation: () => void
+  stopAnimation: () => void
 }
 
 interface ArrowUpIconProps extends HTMLAttributes<HTMLDivElement> {
-  size?: number;
+  size?: number
 }
 
 const pathVariants: Variants = {
-  normal: { d: 'm5 12 7-7 7 7', translateY: 0 },
+  normal: { d: "m5 12 7-7 7 7", translateY: 0 },
   animate: {
-    d: 'm5 12 7-7 7 7',
+    d: "m5 12 7-7 7 7",
     translateY: [0, 3, 0],
     transition: {
       duration: 0.4,
     },
   },
-};
+}
 
 const secondPathVariants: Variants = {
-  normal: { d: 'M12 19V5' },
+  normal: { d: "M12 19V5" },
   animate: {
-    d: ['M12 19V5', 'M12 19V10', 'M12 19V5'],
+    d: ["M12 19V5", "M12 19V10", "M12 19V5"],
     transition: {
       duration: 0.4,
     },
   },
-};
+}
 
 const ArrowUpIcon = forwardRef<ArrowUpIconHandle, ArrowUpIconProps>(
   ({ onMouseEnter, onMouseLeave, className, size = 28, ...props }, ref) => {
-    const controls = useAnimation();
-    const isControlledRef = useRef(false);
+    const controls = useAnimation()
+    const isControlledRef = useRef(false)
 
     useImperativeHandle(ref, () => {
-      isControlledRef.current = true;
+      isControlledRef.current = true
 
       return {
-        startAnimation: () => controls.start('animate'),
-        stopAnimation: () => controls.start('normal'),
-      };
-    });
+        startAnimation: () => controls.start("animate"),
+        stopAnimation: () => controls.start("normal"),
+      }
+    })
 
     const handleMouseEnter = useCallback(
       (e: React.MouseEvent<HTMLDivElement>) => {
         if (!isControlledRef.current) {
-          controls.start('animate');
+          controls.start("animate")
         } else {
-          onMouseEnter?.(e);
+          onMouseEnter?.(e)
         }
       },
       [controls, onMouseEnter]
-    );
+    )
 
     const handleMouseLeave = useCallback(
       (e: React.MouseEvent<HTMLDivElement>) => {
         if (!isControlledRef.current) {
-          controls.start('normal');
+          controls.start("normal")
         } else {
-          onMouseLeave?.(e);
+          onMouseLeave?.(e)
         }
       },
       [controls, onMouseLeave]
-    );
+    )
 
     return (
       <div
@@ -90,22 +90,14 @@ const ArrowUpIcon = forwardRef<ArrowUpIconHandle, ArrowUpIconProps>(
           strokeLinecap="round"
           strokeLinejoin="round"
         >
-          <motion.path
-            d="m5 12 7-7 7 7"
-            variants={pathVariants}
-            animate={controls}
-          />
-          <motion.path
-            d="M12 19V5"
-            variants={secondPathVariants}
-            animate={controls}
-          />
+          <motion.path d="m5 12 7-7 7 7" variants={pathVariants} animate={controls} />
+          <motion.path d="M12 19V5" variants={secondPathVariants} animate={controls} />
         </svg>
       </div>
-    );
+    )
   }
-);
+)
 
-ArrowUpIcon.displayName = 'ArrowUpIcon';
+ArrowUpIcon.displayName = "ArrowUpIcon"
 
-export { ArrowUpIcon };
+export { ArrowUpIcon }

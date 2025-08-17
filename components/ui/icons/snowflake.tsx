@@ -1,9 +1,9 @@
-'use client';
+"use client"
 
-import { motion, useAnimation, type Variants } from 'motion/react';
-import type { HTMLAttributes } from 'react';
-import { forwardRef, useCallback, useImperativeHandle, useRef } from 'react';
-import { cn } from '@/lib/utils/common';
+import { motion, useAnimation, type Variants } from "motion/react"
+import type { HTMLAttributes } from "react"
+import { forwardRef, useCallback, useImperativeHandle, useRef } from "react"
+import { cn } from "@/lib/utils/common"
 
 const pathVariants: Variants = {
   normal: {
@@ -16,52 +16,52 @@ const pathVariants: Variants = {
       times: [0, 0.2, 0.4, 0.6, 0.8, 1],
     },
   },
-};
+}
 
 export interface SnowflakeIconHandle {
-  startAnimation: () => void;
-  stopAnimation: () => void;
+  startAnimation: () => void
+  stopAnimation: () => void
 }
 
 interface SnowflakeIconProps extends HTMLAttributes<HTMLDivElement> {
-  size?: number;
+  size?: number
 }
 
 const SnowflakeIcon = forwardRef<SnowflakeIconHandle, SnowflakeIconProps>(
   ({ onMouseEnter, onMouseLeave, className, size = 28, ...props }, ref) => {
-    const controls = useAnimation();
-    const isControlledRef = useRef(false);
+    const controls = useAnimation()
+    const isControlledRef = useRef(false)
 
     useImperativeHandle(ref, () => {
-      isControlledRef.current = true;
+      isControlledRef.current = true
 
       return {
-        startAnimation: () => controls.start('animate'),
-        stopAnimation: () => controls.start('normal'),
-      };
-    });
+        startAnimation: () => controls.start("animate"),
+        stopAnimation: () => controls.start("normal"),
+      }
+    })
 
     const handleMouseEnter = useCallback(
       (e: React.MouseEvent<HTMLDivElement>) => {
         if (!isControlledRef.current) {
-          controls.start('animate');
+          controls.start("animate")
         } else {
-          onMouseEnter?.(e);
+          onMouseEnter?.(e)
         }
       },
       [controls, onMouseEnter]
-    );
+    )
 
     const handleMouseLeave = useCallback(
       (e: React.MouseEvent<HTMLDivElement>) => {
         if (!isControlledRef.current) {
-          controls.start('normal');
+          controls.start("normal")
         } else {
-          onMouseLeave?.(e);
+          onMouseLeave?.(e)
         }
       },
       [controls, onMouseLeave]
-    );
+    )
 
     return (
       <div
@@ -82,7 +82,7 @@ const SnowflakeIcon = forwardRef<SnowflakeIconHandle, SnowflakeIconProps>(
           strokeLinejoin="round"
           variants={pathVariants}
           animate={controls}
-          style={{ transformOrigin: 'center' }}
+          style={{ transformOrigin: "center" }}
         >
           <path d="m10 20-1.25-2.5L6 18" />
           <path d="M10 4 8.75 6.5 6 6" />
@@ -98,10 +98,10 @@ const SnowflakeIcon = forwardRef<SnowflakeIconHandle, SnowflakeIconProps>(
           <path d="m7 3 3 6h4" />
         </motion.svg>
       </div>
-    );
+    )
   }
-);
+)
 
-SnowflakeIcon.displayName = 'SnowflakeIcon';
+SnowflakeIcon.displayName = "SnowflakeIcon"
 
-export { SnowflakeIcon };
+export { SnowflakeIcon }

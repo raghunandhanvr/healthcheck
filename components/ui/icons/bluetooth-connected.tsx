@@ -1,18 +1,18 @@
-'use client';
+"use client"
 
-import type { Variants } from 'motion/react';
-import { motion, useAnimation } from 'motion/react';
-import type { HTMLAttributes } from 'react';
-import { forwardRef, useCallback, useImperativeHandle, useRef } from 'react';
-import { cn } from '@/lib/utils/common';
+import type { Variants } from "motion/react"
+import { motion, useAnimation } from "motion/react"
+import type { HTMLAttributes } from "react"
+import { forwardRef, useCallback, useImperativeHandle, useRef } from "react"
+import { cn } from "@/lib/utils/common"
 
 export interface BluetoothConnectedIconHandle {
-  startAnimation: () => void;
-  stopAnimation: () => void;
+  startAnimation: () => void
+  stopAnimation: () => void
 }
 
 interface BluetoothConnectedIconProps extends HTMLAttributes<HTMLDivElement> {
-  size?: number;
+  size?: number
 }
 
 const pathVariants: Variants = {
@@ -26,45 +26,45 @@ const pathVariants: Variants = {
       delay: 0.2,
     },
   },
-};
+}
 
 const BluetoothConnectedIcon = forwardRef<
   BluetoothConnectedIconHandle,
   BluetoothConnectedIconProps
 >(({ onMouseEnter, onMouseLeave, className, size = 28, ...props }, ref) => {
-  const controls = useAnimation();
-  const isControlledRef = useRef(false);
+  const controls = useAnimation()
+  const isControlledRef = useRef(false)
 
   useImperativeHandle(ref, () => {
-    isControlledRef.current = true;
+    isControlledRef.current = true
 
     return {
-      startAnimation: () => controls.start('animate'),
-      stopAnimation: () => controls.start('normal'),
-    };
-  });
+      startAnimation: () => controls.start("animate"),
+      stopAnimation: () => controls.start("normal"),
+    }
+  })
 
   const handleMouseEnter = useCallback(
     (e: React.MouseEvent<HTMLDivElement>) => {
       if (!isControlledRef.current) {
-        controls.start('animate');
+        controls.start("animate")
       } else {
-        onMouseEnter?.(e);
+        onMouseEnter?.(e)
       }
     },
     [controls, onMouseEnter]
-  );
+  )
 
   const handleMouseLeave = useCallback(
     (e: React.MouseEvent<HTMLDivElement>) => {
       if (!isControlledRef.current) {
-        controls.start('normal');
+        controls.start("normal")
       } else {
-        onMouseLeave?.(e);
+        onMouseLeave?.(e)
       }
     },
     [controls, onMouseLeave]
-  );
+  )
 
   return (
     <div
@@ -84,11 +84,7 @@ const BluetoothConnectedIcon = forwardRef<
         strokeLinecap="round"
         strokeLinejoin="round"
       >
-        <motion.path
-          variants={pathVariants}
-          animate={controls}
-          d="m7 7 10 10-5 5V2l5 5L7 17"
-        />
+        <motion.path variants={pathVariants} animate={controls} d="m7 7 10 10-5 5V2l5 5L7 17" />
         <motion.line
           variants={{
             normal: { pathLength: 1, opacity: 1, pathOffset: 0 },
@@ -127,9 +123,9 @@ const BluetoothConnectedIcon = forwardRef<
         />
       </svg>
     </div>
-  );
-});
+  )
+})
 
-BluetoothConnectedIcon.displayName = 'BluetoothConnectedIcon';
+BluetoothConnectedIcon.displayName = "BluetoothConnectedIcon"
 
-export { BluetoothConnectedIcon };
+export { BluetoothConnectedIcon }

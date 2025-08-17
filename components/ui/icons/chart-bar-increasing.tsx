@@ -1,81 +1,81 @@
-'use client';
+"use client"
 
-import { type Variants, motion, useAnimation } from 'motion/react';
-import type { HTMLAttributes } from 'react';
-import { forwardRef, useCallback, useImperativeHandle, useRef } from 'react';
-import { cn } from '@/lib/utils/common';
+import { type Variants, motion, useAnimation } from "motion/react"
+import type { HTMLAttributes } from "react"
+import { forwardRef, useCallback, useImperativeHandle, useRef } from "react"
+import { cn } from "@/lib/utils/common"
 
 export interface ChartBarIncreasingIconHandle {
-  startAnimation: () => void;
-  stopAnimation: () => void;
+  startAnimation: () => void
+  stopAnimation: () => void
 }
 
 interface ChartBarIncreasingIconProps extends HTMLAttributes<HTMLDivElement> {
-  size?: number;
+  size?: number
 }
 
 const lineVariants: Variants = {
   visible: { pathLength: 1, opacity: 1 },
   hidden: { pathLength: 0, opacity: 0 },
-};
+}
 
 const ChartBarIncreasingIcon = forwardRef<
   ChartBarIncreasingIconHandle,
   ChartBarIncreasingIconProps
 >(({ onMouseEnter, onMouseLeave, className, size = 28, ...props }, ref) => {
-  const controls = useAnimation();
-  const isControlledRef = useRef(false);
+  const controls = useAnimation()
+  const isControlledRef = useRef(false)
 
   useImperativeHandle(ref, () => {
-    isControlledRef.current = true;
+    isControlledRef.current = true
 
     return {
       startAnimation: async () => {
-        await controls.start((i) => ({
+        await controls.start(i => ({
           pathLength: 0,
           opacity: 0,
           transition: { delay: i * 0.1, duration: 0.3 },
-        }));
-        await controls.start((i) => ({
+        }))
+        await controls.start(i => ({
           pathLength: 1,
           opacity: 1,
           transition: { delay: i * 0.1, duration: 0.3 },
-        }));
+        }))
       },
-      stopAnimation: () => controls.start('visible'),
-    };
-  });
+      stopAnimation: () => controls.start("visible"),
+    }
+  })
 
   const handleMouseEnter = useCallback(
     async (e: React.MouseEvent<HTMLDivElement>) => {
       if (!isControlledRef.current) {
-        await controls.start((i) => ({
+        await controls.start(i => ({
           pathLength: 0,
           opacity: 0,
           transition: { delay: i * 0.1, duration: 0.3 },
-        }));
-        await controls.start((i) => ({
+        }))
+        await controls.start(i => ({
           pathLength: 1,
           opacity: 1,
           transition: { delay: i * 0.1, duration: 0.3 },
-        }));
+        }))
       } else {
-        onMouseEnter?.(e);
+        onMouseEnter?.(e)
       }
     },
     [controls, onMouseEnter]
-  );
+  )
 
   const handleMouseLeave = useCallback(
     (e: React.MouseEvent<HTMLDivElement>) => {
       if (!isControlledRef.current) {
-        controls.start('visible');
+        controls.start("visible")
       } else {
-        onMouseLeave?.(e);
+        onMouseLeave?.(e)
       }
     },
     [controls, onMouseLeave]
-  );
+  )
 
   return (
     <div
@@ -119,9 +119,9 @@ const ChartBarIncreasingIcon = forwardRef<
         />
       </svg>
     </div>
-  );
-});
+  )
+})
 
-ChartBarIncreasingIcon.displayName = 'ChartBarIncreasingIcon';
+ChartBarIncreasingIcon.displayName = "ChartBarIncreasingIcon"
 
-export { ChartBarIncreasingIcon };
+export { ChartBarIncreasingIcon }

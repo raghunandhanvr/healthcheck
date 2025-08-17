@@ -1,18 +1,18 @@
-'use client';
+"use client"
 
-import type { Variants } from 'motion/react';
-import { motion, useAnimation } from 'motion/react';
-import type { HTMLAttributes } from 'react';
-import { forwardRef, useCallback, useImperativeHandle, useRef } from 'react';
-import { cn } from '@/lib/utils/common';
+import type { Variants } from "motion/react"
+import { motion, useAnimation } from "motion/react"
+import type { HTMLAttributes } from "react"
+import { forwardRef, useCallback, useImperativeHandle, useRef } from "react"
+import { cn } from "@/lib/utils/common"
 
 export interface UserIconHandle {
-  startAnimation: () => void;
-  stopAnimation: () => void;
+  startAnimation: () => void
+  stopAnimation: () => void
 }
 
 interface UserIconProps extends HTMLAttributes<HTMLDivElement> {
-  size?: number;
+  size?: number
 }
 
 const pathVariant: Variants = {
@@ -22,7 +22,7 @@ const pathVariant: Variants = {
     opacity: [0, 1],
     pathOffset: [1, 0],
   },
-};
+}
 
 const circleVariant: Variants = {
   normal: {
@@ -35,43 +35,43 @@ const circleVariant: Variants = {
     pathOffset: [1, 0],
     scale: [0.5, 1],
   },
-};
+}
 
 const UserIcon = forwardRef<UserIconHandle, UserIconProps>(
   ({ onMouseEnter, onMouseLeave, className, size = 28, ...props }, ref) => {
-    const controls = useAnimation();
-    const isControlledRef = useRef(false);
+    const controls = useAnimation()
+    const isControlledRef = useRef(false)
 
     useImperativeHandle(ref, () => {
-      isControlledRef.current = true;
+      isControlledRef.current = true
 
       return {
-        startAnimation: () => controls.start('animate'),
-        stopAnimation: () => controls.start('normal'),
-      };
-    });
+        startAnimation: () => controls.start("animate"),
+        stopAnimation: () => controls.start("normal"),
+      }
+    })
 
     const handleMouseEnter = useCallback(
       (e: React.MouseEvent<HTMLDivElement>) => {
         if (!isControlledRef.current) {
-          controls.start('animate');
+          controls.start("animate")
         } else {
-          onMouseEnter?.(e);
+          onMouseEnter?.(e)
         }
       },
       [controls, onMouseEnter]
-    );
+    )
 
     const handleMouseLeave = useCallback(
       (e: React.MouseEvent<HTMLDivElement>) => {
         if (!isControlledRef.current) {
-          controls.start('normal');
+          controls.start("normal")
         } else {
-          onMouseLeave?.(e);
+          onMouseLeave?.(e)
         }
       },
       [controls, onMouseLeave]
-    );
+    )
     return (
       <div
         className={cn(className)}
@@ -90,13 +90,7 @@ const UserIcon = forwardRef<UserIconHandle, UserIconProps>(
           strokeLinecap="round"
           strokeLinejoin="round"
         >
-          <motion.circle
-            cx="12"
-            cy="8"
-            r="5"
-            animate={controls}
-            variants={circleVariant}
-          />
+          <motion.circle cx="12" cy="8" r="5" animate={controls} variants={circleVariant} />
 
           <motion.path
             d="M20 21a8 8 0 0 0-16 0"
@@ -109,10 +103,10 @@ const UserIcon = forwardRef<UserIconHandle, UserIconProps>(
           />
         </svg>
       </div>
-    );
+    )
   }
-);
+)
 
-UserIcon.displayName = 'UserIcon';
+UserIcon.displayName = "UserIcon"
 
-export { UserIcon };
+export { UserIcon }

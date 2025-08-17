@@ -1,18 +1,18 @@
-'use client';
+"use client"
 
-import type { Variants } from 'motion/react';
-import { motion, useAnimation } from 'motion/react';
-import type { HTMLAttributes } from 'react';
-import { forwardRef, useCallback, useImperativeHandle, useRef } from 'react';
-import { cn } from '@/lib/utils/common';
+import type { Variants } from "motion/react"
+import { motion, useAnimation } from "motion/react"
+import type { HTMLAttributes } from "react"
+import { forwardRef, useCallback, useImperativeHandle, useRef } from "react"
+import { cn } from "@/lib/utils/common"
 
 export interface ArrowBigUpDashIconHandle {
-  startAnimation: () => void;
-  stopAnimation: () => void;
+  startAnimation: () => void
+  stopAnimation: () => void
 }
 
 interface ArrowBigUpDashIconProps extends HTMLAttributes<HTMLDivElement> {
-  size?: number;
+  size?: number
 }
 
 const dashVariants: Variants = {
@@ -23,7 +23,7 @@ const dashVariants: Variants = {
       duration: 0.4,
     },
   },
-};
+}
 
 const arrowVariants: Variants = {
   normal: { translateY: 0 },
@@ -33,74 +33,69 @@ const arrowVariants: Variants = {
       duration: 0.4,
     },
   },
-};
+}
 
-const ArrowBigUpDashIcon = forwardRef<
-  ArrowBigUpDashIconHandle,
-  ArrowBigUpDashIconProps
->(({ onMouseEnter, onMouseLeave, className, size = 28, ...props }, ref) => {
-  const controls = useAnimation();
-  const isControlledRef = useRef(false);
+const ArrowBigUpDashIcon = forwardRef<ArrowBigUpDashIconHandle, ArrowBigUpDashIconProps>(
+  ({ onMouseEnter, onMouseLeave, className, size = 28, ...props }, ref) => {
+    const controls = useAnimation()
+    const isControlledRef = useRef(false)
 
-  useImperativeHandle(ref, () => {
-    isControlledRef.current = true;
-    return {
-      startAnimation: () => controls.start('animate'),
-      stopAnimation: () => controls.start('normal'),
-    };
-  });
-
-  const handleMouseEnter = useCallback(
-    (e: React.MouseEvent<HTMLDivElement>) => {
-      if (!isControlledRef.current) {
-        controls.start('animate');
-      } else {
-        onMouseEnter?.(e);
+    useImperativeHandle(ref, () => {
+      isControlledRef.current = true
+      return {
+        startAnimation: () => controls.start("animate"),
+        stopAnimation: () => controls.start("normal"),
       }
-    },
-    [controls, onMouseEnter]
-  );
+    })
 
-  const handleMouseLeave = useCallback(
-    (e: React.MouseEvent<HTMLDivElement>) => {
-      if (!isControlledRef.current) {
-        controls.start('normal');
-      } else {
-        onMouseLeave?.(e);
-      }
-    },
-    [controls, onMouseLeave]
-  );
+    const handleMouseEnter = useCallback(
+      (e: React.MouseEvent<HTMLDivElement>) => {
+        if (!isControlledRef.current) {
+          controls.start("animate")
+        } else {
+          onMouseEnter?.(e)
+        }
+      },
+      [controls, onMouseEnter]
+    )
 
-  return (
-    <div
-      className={cn(className)}
-      onMouseEnter={handleMouseEnter}
-      onMouseLeave={handleMouseLeave}
-      {...props}
-    >
-      <svg
-        xmlns="http://www.w3.org/2000/svg"
-        width={size}
-        height={size}
-        viewBox="0 0 24 24"
-        fill="none"
-        stroke="currentColor"
-        strokeWidth="2"
-        strokeLinecap="round"
-        strokeLinejoin="round"
+    const handleMouseLeave = useCallback(
+      (e: React.MouseEvent<HTMLDivElement>) => {
+        if (!isControlledRef.current) {
+          controls.start("normal")
+        } else {
+          onMouseLeave?.(e)
+        }
+      },
+      [controls, onMouseLeave]
+    )
+
+    return (
+      <div
+        className={cn(className)}
+        onMouseEnter={handleMouseEnter}
+        onMouseLeave={handleMouseLeave}
+        {...props}
       >
-        <motion.path d="M9 19h6" variants={dashVariants} animate={controls} />
-        <motion.path
-          d="M9 15v-3H5l7-7 7 7h-4v3H9z"
-          variants={arrowVariants}
-          animate={controls}
-        />
-      </svg>
-    </div>
-  );
-});
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          width={size}
+          height={size}
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          strokeWidth="2"
+          strokeLinecap="round"
+          strokeLinejoin="round"
+        >
+          <motion.path d="M9 19h6" variants={dashVariants} animate={controls} />
+          <motion.path d="M9 15v-3H5l7-7 7 7h-4v3H9z" variants={arrowVariants} animate={controls} />
+        </svg>
+      </div>
+    )
+  }
+)
 
-ArrowBigUpDashIcon.displayName = 'ArrowBigUpDashIcon';
+ArrowBigUpDashIcon.displayName = "ArrowBigUpDashIcon"
 
-export { ArrowBigUpDashIcon };
+export { ArrowBigUpDashIcon }

@@ -1,18 +1,18 @@
-'use client';
+"use client"
 
-import type { Variants } from 'motion/react';
-import { motion, useAnimation } from 'motion/react';
-import type { HTMLAttributes } from 'react';
-import { forwardRef, useCallback, useImperativeHandle, useRef } from 'react';
-import { cn } from '@/lib/utils/common';
+import type { Variants } from "motion/react"
+import { motion, useAnimation } from "motion/react"
+import type { HTMLAttributes } from "react"
+import { forwardRef, useCallback, useImperativeHandle, useRef } from "react"
+import { cn } from "@/lib/utils/common"
 
 export interface TrendingUpDownIconHandle {
-  startAnimation: () => void;
-  stopAnimation: () => void;
+  startAnimation: () => void
+  stopAnimation: () => void
 }
 
 interface TrendingUpDownIconProps extends HTMLAttributes<HTMLDivElement> {
-  size?: number;
+  size?: number
 }
 
 const svgVariants: Variants = {
@@ -24,7 +24,7 @@ const svgVariants: Variants = {
       duration: 0.5,
     },
   },
-};
+}
 
 const pathVariants: Variants = {
   normal: {
@@ -44,7 +44,7 @@ const pathVariants: Variants = {
       opacity: { duration: 0.1 },
     },
   },
-};
+}
 
 const arrowVariants: Variants = {
   normal: {
@@ -66,96 +66,95 @@ const arrowVariants: Variants = {
       opacity: { duration: 0.1, delay: 0.3 },
     },
   },
-};
+}
 
-const TrendingUpDownIcon = forwardRef<
-  TrendingUpDownIconHandle,
-  TrendingUpDownIconProps
->(({ onMouseEnter, onMouseLeave, className, size = 28, ...props }, ref) => {
-  const controls = useAnimation();
-  const isControlledRef = useRef(false);
+const TrendingUpDownIcon = forwardRef<TrendingUpDownIconHandle, TrendingUpDownIconProps>(
+  ({ onMouseEnter, onMouseLeave, className, size = 28, ...props }, ref) => {
+    const controls = useAnimation()
+    const isControlledRef = useRef(false)
 
-  useImperativeHandle(ref, () => {
-    isControlledRef.current = true;
+    useImperativeHandle(ref, () => {
+      isControlledRef.current = true
 
-    return {
-      startAnimation: () => controls.start('animate'),
-      stopAnimation: () => controls.start('normal'),
-    };
-  });
-
-  const handleMouseEnter = useCallback(
-    (e: React.MouseEvent<HTMLDivElement>) => {
-      if (!isControlledRef.current) {
-        controls.start('animate');
-      } else {
-        onMouseEnter?.(e);
+      return {
+        startAnimation: () => controls.start("animate"),
+        stopAnimation: () => controls.start("normal"),
       }
-    },
-    [controls, onMouseEnter]
-  );
+    })
 
-  const handleMouseLeave = useCallback(
-    (e: React.MouseEvent<HTMLDivElement>) => {
-      if (!isControlledRef.current) {
-        controls.start('normal');
-      } else {
-        onMouseLeave?.(e);
-      }
-    },
-    [controls, onMouseLeave]
-  );
+    const handleMouseEnter = useCallback(
+      (e: React.MouseEvent<HTMLDivElement>) => {
+        if (!isControlledRef.current) {
+          controls.start("animate")
+        } else {
+          onMouseEnter?.(e)
+        }
+      },
+      [controls, onMouseEnter]
+    )
 
-  return (
-    <div
-      className={cn(className)}
-      onMouseEnter={handleMouseEnter}
-      onMouseLeave={handleMouseLeave}
-      {...props}
-    >
-      <motion.svg
-        xmlns="http://www.w3.org/2000/svg"
-        width={size}
-        height={size}
-        viewBox="0 0 24 24"
-        fill="none"
-        stroke="currentColor"
-        strokeWidth="2"
-        strokeLinecap="round"
-        strokeLinejoin="round"
-        variants={svgVariants}
-        initial="normal"
-        animate={controls}
+    const handleMouseLeave = useCallback(
+      (e: React.MouseEvent<HTMLDivElement>) => {
+        if (!isControlledRef.current) {
+          controls.start("normal")
+        } else {
+          onMouseLeave?.(e)
+        }
+      },
+      [controls, onMouseLeave]
+    )
+
+    return (
+      <div
+        className={cn(className)}
+        onMouseEnter={handleMouseEnter}
+        onMouseLeave={handleMouseLeave}
+        {...props}
       >
-        <motion.path
-          d="M21 21 14.828 14.828"
-          variants={pathVariants}
+        <motion.svg
+          xmlns="http://www.w3.org/2000/svg"
+          width={size}
+          height={size}
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          strokeWidth="2"
+          strokeLinecap="round"
+          strokeLinejoin="round"
+          variants={svgVariants}
           initial="normal"
           animate={controls}
-        />
-        <motion.path
-          d="M21 16v5h-5"
-          variants={arrowVariants}
-          initial="normal"
-          animate={controls}
-        />
-        <motion.path
-          d="m21 3-9 9-4-4-6 6"
-          variants={pathVariants}
-          initial="normal"
-          animate={controls}
-        />
-        <motion.path
-          d="M21 8V3h-5"
-          variants={arrowVariants}
-          initial="normal"
-          animate={controls}
-        />
-      </motion.svg>
-    </div>
-  );
-});
+        >
+          <motion.path
+            d="M21 21 14.828 14.828"
+            variants={pathVariants}
+            initial="normal"
+            animate={controls}
+          />
+          <motion.path
+            d="M21 16v5h-5"
+            variants={arrowVariants}
+            initial="normal"
+            animate={controls}
+          />
+          <motion.path
+            d="m21 3-9 9-4-4-6 6"
+            variants={pathVariants}
+            initial="normal"
+            animate={controls}
+          />
+          <motion.path
+            d="M21 8V3h-5"
+            variants={arrowVariants}
+            initial="normal"
+            animate={controls}
+          />
+        </motion.svg>
+      </div>
+    )
+  }
+)
 
-TrendingUpDownIcon.displayName = 'TrendingUpDownIcon';
+TrendingUpDownIcon.displayName = "TrendingUpDownIcon"
 
-export { TrendingUpDownIcon };
+export { TrendingUpDownIcon }

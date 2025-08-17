@@ -1,16 +1,16 @@
-'use client'
+"use client"
 
-import { useState } from 'react'
 import { Button } from "@/components/ui/button"
-import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card"
-import { Input } from "@/components/ui/input"
-import { LoaderPinwheelIcon } from "@/components/ui/icons/loader-pinwheel"
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
+import { Globe } from "@/components/ui/globe"
 import { ArrowLeftIcon } from "@/components/ui/icons/arrow-left"
 import { AtSignIcon } from "@/components/ui/icons/at-sign"
-import Link from "next/link"
-import { client } from "@/lib/auth/auth-client"
+import { LoaderPinwheelIcon } from "@/components/ui/icons/loader-pinwheel"
+import { Input } from "@/components/ui/input"
 import { toast } from "@/components/ui/sonner"
-import { Globe } from '@/components/ui/globe'
+import { client } from "@/lib/auth/auth-client"
+import Link from "next/link"
+import { useState } from "react"
 
 export default function ForgotPasswordPage() {
   const [email, setEmail] = useState("")
@@ -29,7 +29,7 @@ export default function ForgotPasswordPage() {
     mapSamples: 16000,
     mapBrightness: 1.2,
     baseColor: [1, 1, 1] as [number, number, number],
-    markerColor: [9/255, 105/255, 218/255] as [number, number, number],
+    markerColor: [9 / 255, 105 / 255, 218 / 255] as [number, number, number],
     glowColor: [1, 1, 1] as [number, number, number],
     markers: [
       { location: [14.5995, 120.9842] as [number, number], size: 0.03 },
@@ -48,13 +48,13 @@ export default function ForgotPasswordPage() {
   const handleResetPassword = async (e: React.FormEvent) => {
     e.preventDefault()
     setLoading(true)
-    
+
     try {
       const response = await client.forgetPassword({
         email,
         redirectTo: `${window.location.origin}/auth/reset-password`,
       })
-      
+
       if (response.error) {
         toast.error(response.error.message)
       } else {
@@ -72,21 +72,15 @@ export default function ForgotPasswordPage() {
     return (
       <div className="layout-container centered pt-24">
         <div className="grid lg:grid-cols-2 gap-8 lg:gap-16 items-center w-full max-w-6xl">
-
           <div className="order-2 lg:order-1 flex flex-col items-center justify-center relative hidden lg:flex">
             <div className="relative w-full max-w-md aspect-square">
               <Globe config={globeConfig} className="w-full h-full" />
             </div>
             <div className="text-center mt-6 space-y-2">
-              <p className="text-sm text-muted-foreground">
-                Your servers are up and running
-              </p>
-              <p className="text-xs text-muted-foreground/70">
-                Reset your password securely
-              </p>
+              <p className="text-sm text-muted-foreground">Your servers are up and running</p>
+              <p className="text-xs text-muted-foreground/70">Reset your password securely</p>
             </div>
           </div>
-
 
           <div className="order-1 lg:order-2 w-full max-w-md mx-auto lg:mx-0">
             <Card>
@@ -101,24 +95,21 @@ export default function ForgotPasswordPage() {
                   We&apos;ve sent a password reset link to your email address
                 </CardDescription>
               </CardHeader>
-              
+
               <CardContent className="space-y-6">
                 <div className="bg-muted/50 rounded-lg p-4">
-                  <p className="text-sm text-muted-foreground mb-1">
-                    Email sent to:
-                  </p>
-                  <p className="font-mono text-sm font-medium break-all">
-                    {email}
-                  </p>
+                  <p className="text-sm text-muted-foreground mb-1">Email sent to:</p>
+                  <p className="font-mono text-sm font-medium break-all">{email}</p>
                 </div>
 
                 <div className="space-y-4">
                   <p className="text-sm text-muted-foreground">
-                    Click the link in your email to reset your password. The link will expire in 1 hour.
+                    Click the link in your email to reset your password. The link will expire in 1
+                    hour.
                   </p>
-                  
+
                   <p className="text-sm text-muted-foreground">
-                    Didn&apos;t receive the email? Check your spam folder or{' '}
+                    Didn&apos;t receive the email? Check your spam folder or{" "}
                     <button
                       onClick={() => setEmailSent(false)}
                       className="text-primary hover:underline"
@@ -147,21 +138,15 @@ export default function ForgotPasswordPage() {
   return (
     <div className="layout-container centered pt-24">
       <div className="grid lg:grid-cols-2 gap-8 lg:gap-16 items-center w-full max-w-6xl">
-
         <div className="order-2 lg:order-1 flex-col items-center justify-center relative lg:flex hidden">
           <div className="relative w-full max-w-md aspect-square">
             <Globe config={globeConfig} className="w-full h-full" />
           </div>
           <div className="text-center mt-6 space-y-2">
-            <p className="text-sm text-muted-foreground">
-              Your servers are up and running
-            </p>
-            <p className="text-xs text-muted-foreground/70">
-              Reset your password securely
-            </p>
+            <p className="text-sm text-muted-foreground">Your servers are up and running</p>
+            <p className="text-xs text-muted-foreground/70">Reset your password securely</p>
           </div>
         </div>
-
 
         <div className="order-1 lg:order-2 w-full max-w-md mx-auto lg:mx-0">
           <Card>
@@ -171,7 +156,7 @@ export default function ForgotPasswordPage() {
                 Enter your email address and we&apos;ll send you a link to reset your password
               </CardDescription>
             </CardHeader>
-            
+
             <CardContent>
               <form onSubmit={handleResetPassword} className="space-y-4">
                 <div className="space-y-2">
@@ -180,13 +165,13 @@ export default function ForgotPasswordPage() {
                     type="email"
                     placeholder="your@email.com"
                     value={email}
-                    onChange={(e) => setEmail(e.target.value)}
+                    onChange={e => setEmail(e.target.value)}
                     required
                     disabled={loading}
                     autoFocus
                   />
                 </div>
-                
+
                 <Button type="submit" className="w-full" disabled={loading || !email.trim()}>
                   {loading ? (
                     <>

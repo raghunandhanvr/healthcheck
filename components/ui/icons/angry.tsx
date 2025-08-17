@@ -1,22 +1,22 @@
-'use client';
+"use client"
 
-import type { Variants } from 'motion/react';
-import { motion, useAnimation } from 'motion/react';
-import type { HTMLAttributes } from 'react';
-import { forwardRef, useCallback, useImperativeHandle, useRef } from 'react';
-import { cn } from '@/lib/utils/common';
+import type { Variants } from "motion/react"
+import { motion, useAnimation } from "motion/react"
+import type { HTMLAttributes } from "react"
+import { forwardRef, useCallback, useImperativeHandle, useRef } from "react"
+import { cn } from "@/lib/utils/common"
 
 export interface AngryIconHandle {
-  startAnimation: () => void;
-  stopAnimation: () => void;
+  startAnimation: () => void
+  stopAnimation: () => void
 }
 
 interface AngryIconProps extends HTMLAttributes<HTMLDivElement> {
-  size?: number;
+  size?: number
 }
 
-const EYEBROW_ROTATION = 20;
-const DURATION = 0.6;
+const EYEBROW_ROTATION = 20
+const DURATION = 0.6
 
 const pathVariantsFace: Variants = {
   normal: { scale: 1, rotate: 0 },
@@ -26,10 +26,10 @@ const pathVariantsFace: Variants = {
     transition: {
       duration: DURATION,
       times: [0, 0.2, 0.4, 0.6, 1],
-      ease: 'easeInOut',
+      ease: "easeInOut",
     },
   },
-};
+}
 
 const pathVariantsLeftEyebrow: Variants = {
   normal: { rotate: 0 },
@@ -39,7 +39,7 @@ const pathVariantsLeftEyebrow: Variants = {
       duration: DURATION + 0.2,
     },
   },
-};
+}
 
 const pathVariantsRightEyebrow: Variants = {
   normal: { rotate: 0 },
@@ -49,7 +49,7 @@ const pathVariantsRightEyebrow: Variants = {
       duration: DURATION + 0.2,
     },
   },
-};
+}
 
 const pathVariantsEye: Variants = {
   normal: { scale: 1 },
@@ -59,7 +59,7 @@ const pathVariantsEye: Variants = {
       duration: DURATION,
     },
   },
-};
+}
 
 const pathVariantsMouth: Variants = {
   normal: { translateY: 0 },
@@ -69,43 +69,43 @@ const pathVariantsMouth: Variants = {
       duration: DURATION,
     },
   },
-};
+}
 
 const AngryIcon = forwardRef<AngryIconHandle, AngryIconProps>(
   ({ onMouseEnter, onMouseLeave, className, size = 28, ...props }, ref) => {
-    const controls = useAnimation();
-    const isControlledRef = useRef(false);
+    const controls = useAnimation()
+    const isControlledRef = useRef(false)
 
     useImperativeHandle(ref, () => {
-      isControlledRef.current = true;
+      isControlledRef.current = true
 
       return {
-        startAnimation: () => controls.start('animate'),
-        stopAnimation: () => controls.start('normal'),
-      };
-    });
+        startAnimation: () => controls.start("animate"),
+        stopAnimation: () => controls.start("normal"),
+      }
+    })
 
     const handleMouseEnter = useCallback(
       (e: React.MouseEvent<HTMLDivElement>) => {
         if (!isControlledRef.current) {
-          controls.start('animate');
+          controls.start("animate")
         } else {
-          onMouseEnter?.(e);
+          onMouseEnter?.(e)
         }
       },
       [controls, onMouseEnter]
-    );
+    )
 
     const handleMouseLeave = useCallback(
       (e: React.MouseEvent<HTMLDivElement>) => {
         if (!isControlledRef.current) {
-          controls.start('normal');
+          controls.start("normal")
         } else {
-          onMouseLeave?.(e);
+          onMouseLeave?.(e)
         }
       },
       [controls, onMouseLeave]
-    );
+    )
 
     return (
       <div
@@ -133,32 +133,16 @@ const AngryIcon = forwardRef<AngryIconHandle, AngryIconProps>(
             animate={controls}
             d="M16 16s-1.5-2-4-2-4 2-4 2"
           />
-          <motion.path
-            variants={pathVariantsLeftEyebrow}
-            animate={controls}
-            d="M7.5 8 10 9"
-          />
-          <motion.path
-            variants={pathVariantsRightEyebrow}
-            animate={controls}
-            d="m14 9 2.5-1"
-          />
-          <motion.path
-            variants={pathVariantsEye}
-            animate={controls}
-            d="M9 10h.01"
-          />
-          <motion.path
-            variants={pathVariantsEye}
-            animate={controls}
-            d="M15 10h.01"
-          />
+          <motion.path variants={pathVariantsLeftEyebrow} animate={controls} d="M7.5 8 10 9" />
+          <motion.path variants={pathVariantsRightEyebrow} animate={controls} d="m14 9 2.5-1" />
+          <motion.path variants={pathVariantsEye} animate={controls} d="M9 10h.01" />
+          <motion.path variants={pathVariantsEye} animate={controls} d="M15 10h.01" />
         </motion.svg>
       </div>
-    );
+    )
   }
-);
+)
 
-AngryIcon.displayName = 'AngryIcon';
+AngryIcon.displayName = "AngryIcon"
 
-export { AngryIcon };
+export { AngryIcon }

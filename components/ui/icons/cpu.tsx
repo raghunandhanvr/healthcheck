@@ -1,25 +1,25 @@
-'use client';
+"use client"
 
-import type { Transition, Variants } from 'motion/react';
-import { motion, useAnimation } from 'motion/react';
-import type { HTMLAttributes } from 'react';
-import { forwardRef, useCallback, useImperativeHandle, useRef } from 'react';
-import { cn } from '@/lib/utils/common';
+import type { Transition, Variants } from "motion/react"
+import { motion, useAnimation } from "motion/react"
+import type { HTMLAttributes } from "react"
+import { forwardRef, useCallback, useImperativeHandle, useRef } from "react"
+import { cn } from "@/lib/utils/common"
 
 export interface CpuIconHandle {
-  startAnimation: () => void;
-  stopAnimation: () => void;
+  startAnimation: () => void
+  stopAnimation: () => void
 }
 
 interface CpuIconProps extends HTMLAttributes<HTMLDivElement> {
-  size?: number;
+  size?: number
 }
 
 const transition: Transition = {
   duration: 0.5,
-  ease: 'easeInOut',
+  ease: "easeInOut",
   repeat: 1,
-};
+}
 
 const yVariants: Variants = {
   normal: {
@@ -31,7 +31,7 @@ const yVariants: Variants = {
     scaleY: [1, 1.5, 1],
     opacity: [1, 0.8, 1],
   },
-};
+}
 const xVariants: Variants = {
   normal: {
     scale: 1,
@@ -42,43 +42,43 @@ const xVariants: Variants = {
     scaleX: [1, 1.5, 1],
     opacity: [1, 0.8, 1],
   },
-};
+}
 
 const CpuIcon = forwardRef<CpuIconHandle, CpuIconProps>(
   ({ onMouseEnter, onMouseLeave, className, size = 28, ...props }, ref) => {
-    const controls = useAnimation();
-    const isControlledRef = useRef(false);
+    const controls = useAnimation()
+    const isControlledRef = useRef(false)
 
     useImperativeHandle(ref, () => {
-      isControlledRef.current = true;
+      isControlledRef.current = true
 
       return {
-        startAnimation: () => controls.start('animate'),
-        stopAnimation: () => controls.start('normal'),
-      };
-    });
+        startAnimation: () => controls.start("animate"),
+        stopAnimation: () => controls.start("normal"),
+      }
+    })
 
     const handleMouseEnter = useCallback(
       (e: React.MouseEvent<HTMLDivElement>) => {
         if (!isControlledRef.current) {
-          controls.start('animate');
+          controls.start("animate")
         } else {
-          onMouseEnter?.(e);
+          onMouseEnter?.(e)
         }
       },
       [controls, onMouseEnter]
-    );
+    )
 
     const handleMouseLeave = useCallback(
       (e: React.MouseEvent<HTMLDivElement>) => {
         if (!isControlledRef.current) {
-          controls.start('normal');
+          controls.start("normal")
         } else {
-          onMouseLeave?.(e);
+          onMouseLeave?.(e)
         }
       },
       [controls, onMouseLeave]
-    );
+    )
     return (
       <div
         className={cn(className)}
@@ -117,12 +117,7 @@ const CpuIcon = forwardRef<CpuIconHandle, CpuIconProps>(
             transition={transition}
             animate={controls}
           />
-          <motion.path
-            d="M2 9h2"
-            variants={xVariants}
-            transition={transition}
-            animate={controls}
-          />
+          <motion.path d="M2 9h2" variants={xVariants} transition={transition} animate={controls} />
           <motion.path
             d="M20 15h2"
             variants={xVariants}
@@ -135,12 +130,7 @@ const CpuIcon = forwardRef<CpuIconHandle, CpuIconProps>(
             transition={transition}
             animate={controls}
           />
-          <motion.path
-            d="M9 2v2"
-            variants={yVariants}
-            transition={transition}
-            animate={controls}
-          />
+          <motion.path d="M9 2v2" variants={yVariants} transition={transition} animate={controls} />
           <motion.path
             d="M9 20v2"
             variants={yVariants}
@@ -149,10 +139,10 @@ const CpuIcon = forwardRef<CpuIconHandle, CpuIconProps>(
           />
         </svg>
       </div>
-    );
+    )
   }
-);
+)
 
-CpuIcon.displayName = 'CpuIcon';
+CpuIcon.displayName = "CpuIcon"
 
-export { CpuIcon };
+export { CpuIcon }

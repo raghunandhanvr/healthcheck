@@ -1,4 +1,4 @@
-import { NextResponse } from 'next/server'
+import { NextResponse } from "next/server"
 
 export interface ApiResponse<T = unknown> {
   success: boolean
@@ -21,24 +21,24 @@ export interface ApiResponse<T = unknown> {
 }
 
 export const ERROR_CODES = {
-  UNAUTHORIZED: 'UNAUTHORIZED',
-  FORBIDDEN: 'FORBIDDEN',
-  TOKEN_EXPIRED: 'TOKEN_EXPIRED',
-  VALIDATION_ERROR: 'VALIDATION_ERROR',
-  INVALID_INPUT: 'INVALID_INPUT',
-  NOT_FOUND: 'NOT_FOUND',
-  ALREADY_EXISTS: 'ALREADY_EXISTS',
-  INTERNAL_ERROR: 'INTERNAL_ERROR',
-  DATABASE_ERROR: 'DATABASE_ERROR',
-  EXTERNAL_SERVICE_ERROR: 'EXTERNAL_SERVICE_ERROR',
-  RATE_LIMIT_EXCEEDED: 'RATE_LIMIT_EXCEEDED',
+  UNAUTHORIZED: "UNAUTHORIZED",
+  FORBIDDEN: "FORBIDDEN",
+  TOKEN_EXPIRED: "TOKEN_EXPIRED",
+  VALIDATION_ERROR: "VALIDATION_ERROR",
+  INVALID_INPUT: "INVALID_INPUT",
+  NOT_FOUND: "NOT_FOUND",
+  ALREADY_EXISTS: "ALREADY_EXISTS",
+  INTERNAL_ERROR: "INTERNAL_ERROR",
+  DATABASE_ERROR: "DATABASE_ERROR",
+  EXTERNAL_SERVICE_ERROR: "EXTERNAL_SERVICE_ERROR",
+  RATE_LIMIT_EXCEEDED: "RATE_LIMIT_EXCEEDED",
 } as const
 
 export function createSuccessResponse<T>(
   data: T,
   options?: {
     status?: number
-    meta?: ApiResponse<T>['meta']
+    meta?: ApiResponse<T>["meta"]
   }
 ): NextResponse<ApiResponse<T>> {
   const response: ApiResponse<T> = {
@@ -50,11 +50,11 @@ export function createSuccessResponse<T>(
     },
   }
 
-  return NextResponse.json(response, { 
+  return NextResponse.json(response, {
     status: options?.status || 200,
     headers: {
-      'Content-Type': 'application/json',
-    }
+      "Content-Type": "application/json",
+    },
   })
 }
 
@@ -82,11 +82,11 @@ export function createErrorResponse(
 
   const statusCode = options?.status || getStatusCodeFromErrorCode(code)
 
-  return NextResponse.json(response, { 
+  return NextResponse.json(response, {
     status: statusCode,
     headers: {
-      'Content-Type': 'application/json',
-    }
+      "Content-Type": "application/json",
+    },
   })
 }
 
@@ -94,15 +94,11 @@ export function createValidationErrorResponse(
   errors: Array<{ field: string; message: string }>,
   options?: { requestId?: string }
 ): NextResponse<ApiResponse> {
-  return createErrorResponse(
-    ERROR_CODES.VALIDATION_ERROR,
-    'Validation failed',
-    {
-      status: 422,
-      details: { errors },
-      requestId: options?.requestId,
-    }
-  )
+  return createErrorResponse(ERROR_CODES.VALIDATION_ERROR, "Validation failed", {
+    status: 422,
+    details: { errors },
+    requestId: options?.requestId,
+  })
 }
 
 export function createPaginatedResponse<T>(
@@ -115,7 +111,7 @@ export function createPaginatedResponse<T>(
   options?: { requestId?: string }
 ): NextResponse<ApiResponse<T[]>> {
   const totalPages = Math.ceil(pagination.total / pagination.limit)
-  
+
   return createSuccessResponse(data, {
     meta: {
       timestamp: new Date().toISOString(),
@@ -159,21 +155,17 @@ export function withErrorHandling<T extends unknown[], R>(
     try {
       return await handler(...args)
     } catch (error) {
-      console.error('API Error:', error)
-      
+      console.error("API Error:", error)
+
       if (error instanceof Error) {
-        return createErrorResponse(
-          ERROR_CODES.INTERNAL_ERROR,
-          'An unexpected error occurred',
-          {
-            details: process.env.NODE_ENV === 'development' ? error.stack : undefined,
-          }
-        ) as NextResponse<ApiResponse<R>>
+        return createErrorResponse(ERROR_CODES.INTERNAL_ERROR, "An unexpected error occurred", {
+          details: process.env.NODE_ENV === "development" ? error.stack : undefined,
+        }) as NextResponse<ApiResponse<R>>
       }
-      
+
       return createErrorResponse(
         ERROR_CODES.INTERNAL_ERROR,
-        'An unexpected error occurred'
+        "An unexpected error occurred"
       ) as NextResponse<ApiResponse<R>>
     }
   }

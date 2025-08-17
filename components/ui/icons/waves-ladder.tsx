@@ -1,47 +1,47 @@
-'use client';
+"use client"
 
-import { motion, useAnimation } from 'motion/react';
-import type { HTMLAttributes } from 'react';
-import { forwardRef, useCallback, useImperativeHandle, useRef } from 'react';
-import { cn } from '@/lib/utils/common';
+import { motion, useAnimation } from "motion/react"
+import type { HTMLAttributes } from "react"
+import { forwardRef, useCallback, useImperativeHandle, useRef } from "react"
+import { cn } from "@/lib/utils/common"
 
 export interface WavesLadderIconHandle {
-  startAnimation: () => void;
-  stopAnimation: () => void;
+  startAnimation: () => void
+  stopAnimation: () => void
 }
 
 interface WavesLadderIconProps extends HTMLAttributes<HTMLDivElement> {
-  size?: number;
+  size?: number
 }
 
 const WavesLadderIcon = forwardRef<WavesLadderIconHandle, WavesLadderIconProps>(
   ({ onMouseEnter, onMouseLeave, className, size = 28, ...props }, ref) => {
-    const controls = useAnimation();
-    const isControlledRef = useRef(false);
+    const controls = useAnimation()
+    const isControlledRef = useRef(false)
 
     useImperativeHandle(ref, () => {
-      isControlledRef.current = true;
+      isControlledRef.current = true
       return {
-        startAnimation: () => controls.start('animate'),
-        stopAnimation: () => controls.start('normal'),
-      };
-    });
+        startAnimation: () => controls.start("animate"),
+        stopAnimation: () => controls.start("normal"),
+      }
+    })
 
     const handleMouseEnter = useCallback(
       (e: React.MouseEvent<HTMLDivElement>) => {
-        if (!isControlledRef.current) controls.start('animate');
-        onMouseEnter?.(e);
+        if (!isControlledRef.current) controls.start("animate")
+        onMouseEnter?.(e)
       },
       [controls, onMouseEnter]
-    );
+    )
 
     const handleMouseLeave = useCallback(
       (e: React.MouseEvent<HTMLDivElement>) => {
-        if (!isControlledRef.current) controls.start('normal');
-        onMouseLeave?.(e);
+        if (!isControlledRef.current) controls.start("normal")
+        onMouseLeave?.(e)
       },
       [controls, onMouseLeave]
-    );
+    )
 
     return (
       <div
@@ -81,9 +81,9 @@ const WavesLadderIcon = forwardRef<WavesLadderIconHandle, WavesLadderIconProps>(
           </motion.g>
         </svg>
       </div>
-    );
+    )
   }
-);
+)
 
-WavesLadderIcon.displayName = 'WavesLadderIcon';
-export { WavesLadderIcon };
+WavesLadderIcon.displayName = "WavesLadderIcon"
+export { WavesLadderIcon }

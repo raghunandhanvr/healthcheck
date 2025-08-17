@@ -1,18 +1,18 @@
-'use client';
+"use client"
 
-import { motion, useAnimation } from 'motion/react';
-import type { Variants } from 'motion/react';
-import type { HTMLAttributes } from 'react';
-import { forwardRef, useCallback, useImperativeHandle, useRef } from 'react';
-import { cn } from '@/lib/utils/common';
+import { motion, useAnimation } from "motion/react"
+import type { Variants } from "motion/react"
+import type { HTMLAttributes } from "react"
+import { forwardRef, useCallback, useImperativeHandle, useRef } from "react"
+import { cn } from "@/lib/utils/common"
 
 export interface TwitchIconHandle {
-  startAnimation: () => void;
-  stopAnimation: () => void;
+  startAnimation: () => void
+  stopAnimation: () => void
 }
 
 interface TwitchIconProps extends HTMLAttributes<HTMLDivElement> {
-  size?: number;
+  size?: number
 }
 
 const pathVariants: Variants = {
@@ -31,11 +31,11 @@ const pathVariants: Variants = {
     pathOffset: [1, 0],
     transition: {
       duration: 0.6,
-      ease: 'linear',
+      ease: "linear",
       opacity: { duration: 0.1 },
     },
   },
-};
+}
 
 const lineVariants: Variants = {
   normal: {
@@ -53,61 +53,61 @@ const lineVariants: Variants = {
     pathOffset: [1, 0],
     transition: {
       duration: 0.6,
-      ease: 'linear',
+      ease: "linear",
       opacity: { duration: 0.1 },
     },
   },
-};
+}
 
 const TwitchIcon = forwardRef<TwitchIconHandle, TwitchIconProps>(
   ({ onMouseEnter, onMouseLeave, className, size = 28, ...props }, ref) => {
-    const pathControls = useAnimation();
-    const line1Controls = useAnimation();
-    const line2Controls = useAnimation();
-    const isControlledRef = useRef(false);
+    const pathControls = useAnimation()
+    const line1Controls = useAnimation()
+    const line2Controls = useAnimation()
+    const isControlledRef = useRef(false)
 
     useImperativeHandle(ref, () => {
-      isControlledRef.current = true;
+      isControlledRef.current = true
 
       return {
         startAnimation: () => {
-          pathControls.start('animate');
-          line1Controls.start('animate');
-          line2Controls.start('animate');
+          pathControls.start("animate")
+          line1Controls.start("animate")
+          line2Controls.start("animate")
         },
         stopAnimation: () => {
-          pathControls.start('normal');
-          line1Controls.start('normal');
-          line2Controls.start('normal');
+          pathControls.start("normal")
+          line1Controls.start("normal")
+          line2Controls.start("normal")
         },
-      };
-    });
+      }
+    })
 
     const handleMouseEnter = useCallback(
       (e: React.MouseEvent<HTMLDivElement>) => {
         if (!isControlledRef.current) {
-          pathControls.start('animate');
-          line1Controls.start('animate');
-          line2Controls.start('animate');
+          pathControls.start("animate")
+          line1Controls.start("animate")
+          line2Controls.start("animate")
         } else {
-          onMouseEnter?.(e);
+          onMouseEnter?.(e)
         }
       },
       [line1Controls, line2Controls, onMouseEnter, pathControls]
-    );
+    )
 
     const handleMouseLeave = useCallback(
       (e: React.MouseEvent<HTMLDivElement>) => {
         if (!isControlledRef.current) {
-          pathControls.start('normal');
-          line1Controls.start('normal');
-          line2Controls.start('normal');
+          pathControls.start("normal")
+          line1Controls.start("normal")
+          line2Controls.start("normal")
         } else {
-          onMouseLeave?.(e);
+          onMouseLeave?.(e)
         }
       },
       [pathControls, line1Controls, line2Controls, onMouseLeave]
-    );
+    )
 
     return (
       <div
@@ -147,10 +147,10 @@ const TwitchIcon = forwardRef<TwitchIconHandle, TwitchIconProps>(
           />
         </svg>
       </div>
-    );
+    )
   }
-);
+)
 
-TwitchIcon.displayName = 'TwitchIcon';
+TwitchIcon.displayName = "TwitchIcon"
 
-export { TwitchIcon };
+export { TwitchIcon }

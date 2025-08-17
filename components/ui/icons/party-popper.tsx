@@ -1,18 +1,18 @@
-'use client';
+"use client"
 
-import type { Variants } from 'motion/react';
-import { motion, useAnimation } from 'motion/react';
-import type { HTMLAttributes } from 'react';
-import { forwardRef, useCallback, useImperativeHandle, useRef } from 'react';
-import { cn } from '@/lib/utils/common';
+import type { Variants } from "motion/react"
+import { motion, useAnimation } from "motion/react"
+import type { HTMLAttributes } from "react"
+import { forwardRef, useCallback, useImperativeHandle, useRef } from "react"
+import { cn } from "@/lib/utils/common"
 
 export interface PartyPopperIconHandle {
-  startAnimation: () => void;
-  stopAnimation: () => void;
+  startAnimation: () => void
+  stopAnimation: () => void
 }
 
 interface PartyPopperIconProps extends HTMLAttributes<HTMLDivElement> {
-  size?: number;
+  size?: number
 }
 
 const linesVariants: Variants = {
@@ -34,7 +34,7 @@ const linesVariants: Variants = {
       velocity: 0.3,
     },
   },
-};
+}
 
 const dotsVariants: Variants = {
   normal: { opacity: 1, scale: 1, translateX: 0, translateY: 0 },
@@ -47,7 +47,7 @@ const dotsVariants: Variants = {
       duration: 0.7,
     },
   },
-};
+}
 
 const popperVariants: Variants = {
   normal: { translateX: 0, translateY: 0 },
@@ -58,43 +58,43 @@ const popperVariants: Variants = {
       velocity: 0.3,
     },
   },
-};
+}
 
 const PartyPopperIcon = forwardRef<PartyPopperIconHandle, PartyPopperIconProps>(
   ({ onMouseEnter, onMouseLeave, className, size = 28, ...props }, ref) => {
-    const controls = useAnimation();
-    const isControlledRef = useRef(false);
+    const controls = useAnimation()
+    const isControlledRef = useRef(false)
 
     useImperativeHandle(ref, () => {
-      isControlledRef.current = true;
+      isControlledRef.current = true
 
       return {
-        startAnimation: () => controls.start('animate'),
-        stopAnimation: () => controls.start('normal'),
-      };
-    });
+        startAnimation: () => controls.start("animate"),
+        stopAnimation: () => controls.start("normal"),
+      }
+    })
 
     const handleMouseEnter = useCallback(
       (e: React.MouseEvent<HTMLDivElement>) => {
         if (!isControlledRef.current) {
-          controls.start('animate');
+          controls.start("animate")
         } else {
-          onMouseEnter?.(e);
+          onMouseEnter?.(e)
         }
       },
       [controls, onMouseEnter]
-    );
+    )
 
     const handleMouseLeave = useCallback(
       (e: React.MouseEvent<HTMLDivElement>) => {
         if (!isControlledRef.current) {
-          controls.start('normal');
+          controls.start("normal")
         } else {
-          onMouseLeave?.(e);
+          onMouseLeave?.(e)
         }
       },
       [controls, onMouseLeave]
-    );
+    )
 
     return (
       <div
@@ -114,36 +114,16 @@ const PartyPopperIcon = forwardRef<PartyPopperIconHandle, PartyPopperIconProps>(
           strokeLinecap="round"
           strokeLinejoin="round"
         >
-          <motion.path
-            d="M5.8 11.3 2 22l10.7-3.79"
-            variants={popperVariants}
-            animate={controls}
-          />
+          <motion.path d="M5.8 11.3 2 22l10.7-3.79" variants={popperVariants} animate={controls} />
           <motion.path
             d="M11 13c1.93 1.93 2.83 4.17 2 5-.83.83-3.07-.07-5-2-1.93-1.93-2.83-4.17-2-5 .83-.83 3.07.07 5 2Z"
             variants={popperVariants}
             animate={controls}
           />
-          <motion.path
-            d="M4 3h.01"
-            variants={dotsVariants}
-            animate={controls}
-          />
-          <motion.path
-            d="M22 8h.01"
-            variants={dotsVariants}
-            animate={controls}
-          />
-          <motion.path
-            d="M15 2h.01"
-            variants={dotsVariants}
-            animate={controls}
-          />
-          <motion.path
-            d="M22 20h.01"
-            variants={dotsVariants}
-            animate={controls}
-          />
+          <motion.path d="M4 3h.01" variants={dotsVariants} animate={controls} />
+          <motion.path d="M22 8h.01" variants={dotsVariants} animate={controls} />
+          <motion.path d="M15 2h.01" variants={dotsVariants} animate={controls} />
+          <motion.path d="M22 20h.01" variants={dotsVariants} animate={controls} />
           <motion.path
             d="m14 10 1.21-1.06c0.16-0.84 0.9-1.44 1.76-1.44h0.38c0.88 0 1.55-0.77 1.45-1.63a2.9 2.9 0 0 1 1.96-3.12L22 2"
             variants={linesVariants}
@@ -161,10 +141,10 @@ const PartyPopperIcon = forwardRef<PartyPopperIconHandle, PartyPopperIconProps>(
           />
         </svg>
       </div>
-    );
+    )
   }
-);
+)
 
-PartyPopperIcon.displayName = 'PartyPopperIcon';
+PartyPopperIcon.displayName = "PartyPopperIcon"
 
-export { PartyPopperIcon };
+export { PartyPopperIcon }

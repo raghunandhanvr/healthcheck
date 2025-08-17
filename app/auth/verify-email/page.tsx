@@ -1,18 +1,18 @@
-'use client'
+"use client"
 
-import { Suspense } from 'react'
-import { useSearchParams } from 'next/navigation'
-import { CircleCheckIcon } from "@/components/ui/icons/circle-check"
-import { BadgeAlertIcon } from "@/components/ui/icons/badge-alert"
+import { Button } from "@/components/ui/button"
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
+import { Globe } from "@/components/ui/globe"
 import { ArrowLeftIcon } from "@/components/ui/icons/arrow-left"
-import Link from 'next/link'
-import { Button } from '@/components/ui/button'
-import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card'
-import { Globe } from '@/components/ui/globe'
+import { BadgeAlertIcon } from "@/components/ui/icons/badge-alert"
+import { CircleCheckIcon } from "@/components/ui/icons/circle-check"
+import Link from "next/link"
+import { useSearchParams } from "next/navigation"
+import { Suspense } from "react"
 
 function VerifyEmailContent() {
   const searchParams = useSearchParams()
-  const email = searchParams.get('email')
+  const email = searchParams.get("email")
 
   const globeConfig = {
     width: 800,
@@ -26,7 +26,7 @@ function VerifyEmailContent() {
     mapSamples: 16000,
     mapBrightness: 1.2,
     baseColor: [1, 1, 1] as [number, number, number],
-    markerColor: [9/255, 105/255, 218/255] as [number, number, number],
+    markerColor: [9 / 255, 105 / 255, 218 / 255] as [number, number, number],
     glowColor: [1, 1, 1] as [number, number, number],
     markers: [
       { location: [14.5995, 120.9842] as [number, number], size: 0.03 },
@@ -45,21 +45,15 @@ function VerifyEmailContent() {
   return (
     <div className="layout-container centered pt-24">
       <div className="grid lg:grid-cols-2 gap-8 lg:gap-16 items-center w-full max-w-6xl">
-
         <div className="order-2 lg:order-1 flex flex-col items-center justify-center relative">
           <div className="relative w-full max-w-md aspect-square">
             <Globe config={globeConfig} className="w-full h-full" />
           </div>
           <div className="text-center mt-6 space-y-2">
-            <p className="text-sm text-muted-foreground">
-              Your data atmosphere is ready
-            </p>
-            <p className="text-xs text-muted-foreground/70">
-              Verify your email to get started
-            </p>
+            <p className="text-sm text-muted-foreground">Your data atmosphere is ready</p>
+            <p className="text-xs text-muted-foreground/70">Verify your email to get started</p>
           </div>
         </div>
-
 
         <div className="order-1 lg:order-2 w-full max-w-md mx-auto lg:mx-0">
           <Card>
@@ -69,16 +63,12 @@ function VerifyEmailContent() {
                 We&apos;ve sent a verification link to your email address
               </CardDescription>
             </CardHeader>
-            
+
             <CardContent className="space-y-6">
               {email && (
                 <div className="bg-muted/50 rounded-lg p-3 text-center">
-                  <p className="text-sm text-muted-foreground mb-1">
-                    Email sent to:
-                  </p>
-                  <p className="font-mono text-sm font-medium break-all">
-                    {email}
-                  </p>
+                  <p className="text-sm text-muted-foreground mb-1">Email sent to:</p>
+                  <p className="font-mono text-sm font-medium break-all">{email}</p>
                 </div>
               )}
 
@@ -109,8 +99,8 @@ function VerifyEmailContent() {
                   <p className="text-sm text-muted-foreground mb-4">
                     Didn&apos;t receive the email?
                   </p>
-                  <Button 
-                    variant="outline" 
+                  <Button
+                    variant="outline"
                     className="w-full"
                     onClick={() => window.location.reload()}
                   >
@@ -130,11 +120,8 @@ function VerifyEmailContent() {
 
               <div className="text-center text-xs text-muted-foreground border-t pt-4">
                 <p>
-                  Need help? Contact us at{' '}
-                  <a 
-                    href="mailto:support@dataatmos.ai" 
-                    className="text-primary hover:underline"
-                  >
+                  Need help? Contact us at{" "}
+                  <a href="mailto:support@dataatmos.ai" className="text-primary hover:underline">
                     support@dataatmos.ai
                   </a>
                 </p>
@@ -149,13 +136,13 @@ function VerifyEmailContent() {
 
 export default function VerifyEmailPage() {
   return (
-    <Suspense fallback={
-      <div className="layout-container centered pt-24">
-        <div className="w-full max-w-md mx-auto flex items-center justify-center">
-          Loading...
+    <Suspense
+      fallback={
+        <div className="layout-container centered pt-24">
+          <div className="w-full max-w-md mx-auto flex items-center justify-center">Loading...</div>
         </div>
-      </div>
-    }>
+      }
+    >
       <VerifyEmailContent />
     </Suspense>
   )

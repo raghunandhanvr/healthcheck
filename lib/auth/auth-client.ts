@@ -1,11 +1,11 @@
-import { createAuthClient } from "better-auth/react";
+import { createAuthClient } from "better-auth/react"
 import {
   twoFactorClient,
   multiSessionClient,
   passkeyClient,
   adminClient,
   organizationClient,
-} from "better-auth/client/plugins";
+} from "better-auth/client/plugins"
 
 export const client = createAuthClient({
   baseURL: process.env.NEXT_PUBLIC_BETTER_AUTH_URL || "http://localhost:3000",
@@ -13,7 +13,7 @@ export const client = createAuthClient({
   plugins: [
     twoFactorClient({
       onTwoFactorRedirect() {
-        window.location.href = "/auth/two-factor";
+        window.location.href = "/auth/two-factor"
       },
     }),
     multiSessionClient(),
@@ -25,11 +25,11 @@ export const client = createAuthClient({
   fetchOptions: {
     onError(e) {
       if (e.error.status === 429) {
-        console.error("Too many requests. Please try again later.");
+        console.error("Too many requests. Please try again later.")
       }
     },
   },
-});
+})
 
 export const {
   signIn,
@@ -42,28 +42,26 @@ export const {
   multiSession,
   admin,
   organization,
-} = client;
+} = client
 
 export const sessionHelpers = {
   signOutAll: () => client.signOut(),
 
   signOutCurrent: async () => {
-    const sessions = await client.multiSession.listDeviceSessions();
+    const sessions = await client.multiSession.listDeviceSessions()
     if (sessions?.data && Array.isArray(sessions.data)) {
-      const currentSession = await client.getSession();
+      const currentSession = await client.getSession()
       if (currentSession?.data?.session?.token) {
         return client.multiSession.revoke({
           sessionToken: currentSession.data.session.token,
-        });
+        })
       }
     }
   },
 
-  switchSession: (sessionToken: string) =>
-    client.multiSession.setActive({ sessionToken }),
+  switchSession: (sessionToken: string) => client.multiSession.setActive({ sessionToken }),
 
   listAllSessions: () => client.multiSession.listDeviceSessions(),
 
-  revokeSession: (sessionToken: string) =>
-    client.multiSession.revoke({ sessionToken }),
-};
+  revokeSession: (sessionToken: string) => client.multiSession.revoke({ sessionToken }),
+}

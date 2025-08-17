@@ -1,13 +1,14 @@
-import { PageHeader } from "@/components/layout/page-header";
+import { PageHeader } from "@/components/layout/page-header"
 
 export default function ConsolePage() {
   return (
     <div className="console-page-container">
-        <PageHeader title="Console" />
+      <PageHeader title="Console" />
 
-        <p>
-          This is your monitoring dashboard. Here you can manage your uptime monitors, view performance metrics, and configure alerts.
-        </p>
+      <p>
+        This is your monitoring dashboard. Here you can manage your uptime monitors, view
+        performance metrics, and configure alerts.
+      </p>
     </div>
   )
 }

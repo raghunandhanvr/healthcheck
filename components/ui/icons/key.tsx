@@ -1,53 +1,53 @@
-'use client';
+"use client"
 
-import { motion, useAnimation } from 'framer-motion';
-import type { HTMLAttributes } from 'react';
-import { forwardRef, useCallback, useImperativeHandle, useRef } from 'react';
-import { cn } from '@/lib/utils/common';
+import { motion, useAnimation } from "framer-motion"
+import type { HTMLAttributes } from "react"
+import { forwardRef, useCallback, useImperativeHandle, useRef } from "react"
+import { cn } from "@/lib/utils/common"
 
 export interface KeyIconHandle {
-  startAnimation: () => void;
-  stopAnimation: () => void;
+  startAnimation: () => void
+  stopAnimation: () => void
 }
 
 interface KeyIconProps extends HTMLAttributes<HTMLDivElement> {
-  size?: number;
+  size?: number
 }
 
 const KeyIcon = forwardRef<KeyIconHandle, KeyIconProps>(
   ({ onMouseEnter, onMouseLeave, className, size = 28, ...props }, ref) => {
-    const controls = useAnimation();
-    const isControlledRef = useRef(false);
+    const controls = useAnimation()
+    const isControlledRef = useRef(false)
 
     useImperativeHandle(ref, () => {
-      isControlledRef.current = true;
+      isControlledRef.current = true
       return {
-        startAnimation: () => controls.start('animate'),
-        stopAnimation: () => controls.start('normal'),
-      };
-    });
+        startAnimation: () => controls.start("animate"),
+        stopAnimation: () => controls.start("normal"),
+      }
+    })
 
     const handleMouseEnter = useCallback(
       (e: React.MouseEvent<HTMLDivElement>) => {
         if (!isControlledRef.current) {
-          controls.start('animate');
+          controls.start("animate")
         } else {
-          onMouseEnter?.(e);
+          onMouseEnter?.(e)
         }
       },
       [controls, onMouseEnter]
-    );
+    )
 
     const handleMouseLeave = useCallback(
       (e: React.MouseEvent<HTMLDivElement>) => {
         if (!isControlledRef.current) {
-          controls.start('normal');
+          controls.start("normal")
         } else {
-          onMouseLeave?.(e);
+          onMouseLeave?.(e)
         }
       },
       [controls, onMouseLeave]
-    );
+    )
 
     return (
       <div
@@ -72,7 +72,7 @@ const KeyIcon = forwardRef<KeyIconHandle, KeyIconProps>(
             normal: {
               rotate: 0,
               transition: {
-                type: 'spring',
+                type: "spring",
                 stiffness: 120,
                 damping: 14,
                 duration: 0.8,
@@ -83,7 +83,7 @@ const KeyIcon = forwardRef<KeyIconHandle, KeyIconProps>(
               transition: {
                 duration: 0.6,
                 times: [0, 0.6, 0.8, 1],
-                ease: 'easeInOut',
+                ease: "easeInOut",
               },
             },
           }}
@@ -94,10 +94,10 @@ const KeyIcon = forwardRef<KeyIconHandle, KeyIconProps>(
           <circle cx="7.5" cy="15.5" r="5.5" />
         </motion.svg>
       </div>
-    );
+    )
   }
-);
+)
 
-KeyIcon.displayName = 'KeyIcon';
+KeyIcon.displayName = "KeyIcon"
 
-export { KeyIcon };
+export { KeyIcon }

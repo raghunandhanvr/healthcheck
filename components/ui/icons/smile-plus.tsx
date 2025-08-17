@@ -1,65 +1,65 @@
-'use client';
+"use client"
 
-import type { Variants } from 'motion/react';
-import { motion, useAnimation } from 'motion/react';
-import type { HTMLAttributes } from 'react';
-import { forwardRef, useCallback, useImperativeHandle, useRef } from 'react';
-import { cn } from '@/lib/utils/common';
+import type { Variants } from "motion/react"
+import { motion, useAnimation } from "motion/react"
+import type { HTMLAttributes } from "react"
+import { forwardRef, useCallback, useImperativeHandle, useRef } from "react"
+import { cn } from "@/lib/utils/common"
 
 export interface SmilePlusIconHandle {
-  startAnimation: () => void;
-  stopAnimation: () => void;
+  startAnimation: () => void
+  stopAnimation: () => void
 }
 
 interface SmilePlusIconProps extends HTMLAttributes<HTMLDivElement> {
-  size?: number;
+  size?: number
 }
 
 const SmilePlusIcon = forwardRef<SmilePlusIconHandle, SmilePlusIconProps>(
   ({ onMouseEnter, onMouseLeave, className, size = 28, ...props }, ref) => {
-    const controls = useAnimation();
-    const isControlledRef = useRef(false);
+    const controls = useAnimation()
+    const isControlledRef = useRef(false)
 
     useImperativeHandle(ref, () => {
-      isControlledRef.current = true;
+      isControlledRef.current = true
       return {
-        startAnimation: () => controls.start('animate'),
-        stopAnimation: () => controls.start('normal'),
-      };
-    });
+        startAnimation: () => controls.start("animate"),
+        stopAnimation: () => controls.start("normal"),
+      }
+    })
 
     const handleMouseEnter = useCallback(
       (e: React.MouseEvent<HTMLDivElement>) => {
-        if (!isControlledRef.current) controls.start('animate');
-        else onMouseEnter?.(e);
+        if (!isControlledRef.current) controls.start("animate")
+        else onMouseEnter?.(e)
       },
       [controls, onMouseEnter]
-    );
+    )
 
     const handleMouseLeave = useCallback(
       (e: React.MouseEvent<HTMLDivElement>) => {
-        if (!isControlledRef.current) controls.start('normal');
-        else onMouseLeave?.(e);
+        if (!isControlledRef.current) controls.start("normal")
+        else onMouseLeave?.(e)
       },
       [controls, onMouseLeave]
-    );
+    )
 
     const faceVariants: Variants = {
       normal: { scale: 1 },
       animate: {
         scale: 1.1,
-        transition: { type: 'spring', stiffness: 200, damping: 20 },
+        transition: { type: "spring", stiffness: 200, damping: 20 },
       },
-    };
+    }
 
     const plusVariants: Variants = {
       normal: { rotate: 0, scale: 1 },
       animate: {
         rotate: 90,
         scale: 1.2,
-        transition: { type: 'spring', stiffness: 200, damping: 20, delay: 0.1 },
+        transition: { type: "spring", stiffness: 200, damping: 20, delay: 0.1 },
       },
-    };
+    }
 
     return (
       <div
@@ -89,10 +89,10 @@ const SmilePlusIcon = forwardRef<SmilePlusIconHandle, SmilePlusIconProps>(
           <motion.path variants={plusVariants} animate={controls} d="M19 2v6" />
         </motion.svg>
       </div>
-    );
+    )
   }
-);
+)
 
-SmilePlusIcon.displayName = 'SmilePlusIcon';
+SmilePlusIcon.displayName = "SmilePlusIcon"
 
-export { SmilePlusIcon };
+export { SmilePlusIcon }

@@ -1,18 +1,18 @@
-'use client';
+"use client"
 
-import type { Variants } from 'motion/react';
-import { motion, useAnimation } from 'motion/react';
-import type { HTMLAttributes } from 'react';
-import { forwardRef, useCallback, useImperativeHandle, useRef } from 'react';
-import { cn } from '@/lib/utils/common';
+import type { Variants } from "motion/react"
+import { motion, useAnimation } from "motion/react"
+import type { HTMLAttributes } from "react"
+import { forwardRef, useCallback, useImperativeHandle, useRef } from "react"
+import { cn } from "@/lib/utils/common"
 
 export interface DrumIconHandle {
-  startAnimation: () => void;
-  stopAnimation: () => void;
+  startAnimation: () => void
+  stopAnimation: () => void
 }
 
 interface DrumIconProps extends HTMLAttributes<HTMLDivElement> {
-  size?: number;
+  size?: number
 }
 
 const variants: Variants = {
@@ -24,47 +24,47 @@ const variants: Variants = {
     transition: {
       delay: 0.1 * custom,
       repeat: Infinity,
-      repeatType: 'reverse',
+      repeatType: "reverse",
       duration: 0.5,
     },
   }),
-};
+}
 
 const DrumIcon = forwardRef<DrumIconHandle, DrumIconProps>(
   ({ onMouseEnter, onMouseLeave, className, size = 28, ...props }, ref) => {
-    const controls = useAnimation();
-    const isControlledRef = useRef(false);
+    const controls = useAnimation()
+    const isControlledRef = useRef(false)
 
     useImperativeHandle(ref, () => {
-      isControlledRef.current = true;
+      isControlledRef.current = true
 
       return {
-        startAnimation: () => controls.start('animate'),
-        stopAnimation: () => controls.start('normal'),
-      };
-    });
+        startAnimation: () => controls.start("animate"),
+        stopAnimation: () => controls.start("normal"),
+      }
+    })
 
     const handleMouseEnter = useCallback(
       (e: React.MouseEvent<HTMLDivElement>) => {
         if (!isControlledRef.current) {
-          controls.start('animate');
+          controls.start("animate")
         } else {
-          onMouseEnter?.(e);
+          onMouseEnter?.(e)
         }
       },
       [controls, onMouseEnter]
-    );
+    )
 
     const handleMouseLeave = useCallback(
       (e: React.MouseEvent<HTMLDivElement>) => {
         if (!isControlledRef.current) {
-          controls.start('normal');
+          controls.start("normal")
         } else {
-          onMouseLeave?.(e);
+          onMouseLeave?.(e)
         }
       },
       [controls, onMouseLeave]
-    );
+    )
     return (
       <div
         className={cn(className)}
@@ -83,18 +83,8 @@ const DrumIcon = forwardRef<DrumIconHandle, DrumIconProps>(
           strokeLinecap="round"
           strokeLinejoin="round"
         >
-          <motion.path
-            d="m2 2 8 8"
-            variants={variants}
-            animate={controls}
-            custom={1}
-          />
-          <motion.path
-            d="m22 2-8 8"
-            variants={variants}
-            animate={controls}
-            custom={2}
-          />
+          <motion.path d="m2 2 8 8" variants={variants} animate={controls} custom={1} />
+          <motion.path d="m22 2-8 8" variants={variants} animate={controls} custom={2} />
           <ellipse cx="12" cy="9" rx="10" ry="5" />
           <path d="M7 13.4v7.9" />
           <path d="M12 14v8" />
@@ -102,10 +92,10 @@ const DrumIcon = forwardRef<DrumIconHandle, DrumIconProps>(
           <path d="M2 9v8a10 5 0 0 0 20 0V9" />
         </svg>
       </div>
-    );
+    )
   }
-);
+)
 
-DrumIcon.displayName = 'DrumIcon';
+DrumIcon.displayName = "DrumIcon"
 
-export { DrumIcon };
+export { DrumIcon }

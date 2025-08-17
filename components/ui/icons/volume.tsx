@@ -1,55 +1,55 @@
-'use client';
+"use client"
 
-import { AnimatePresence, motion } from 'motion/react';
-import { Fragment, useState } from 'react';
-import type { HTMLAttributes } from 'react';
-import { forwardRef, useCallback, useImperativeHandle, useRef } from 'react';
-import { cn } from '@/lib/utils/common';
+import { AnimatePresence, motion } from "motion/react"
+import { Fragment, useState } from "react"
+import type { HTMLAttributes } from "react"
+import { forwardRef, useCallback, useImperativeHandle, useRef } from "react"
+import { cn } from "@/lib/utils/common"
 
 export interface VolumeIconHandle {
-  startAnimation: () => void;
-  stopAnimation: () => void;
+  startAnimation: () => void
+  stopAnimation: () => void
 }
 
 interface VolumeIconProps extends HTMLAttributes<HTMLDivElement> {
-  size?: number;
+  size?: number
 }
 
 const VolumeIcon = forwardRef<VolumeIconHandle, VolumeIconProps>(
   ({ onMouseEnter, onMouseLeave, className, size = 28, ...props }, ref) => {
-    const [isHovered, setIsHovered] = useState(false);
-    const isControlledRef = useRef(false);
+    const [isHovered, setIsHovered] = useState(false)
+    const isControlledRef = useRef(false)
 
     useImperativeHandle(ref, () => {
-      isControlledRef.current = true;
+      isControlledRef.current = true
 
       return {
         startAnimation: () => setIsHovered(true),
         stopAnimation: () => setIsHovered(false),
-      };
-    });
+      }
+    })
 
     const handleMouseEnter = useCallback(
       (e: React.MouseEvent<HTMLDivElement>) => {
         if (!isControlledRef.current) {
-          setIsHovered(true);
+          setIsHovered(true)
         } else {
-          onMouseEnter?.(e);
+          onMouseEnter?.(e)
         }
       },
       [onMouseEnter]
-    );
+    )
 
     const handleMouseLeave = useCallback(
       (e: React.MouseEvent<HTMLDivElement>) => {
         if (!isControlledRef.current) {
-          setIsHovered(false);
+          setIsHovered(false)
         } else {
-          onMouseLeave?.(e);
+          onMouseLeave?.(e)
         }
       },
       [onMouseLeave]
-    );
+    )
 
     return (
       <div
@@ -119,10 +119,10 @@ const VolumeIcon = forwardRef<VolumeIconHandle, VolumeIconProps>(
           </AnimatePresence>
         </svg>
       </div>
-    );
+    )
   }
-);
+)
 
-VolumeIcon.displayName = 'VolumeIcon';
+VolumeIcon.displayName = "VolumeIcon"
 
-export { VolumeIcon };
+export { VolumeIcon }

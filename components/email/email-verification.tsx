@@ -16,9 +16,9 @@ interface EmailVerificationTemplateProps {
   verificationUrl: string
 }
 
-export const EmailVerificationTemplate = ({ 
-  userFirstName, 
-  verificationUrl 
+export const EmailVerificationTemplate = ({
+  userFirstName,
+  verificationUrl,
 }: EmailVerificationTemplateProps) => (
   <Html>
     <Head />
@@ -28,41 +28,42 @@ export const EmailVerificationTemplate = ({
         <Section style={header}>
           <Text style={logo}>Data Atmos</Text>
         </Section>
-        
+
         <Section style={content}>
           <Heading style={h1}>Verify your email address</Heading>
-          
+
+          <Text style={text}>Hello {userFirstName},</Text>
+
           <Text style={text}>
-            Hello {userFirstName},
+            Thank you for creating an account with Data Atmos. Please verify your email address to
+            complete your account setup.
           </Text>
-          
-          <Text style={text}>
-            Thank you for creating an account with Data Atmos. Please verify your email address to complete your account setup.
-          </Text>
-          
+
           <Section style={buttonSection}>
             <Button style={button} href={verificationUrl}>
               Verify Email Address
             </Button>
           </Section>
-          
+
           <Text style={smallText}>
-            If the button above doesn&apos;t work, you can also copy and paste this link into your browser:
+            If the button above doesn&apos;t work, you can also copy and paste this link into your
+            browser:
           </Text>
-          
+
           <Link href={verificationUrl} style={link}>
             {verificationUrl}
           </Link>
-          
+
           <Section style={divider} />
-          
+
           <Text style={footer}>
             If you didn&apos;t create an account with Data Atmos, you can safely ignore this email.
             This verification link will expire in 24 hours.
           </Text>
-          
+
           <Text style={signature}>
-            Best regards,<br />
+            Best regards,
+            <br />
             The Data Atmos Team
           </Text>
         </Section>
@@ -73,7 +74,8 @@ export const EmailVerificationTemplate = ({
 
 const main = {
   backgroundColor: "#f8f9fa",
-  fontFamily: "Geist, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', sans-serif",
+  fontFamily:
+    "Geist, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', sans-serif",
   margin: "0",
   padding: "0",
 }

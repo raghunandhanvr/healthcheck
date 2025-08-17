@@ -1,18 +1,18 @@
-'use client';
+"use client"
 
-import type { Variants } from 'motion/react';
-import { motion, useAnimation } from 'motion/react';
-import type { HTMLAttributes } from 'react';
-import { forwardRef, useCallback, useImperativeHandle, useRef } from 'react';
-import { cn } from '@/lib/utils/common';
+import type { Variants } from "motion/react"
+import { motion, useAnimation } from "motion/react"
+import type { HTMLAttributes } from "react"
+import { forwardRef, useCallback, useImperativeHandle, useRef } from "react"
+import { cn } from "@/lib/utils/common"
 
 export interface HandHeartIconHandle {
-  startAnimation: () => void;
-  stopAnimation: () => void;
+  startAnimation: () => void
+  stopAnimation: () => void
 }
 
 interface HandHeartIconProps extends HTMLAttributes<HTMLDivElement> {
-  size?: number;
+  size?: number
 }
 const heartVariants: Variants = {
   normal: {
@@ -21,7 +21,7 @@ const heartVariants: Variants = {
     transition: {
       delay: 0.1,
       scale: { duration: 0.2 },
-      type: 'spring',
+      type: "spring",
       stiffness: 200,
       damping: 25,
     },
@@ -32,48 +32,48 @@ const heartVariants: Variants = {
     transition: {
       delay: 0.1,
       scale: { duration: 0.2 },
-      type: 'spring',
+      type: "spring",
       stiffness: 200,
       damping: 25,
     },
   },
-};
+}
 
 const HandHeartIcon = forwardRef<HandHeartIconHandle, HandHeartIconProps>(
   ({ onMouseEnter, onMouseLeave, className, size = 28, ...props }, ref) => {
-    const controls = useAnimation();
-    const isControlledRef = useRef(false);
+    const controls = useAnimation()
+    const isControlledRef = useRef(false)
 
     useImperativeHandle(ref, () => {
-      isControlledRef.current = true;
+      isControlledRef.current = true
 
       return {
-        startAnimation: () => controls.start('animate'),
-        stopAnimation: () => controls.start('normal'),
-      };
-    });
+        startAnimation: () => controls.start("animate"),
+        stopAnimation: () => controls.start("normal"),
+      }
+    })
 
     const handleMouseEnter = useCallback(
       (e: React.MouseEvent<HTMLDivElement>) => {
         if (!isControlledRef.current) {
-          controls.start('animate');
+          controls.start("animate")
         } else {
-          onMouseEnter?.(e);
+          onMouseEnter?.(e)
         }
       },
       [controls, onMouseEnter]
-    );
+    )
 
     const handleMouseLeave = useCallback(
       (e: React.MouseEvent<HTMLDivElement>) => {
         if (!isControlledRef.current) {
-          controls.start('normal');
+          controls.start("normal")
         } else {
-          onMouseLeave?.(e);
+          onMouseLeave?.(e)
         }
       },
       [controls, onMouseLeave]
-    );
+    )
 
     return (
       <div
@@ -91,7 +91,7 @@ const HandHeartIcon = forwardRef<HandHeartIconHandle, HandHeartIconProps>(
           stroke="currentColor"
           strokeWidth="2"
           strokeLinecap="round"
-          style={{ overflow: 'visible' }}
+          style={{ overflow: "visible" }}
           strokeLinejoin="round"
         >
           <path d="M11 14h2a2 2 0 1 0 0-4h-3c-.6 0-1.1.2-1.4.6L3 16" />
@@ -104,10 +104,10 @@ const HandHeartIcon = forwardRef<HandHeartIconHandle, HandHeartIconProps>(
           />
         </svg>
       </div>
-    );
+    )
   }
-);
+)
 
-HandHeartIcon.displayName = 'HandHeartIcon';
+HandHeartIcon.displayName = "HandHeartIcon"
 
-export { HandHeartIcon };
+export { HandHeartIcon }

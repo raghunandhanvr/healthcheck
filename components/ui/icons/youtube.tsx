@@ -1,18 +1,18 @@
-'use client';
+"use client"
 
-import { motion, useAnimation } from 'motion/react';
-import type { Variants } from 'motion/react';
-import type { HTMLAttributes } from 'react';
-import { forwardRef, useCallback, useImperativeHandle, useRef } from 'react';
-import { cn } from '@/lib/utils/common';
+import { motion, useAnimation } from "motion/react"
+import type { Variants } from "motion/react"
+import type { HTMLAttributes } from "react"
+import { forwardRef, useCallback, useImperativeHandle, useRef } from "react"
+import { cn } from "@/lib/utils/common"
 
 export interface YoutubeIconHandle {
-  startAnimation: () => void;
-  stopAnimation: () => void;
+  startAnimation: () => void
+  stopAnimation: () => void
 }
 
 interface YoutubeIconProps extends HTMLAttributes<HTMLDivElement> {
-  size?: number;
+  size?: number
 }
 
 const pathVariants: Variants = {
@@ -31,11 +31,11 @@ const pathVariants: Variants = {
     pathOffset: [1, 0],
     transition: {
       duration: 0.6,
-      ease: 'linear',
+      ease: "linear",
       opacity: { duration: 0.1 },
     },
   },
-};
+}
 
 const triangleVariants: Variants = {
   normal: {
@@ -53,56 +53,56 @@ const triangleVariants: Variants = {
     pathOffset: [1, 0],
     transition: {
       duration: 0.6,
-      ease: 'linear',
+      ease: "linear",
       opacity: { duration: 0.1 },
     },
   },
-};
+}
 
 const YoutubeIcon = forwardRef<YoutubeIconHandle, YoutubeIconProps>(
   ({ onMouseEnter, onMouseLeave, className, size = 28, ...props }, ref) => {
-    const pathControls = useAnimation();
-    const triangleControls = useAnimation();
-    const isControlledRef = useRef(false);
+    const pathControls = useAnimation()
+    const triangleControls = useAnimation()
+    const isControlledRef = useRef(false)
 
     useImperativeHandle(ref, () => {
-      isControlledRef.current = true;
+      isControlledRef.current = true
 
       return {
         startAnimation: () => {
-          pathControls.start('animate');
-          triangleControls.start('animate');
+          pathControls.start("animate")
+          triangleControls.start("animate")
         },
         stopAnimation: () => {
-          pathControls.start('normal');
-          triangleControls.start('normal');
+          pathControls.start("normal")
+          triangleControls.start("normal")
         },
-      };
-    });
+      }
+    })
 
     const handleMouseEnter = useCallback(
       (e: React.MouseEvent<HTMLDivElement>) => {
         if (!isControlledRef.current) {
-          pathControls.start('animate');
-          triangleControls.start('animate');
+          pathControls.start("animate")
+          triangleControls.start("animate")
         } else {
-          onMouseEnter?.(e);
+          onMouseEnter?.(e)
         }
       },
       [onMouseEnter, pathControls, triangleControls]
-    );
+    )
 
     const handleMouseLeave = useCallback(
       (e: React.MouseEvent<HTMLDivElement>) => {
         if (!isControlledRef.current) {
-          pathControls.start('normal');
-          triangleControls.start('normal');
+          pathControls.start("normal")
+          triangleControls.start("normal")
         } else {
-          onMouseLeave?.(e);
+          onMouseLeave?.(e)
         }
       },
       [pathControls, triangleControls, onMouseLeave]
-    );
+    )
 
     return (
       <div
@@ -136,10 +136,10 @@ const YoutubeIcon = forwardRef<YoutubeIconHandle, YoutubeIconProps>(
           />
         </svg>
       </div>
-    );
+    )
   }
-);
+)
 
-YoutubeIcon.displayName = 'YoutubeIcon';
+YoutubeIcon.displayName = "YoutubeIcon"
 
-export { YoutubeIcon };
+export { YoutubeIcon }

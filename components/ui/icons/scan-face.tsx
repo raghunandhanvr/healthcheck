@@ -1,66 +1,66 @@
-'use client';
+"use client"
 
-import type { Variants } from 'motion/react';
-import { motion, useAnimation } from 'motion/react';
-import type { HTMLAttributes } from 'react';
-import { forwardRef, useCallback, useImperativeHandle, useRef } from 'react';
-import { cn } from '@/lib/utils/common';
+import type { Variants } from "motion/react"
+import { motion, useAnimation } from "motion/react"
+import type { HTMLAttributes } from "react"
+import { forwardRef, useCallback, useImperativeHandle, useRef } from "react"
+import { cn } from "@/lib/utils/common"
 
 export interface ScanFaceIconHandle {
-  startAnimation: () => void;
-  stopAnimation: () => void;
+  startAnimation: () => void
+  stopAnimation: () => void
 }
 
 interface ScanFaceIconProps extends HTMLAttributes<HTMLDivElement> {
-  size?: number;
+  size?: number
 }
 
 const ScanFaceIcon = forwardRef<ScanFaceIconHandle, ScanFaceIconProps>(
   ({ onMouseEnter, onMouseLeave, className, size = 28, ...props }, ref) => {
-    const controls = useAnimation();
-    const isControlledRef = useRef(false);
+    const controls = useAnimation()
+    const isControlledRef = useRef(false)
 
     useImperativeHandle(ref, () => {
-      isControlledRef.current = true;
+      isControlledRef.current = true
       return {
         startAnimation: async () => {
-          await controls.start('hidden');
-          await controls.start('visible');
+          await controls.start("hidden")
+          await controls.start("visible")
         },
-        stopAnimation: () => controls.start('visible'),
-      };
-    });
+        stopAnimation: () => controls.start("visible"),
+      }
+    })
 
     const handleMouseEnter = useCallback(
       async (e: React.MouseEvent<HTMLDivElement>) => {
         if (!isControlledRef.current) {
-          await controls.start('hidden');
-          await controls.start('visible');
+          await controls.start("hidden")
+          await controls.start("visible")
         } else {
-          onMouseEnter?.(e);
+          onMouseEnter?.(e)
         }
       },
       [controls, onMouseEnter]
-    );
+    )
 
     const handleMouseLeave = useCallback(
       (e: React.MouseEvent<HTMLDivElement>) => {
         if (!isControlledRef.current) {
-          controls.start('visible');
+          controls.start("visible")
         } else {
-          onMouseLeave?.(e);
+          onMouseLeave?.(e)
         }
       },
       [controls, onMouseLeave]
-    );
+    )
 
     const faceVariants: Variants = {
       visible: { scale: 1 },
       hidden: {
         scale: 0.9,
-        transition: { type: 'spring', stiffness: 200, damping: 20 },
+        transition: { type: "spring", stiffness: 200, damping: 20 },
       },
-    };
+    }
 
     const cornerVariants: Variants = {
       visible: { scale: 1, rotate: 0, opacity: 1 },
@@ -68,9 +68,9 @@ const ScanFaceIcon = forwardRef<ScanFaceIconHandle, ScanFaceIconProps>(
         scale: 1.2,
         rotate: 45,
         opacity: 0,
-        transition: { type: 'spring', stiffness: 200, damping: 20 },
+        transition: { type: "spring", stiffness: 200, damping: 20 },
       },
-    };
+    }
 
     const mouthVariants: Variants = {
       visible: { scale: 1, opacity: 1 },
@@ -79,7 +79,7 @@ const ScanFaceIcon = forwardRef<ScanFaceIconHandle, ScanFaceIconProps>(
         opacity: 0,
         transition: { duration: 0.3, delay: 0.1 },
       },
-    };
+    }
 
     return (
       <div
@@ -135,10 +135,10 @@ const ScanFaceIcon = forwardRef<ScanFaceIconHandle, ScanFaceIconProps>(
           <line x1="15" x2="15.01" y1="9" y2="9" />
         </motion.svg>
       </div>
-    );
+    )
   }
-);
+)
 
-ScanFaceIcon.displayName = 'ScanFaceIcon';
+ScanFaceIcon.displayName = "ScanFaceIcon"
 
-export { ScanFaceIcon };
+export { ScanFaceIcon }

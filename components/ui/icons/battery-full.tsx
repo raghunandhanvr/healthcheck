@@ -1,17 +1,17 @@
-'use client';
+"use client"
 
-import { type Variants, motion, useAnimation } from 'motion/react';
-import type { HTMLAttributes } from 'react';
-import { forwardRef, useCallback, useImperativeHandle, useRef } from 'react';
-import { cn } from '@/lib/utils/common';
+import { type Variants, motion, useAnimation } from "motion/react"
+import type { HTMLAttributes } from "react"
+import { forwardRef, useCallback, useImperativeHandle, useRef } from "react"
+import { cn } from "@/lib/utils/common"
 
 export interface BatteryFullIconHandle {
-  startAnimation: () => void;
-  stopAnimation: () => void;
+  startAnimation: () => void
+  stopAnimation: () => void
 }
 
 interface BatteryFullIconProps extends HTMLAttributes<HTMLDivElement> {
-  size?: number;
+  size?: number
 }
 
 const lineVariants: Variants = {
@@ -20,7 +20,7 @@ const lineVariants: Variants = {
     opacity: 0,
     transition: {
       duration: 0.4,
-      ease: 'easeInOut',
+      ease: "easeInOut",
     },
   },
   fadeIn: (i: number) => ({
@@ -28,50 +28,50 @@ const lineVariants: Variants = {
     transition: {
       duration: 0.6,
       delay: i * 0.4,
-      ease: 'easeInOut',
+      ease: "easeInOut",
     },
   }),
-};
+}
 
 const BatteryFullIcon = forwardRef<BatteryFullIconHandle, BatteryFullIconProps>(
   ({ onMouseEnter, onMouseLeave, className, size = 28, ...props }, ref) => {
-    const controls = useAnimation();
-    const isControlledRef = useRef(false);
+    const controls = useAnimation()
+    const isControlledRef = useRef(false)
 
     useImperativeHandle(ref, () => {
-      isControlledRef.current = true;
+      isControlledRef.current = true
 
       return {
         startAnimation: async () => {
-          await controls.start('fadeOut');
-          controls.start('fadeIn');
+          await controls.start("fadeOut")
+          controls.start("fadeIn")
         },
-        stopAnimation: () => controls.start('initial'),
-      };
-    });
+        stopAnimation: () => controls.start("initial"),
+      }
+    })
 
     const handleMouseEnter = useCallback(
       async (e: React.MouseEvent<HTMLDivElement>) => {
         if (!isControlledRef.current) {
-          await controls.start('fadeOut');
-          controls.start('fadeIn');
+          await controls.start("fadeOut")
+          controls.start("fadeIn")
         } else {
-          onMouseEnter?.(e);
+          onMouseEnter?.(e)
         }
       },
       [controls, onMouseEnter]
-    );
+    )
 
     const handleMouseLeave = useCallback(
       (e: React.MouseEvent<HTMLDivElement>) => {
         if (!isControlledRef.current) {
-          controls.start('initial');
+          controls.start("initial")
         } else {
-          onMouseLeave?.(e);
+          onMouseLeave?.(e)
         }
       },
       [controls, onMouseLeave]
-    );
+    )
 
     return (
       <div
@@ -125,10 +125,10 @@ const BatteryFullIcon = forwardRef<BatteryFullIconHandle, BatteryFullIconProps>(
           />
         </motion.svg>
       </div>
-    );
+    )
   }
-);
+)
 
-BatteryFullIcon.displayName = 'BatteryFullIcon';
+BatteryFullIcon.displayName = "BatteryFullIcon"
 
-export { BatteryFullIcon };
+export { BatteryFullIcon }

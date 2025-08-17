@@ -1,18 +1,18 @@
-'use client';
+"use client"
 
-import { motion, useAnimation } from 'motion/react';
-import type { Variants } from 'motion/react';
-import type { HTMLAttributes } from 'react';
-import { forwardRef, useCallback, useImperativeHandle, useRef } from 'react';
-import { cn } from '@/lib/utils/common';
+import { motion, useAnimation } from "motion/react"
+import type { Variants } from "motion/react"
+import type { HTMLAttributes } from "react"
+import { forwardRef, useCallback, useImperativeHandle, useRef } from "react"
+import { cn } from "@/lib/utils/common"
 
 export interface InstagramIconHandle {
-  startAnimation: () => void;
-  stopAnimation: () => void;
+  startAnimation: () => void
+  stopAnimation: () => void
 }
 
 interface InstagramIconProps extends HTMLAttributes<HTMLDivElement> {
-  size?: number;
+  size?: number
 }
 
 const rectVariants: Variants = {
@@ -31,11 +31,11 @@ const rectVariants: Variants = {
     pathOffset: [1, 0],
     transition: {
       duration: 0.6,
-      ease: 'linear',
+      ease: "linear",
       opacity: { duration: 0.1 },
     },
   },
-};
+}
 
 const pathVariants: Variants = {
   normal: {
@@ -53,11 +53,11 @@ const pathVariants: Variants = {
     pathOffset: [1, 0],
     transition: {
       duration: 0.6,
-      ease: 'linear',
+      ease: "linear",
       opacity: { duration: 0.1 },
     },
   },
-};
+}
 
 const lineVariants: Variants = {
   normal: {
@@ -75,61 +75,61 @@ const lineVariants: Variants = {
     pathOffset: [1, 0],
     transition: {
       duration: 0.6,
-      ease: 'linear',
+      ease: "linear",
       opacity: { duration: 0.1 },
     },
   },
-};
+}
 
 const InstagramIcon = forwardRef<InstagramIconHandle, InstagramIconProps>(
   ({ onMouseEnter, onMouseLeave, className, size = 28, ...props }, ref) => {
-    const rectControls = useAnimation();
-    const pathControls = useAnimation();
-    const lineControls = useAnimation();
-    const isControlledRef = useRef(false);
+    const rectControls = useAnimation()
+    const pathControls = useAnimation()
+    const lineControls = useAnimation()
+    const isControlledRef = useRef(false)
 
     useImperativeHandle(ref, () => {
-      isControlledRef.current = true;
+      isControlledRef.current = true
 
       return {
         startAnimation: () => {
-          rectControls.start('animate');
-          pathControls.start('animate');
-          lineControls.start('animate');
+          rectControls.start("animate")
+          pathControls.start("animate")
+          lineControls.start("animate")
         },
         stopAnimation: () => {
-          rectControls.start('normal');
-          pathControls.start('normal');
-          lineControls.start('normal');
+          rectControls.start("normal")
+          pathControls.start("normal")
+          lineControls.start("normal")
         },
-      };
-    });
+      }
+    })
 
     const handleMouseEnter = useCallback(
       (e: React.MouseEvent<HTMLDivElement>) => {
         if (!isControlledRef.current) {
-          rectControls.start('animate');
-          pathControls.start('animate');
-          lineControls.start('animate');
+          rectControls.start("animate")
+          pathControls.start("animate")
+          lineControls.start("animate")
         } else {
-          onMouseEnter?.(e);
+          onMouseEnter?.(e)
         }
       },
       [lineControls, onMouseEnter, pathControls, rectControls]
-    );
+    )
 
     const handleMouseLeave = useCallback(
       (e: React.MouseEvent<HTMLDivElement>) => {
         if (!isControlledRef.current) {
-          rectControls.start('normal');
-          pathControls.start('normal');
-          lineControls.start('normal');
+          rectControls.start("normal")
+          pathControls.start("normal")
+          lineControls.start("normal")
         } else {
-          onMouseLeave?.(e);
+          onMouseLeave?.(e)
         }
       },
       [rectControls, pathControls, lineControls, onMouseLeave]
-    );
+    )
 
     return (
       <div
@@ -177,10 +177,10 @@ const InstagramIcon = forwardRef<InstagramIconHandle, InstagramIconProps>(
           />
         </svg>
       </div>
-    );
+    )
   }
-);
+)
 
-InstagramIcon.displayName = 'InstagramIcon';
+InstagramIcon.displayName = "InstagramIcon"
 
-export { InstagramIcon };
+export { InstagramIcon }

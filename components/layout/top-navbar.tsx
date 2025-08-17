@@ -5,6 +5,7 @@ import { ChevronDownIcon } from "@/components/ui/icons/chevron-down"
 import { CpuIcon } from "@/components/ui/icons/cpu"
 import { GithubIcon } from "@/components/ui/icons/github"
 import { HomeIcon } from "@/components/ui/icons/home"
+import { MessageCircleIcon } from "@/components/ui/icons/message-circle"
 import { Logo } from "@/components/ui/logo"
 import { ThemeSwitcher } from "@/components/ui/theme-switcher"
 import { useSession } from "@/lib/auth/auth-client"
@@ -123,6 +124,18 @@ export default function TopNavbar() {
 
               {!isConsole && (
                 <>
+                  {isMarketing && (
+                    <a
+                      href="https://cal.com/raghuvr/data-atmos-demo?duration=30"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="flex items-center gap-2 px-3 py-2 text-sm text-muted-foreground hover:text-foreground transition-colors rounded-md hover:bg-accent/30"
+                    >
+                      <MessageCircleIcon size={15} />
+                      Talk to us
+                    </a>
+                  )}
+
                   <Link
                     href="https://github.com/raghunandhanvr/dataatmos"
                     target="_blank"

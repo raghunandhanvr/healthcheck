@@ -14,10 +14,7 @@ interface OTPVerificationTemplateProps {
   otp: string
 }
 
-export const OTPVerificationTemplate = ({ 
-  userFirstName, 
-  otp 
-}: OTPVerificationTemplateProps) => (
+export const OTPVerificationTemplate = ({ userFirstName, otp }: OTPVerificationTemplateProps) => (
   <Html>
     <Head />
     <Preview>Your 2FA verification code for Data Atmos</Preview>
@@ -26,34 +23,30 @@ export const OTPVerificationTemplate = ({
         <Section style={header}>
           <Text style={logo}>Data Atmos</Text>
         </Section>
-        
+
         <Section style={content}>
           <Heading style={h1}>Your verification code</Heading>
-          
-          <Text style={text}>
-            Hello {userFirstName},
-          </Text>
-          
-          <Text style={text}>
-            Your 2FA verification code is:
-          </Text>
-          
+
+          <Text style={text}>Hello {userFirstName},</Text>
+
+          <Text style={text}>Your 2FA verification code is:</Text>
+
           <Section style={otpSection}>
             <Text style={otpCode}>{otp}</Text>
           </Section>
-          
-          <Text style={expiryText}>
-            This code will expire in 5 minutes for security reasons.
-          </Text>
-          
+
+          <Text style={expiryText}>This code will expire in 5 minutes for security reasons.</Text>
+
           <Section style={divider} />
-          
+
           <Text style={footer}>
-            If you didn&apos;t request this code, please ignore this email. Your account remains secure.
+            If you didn&apos;t request this code, please ignore this email. Your account remains
+            secure.
           </Text>
-          
+
           <Text style={signature}>
-            Best regards,<br />
+            Best regards,
+            <br />
             The Data Atmos Team
           </Text>
         </Section>
@@ -64,7 +57,8 @@ export const OTPVerificationTemplate = ({
 
 const main = {
   backgroundColor: "#f8f9fa",
-  fontFamily: "Geist, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', sans-serif",
+  fontFamily:
+    "Geist, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', sans-serif",
   margin: "0",
   padding: "0",
 }

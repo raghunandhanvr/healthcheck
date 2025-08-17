@@ -1,18 +1,18 @@
-'use client';
+"use client"
 
-import type { Variants } from 'motion/react';
-import { motion, useAnimation } from 'motion/react';
-import type { HTMLAttributes } from 'react';
-import { forwardRef, useCallback, useImperativeHandle, useRef } from 'react';
-import { cn } from '@/lib/utils/common';
+import type { Variants } from "motion/react"
+import { motion, useAnimation } from "motion/react"
+import type { HTMLAttributes } from "react"
+import { forwardRef, useCallback, useImperativeHandle, useRef } from "react"
+import { cn } from "@/lib/utils/common"
 
 export interface FilePenLineIconHandle {
-  startAnimation: () => void;
-  stopAnimation: () => void;
+  startAnimation: () => void
+  stopAnimation: () => void
 }
 
 interface FilePenLineIconProps extends HTMLAttributes<HTMLDivElement> {
-  size?: number;
+  size?: number
 }
 
 const penVariants: Variants = {
@@ -28,46 +28,46 @@ const penVariants: Variants = {
     transition: {
       duration: 0.5,
       repeat: 1,
-      ease: 'easeInOut',
+      ease: "easeInOut",
     },
   },
-};
+}
 
 const FilePenLineIcon = forwardRef<FilePenLineIconHandle, FilePenLineIconProps>(
   ({ onMouseEnter, onMouseLeave, className, size = 28, ...props }, ref) => {
-    const controls = useAnimation();
-    const isControlledRef = useRef(false);
+    const controls = useAnimation()
+    const isControlledRef = useRef(false)
 
     useImperativeHandle(ref, () => {
-      isControlledRef.current = true;
+      isControlledRef.current = true
 
       return {
-        startAnimation: () => controls.start('animate'),
-        stopAnimation: () => controls.start('normal'),
-      };
-    });
+        startAnimation: () => controls.start("animate"),
+        stopAnimation: () => controls.start("normal"),
+      }
+    })
 
     const handleMouseEnter = useCallback(
       (e: React.MouseEvent<HTMLDivElement>) => {
         if (!isControlledRef.current) {
-          controls.start('animate');
+          controls.start("animate")
         } else {
-          onMouseEnter?.(e);
+          onMouseEnter?.(e)
         }
       },
       [controls, onMouseEnter]
-    );
+    )
 
     const handleMouseLeave = useCallback(
       (e: React.MouseEvent<HTMLDivElement>) => {
         if (!isControlledRef.current) {
-          controls.start('normal');
+          controls.start("normal")
         } else {
-          onMouseLeave?.(e);
+          onMouseLeave?.(e)
         }
       },
       [controls, onMouseLeave]
-    );
+    )
 
     return (
       <div
@@ -97,18 +97,18 @@ const FilePenLineIcon = forwardRef<FilePenLineIconHandle, FilePenLineIconProps>(
           <motion.path
             d="M8 18h1"
             variants={{
-              normal: { d: 'M8 18h1' },
-              animate: { d: 'M8 18h5' },
+              normal: { d: "M8 18h1" },
+              animate: { d: "M8 18h5" },
             }}
             animate={controls}
             transition={{ duration: 0.5 }}
           />
         </svg>
       </div>
-    );
+    )
   }
-);
+)
 
-FilePenLineIcon.displayName = 'FilePenLineIcon';
+FilePenLineIcon.displayName = "FilePenLineIcon"
 
-export { FilePenLineIcon };
+export { FilePenLineIcon }

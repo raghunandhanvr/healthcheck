@@ -1,14 +1,9 @@
-import { betterAuth } from "better-auth";
-import { nextCookies } from "better-auth/next-js";
-import {
-  admin,
-  multiSession,
-  twoFactor,
-  organization,
-} from "better-auth/plugins";
-import { passkey } from "better-auth/plugins/passkey";
-import { pgConnection } from "@/lib/database/postgres";
-import { AUTH_MESSAGES, CONFIG } from "@/lib/constants";
+import { betterAuth } from "better-auth"
+import { nextCookies } from "better-auth/next-js"
+import { admin, multiSession, twoFactor, organization } from "better-auth/plugins"
+import { passkey } from "better-auth/plugins/passkey"
+import { pgConnection } from "@/lib/database/postgres"
+import { AUTH_MESSAGES, CONFIG } from "@/lib/constants"
 
 export const auth = betterAuth({
   database: pgConnection,
@@ -26,8 +21,7 @@ export const auth = betterAuth({
       sameSite: "lax",
       secure: process.env.NODE_ENV === "production",
       httpOnly: true,
-      domain:
-        process.env.NODE_ENV === "production" ? "dataatmos.ai" : undefined,
+      domain: process.env.NODE_ENV === "production" ? "dataatmos.ai" : undefined,
     },
   },
 
@@ -37,10 +31,8 @@ export const auth = betterAuth({
     minPasswordLength: 8,
     maxPasswordLength: 128,
     sendResetPassword: async ({ user, url, token }) => {
-      const { sendPasswordResetEmail } = await import(
-        "@/lib/services/email-service"
-      );
-      await sendPasswordResetEmail({ user, url, token });
+      const { sendPasswordResetEmail } = await import("@/lib/services/email-service")
+      await sendPasswordResetEmail({ user, url, token })
     },
   },
 
@@ -48,10 +40,8 @@ export const auth = betterAuth({
     sendOnSignUp: true,
     autoSignInAfterVerification: true,
     sendVerificationEmail: async ({ user, url, token }) => {
-      const { sendVerificationEmail } = await import(
-        "@/lib/services/email-service"
-      );
-      await sendVerificationEmail({ user, url, token });
+      const { sendVerificationEmail } = await import("@/lib/services/email-service")
+      await sendVerificationEmail({ user, url, token })
     },
   },
 
@@ -79,9 +69,7 @@ export const auth = betterAuth({
       cancelPendingInvitationsOnReInvite: true,
       invitationLimit: 20,
       async sendInvitationEmail(data) {
-        const { sendOrganizationInvitationEmail } = await import(
-          "@/lib/services/email-service"
-        );
+        const { sendOrganizationInvitationEmail } = await import("@/lib/services/email-service")
         await sendOrganizationInvitationEmail({
           email: data.email,
           invitedByUsername: data.inviter.user.name,
@@ -89,7 +77,7 @@ export const auth = betterAuth({
           organizationName: data.organization.name,
           inviteLink: `${process.env.BETTER_AUTH_URL}/accept-invitation/${data.id}`,
           invitationId: data.id,
-        });
+        })
       },
     }),
     admin({
@@ -110,8 +98,8 @@ export const auth = betterAuth({
       },
       otpOptions: {
         async sendOTP({ user, otp }) {
-          const { sendOTPEmail } = await import("@/lib/services/email-service");
-          await sendOTPEmail({ user, otp });
+          const { sendOTPEmail } = await import("@/lib/services/email-service")
+          await sendOTPEmail({ user, otp })
         },
         period: 5,
         storeOTP: "plain",
@@ -130,16 +118,11 @@ export const auth = betterAuth({
       rpID: "dataatmos.ai",
       rpName: "Data Atmos",
       origin:
-        process.env.NODE_ENV === "production"
-          ? "https://dataatmos.ai"
-          : "http://localhost:3000",
+        process.env.NODE_ENV === "production" ? "https://dataatmos.ai" : "http://localhost:3000",
     }),
   ],
 
-  trustedOrigins: [
-    "exp://",
-    process.env.BETTER_AUTH_URL || "http://localhost:3000",
-  ],
+  trustedOrigins: ["exp://", process.env.BETTER_AUTH_URL || "http://localhost:3000"],
 
   advanced: {
     crossSubDomainCookies: {
@@ -158,4 +141,4 @@ export const auth = betterAuth({
       referrerPolicy: "strict-origin-when-cross-origin",
     },
   }),
-});
+})

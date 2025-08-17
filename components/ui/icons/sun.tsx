@@ -1,18 +1,18 @@
-'use client';
+"use client"
 
-import type { Variants } from 'motion/react';
-import { motion, useAnimation } from 'motion/react';
-import type { HTMLAttributes } from 'react';
-import { forwardRef, useCallback, useImperativeHandle, useRef } from 'react';
-import { cn } from '@/lib/utils/common';
+import type { Variants } from "motion/react"
+import { motion, useAnimation } from "motion/react"
+import type { HTMLAttributes } from "react"
+import { forwardRef, useCallback, useImperativeHandle, useRef } from "react"
+import { cn } from "@/lib/utils/common"
 
 export interface SunIconHandle {
-  startAnimation: () => void;
-  stopAnimation: () => void;
+  startAnimation: () => void
+  stopAnimation: () => void
 }
 
 interface SunIconProps extends HTMLAttributes<HTMLDivElement> {
-  size?: number;
+  size?: number
 }
 
 const pathVariants: Variants = {
@@ -21,43 +21,43 @@ const pathVariants: Variants = {
     opacity: [0, 1],
     transition: { delay: i * 0.1, duration: 0.3 },
   }),
-};
+}
 
 const SunIcon = forwardRef<SunIconHandle, SunIconProps>(
   ({ onMouseEnter, onMouseLeave, className, size = 28, ...props }, ref) => {
-    const controls = useAnimation();
-    const isControlledRef = useRef(false);
+    const controls = useAnimation()
+    const isControlledRef = useRef(false)
 
     useImperativeHandle(ref, () => {
-      isControlledRef.current = true;
+      isControlledRef.current = true
 
       return {
-        startAnimation: () => controls.start('animate'),
-        stopAnimation: () => controls.start('normal'),
-      };
-    });
+        startAnimation: () => controls.start("animate"),
+        stopAnimation: () => controls.start("normal"),
+      }
+    })
 
     const handleMouseEnter = useCallback(
       (e: React.MouseEvent<HTMLDivElement>) => {
         if (!isControlledRef.current) {
-          controls.start('animate');
+          controls.start("animate")
         } else {
-          onMouseEnter?.(e);
+          onMouseEnter?.(e)
         }
       },
       [controls, onMouseEnter]
-    );
+    )
 
     const handleMouseLeave = useCallback(
       (e: React.MouseEvent<HTMLDivElement>) => {
         if (!isControlledRef.current) {
-          controls.start('normal');
+          controls.start("normal")
         } else {
-          onMouseLeave?.(e);
+          onMouseLeave?.(e)
         }
       },
       [controls, onMouseLeave]
-    );
+    )
     return (
       <div
         className={cn(className)}
@@ -78,14 +78,14 @@ const SunIcon = forwardRef<SunIconHandle, SunIconProps>(
         >
           <circle cx="12" cy="12" r="4" />
           {[
-            'M12 2v2',
-            'm19.07 4.93-1.41 1.41',
-            'M20 12h2',
-            'm17.66 17.66 1.41 1.41',
-            'M12 20v2',
-            'm6.34 17.66-1.41 1.41',
-            'M2 12h2',
-            'm4.93 4.93 1.41 1.41',
+            "M12 2v2",
+            "m19.07 4.93-1.41 1.41",
+            "M20 12h2",
+            "m17.66 17.66 1.41 1.41",
+            "M12 20v2",
+            "m6.34 17.66-1.41 1.41",
+            "M2 12h2",
+            "m4.93 4.93 1.41 1.41",
           ].map((d, index) => (
             <motion.path
               key={d}
@@ -97,10 +97,10 @@ const SunIcon = forwardRef<SunIconHandle, SunIconProps>(
           ))}
         </svg>
       </div>
-    );
+    )
   }
-);
+)
 
-SunIcon.displayName = 'SunIcon';
+SunIcon.displayName = "SunIcon"
 
-export { SunIcon };
+export { SunIcon }

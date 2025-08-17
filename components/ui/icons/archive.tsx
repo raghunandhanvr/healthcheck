@@ -1,18 +1,18 @@
-'use client';
+"use client"
 
-import type { Variants } from 'motion/react';
-import { motion, useAnimation } from 'motion/react';
-import type { HTMLAttributes } from 'react';
-import { forwardRef, useCallback, useImperativeHandle, useRef } from 'react';
-import { cn } from '@/lib/utils/common';
+import type { Variants } from "motion/react"
+import { motion, useAnimation } from "motion/react"
+import type { HTMLAttributes } from "react"
+import { forwardRef, useCallback, useImperativeHandle, useRef } from "react"
+import { cn } from "@/lib/utils/common"
 
 export interface ArchiveIconHandle {
-  startAnimation: () => void;
-  stopAnimation: () => void;
+  startAnimation: () => void
+  stopAnimation: () => void
 }
 
 interface ArchiveIconProps extends HTMLAttributes<HTMLDivElement> {
-  size?: number;
+  size?: number
 }
 
 const rectVariants: Variants = {
@@ -20,7 +20,7 @@ const rectVariants: Variants = {
     translateY: 0,
     transition: {
       duration: 0.2,
-      type: 'spring',
+      type: "spring",
       stiffness: 200,
       damping: 25,
     },
@@ -29,58 +29,58 @@ const rectVariants: Variants = {
     translateY: -1.5,
     transition: {
       duration: 0.2,
-      type: 'spring',
+      type: "spring",
       stiffness: 200,
       damping: 25,
     },
   },
-};
+}
 
 const pathVariants: Variants = {
-  normal: { d: 'M4 8v11a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8' },
-  animate: { d: 'M4 11v9a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V11' },
-};
+  normal: { d: "M4 8v11a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8" },
+  animate: { d: "M4 11v9a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V11" },
+}
 
 const secondaryPathVariants: Variants = {
-  normal: { d: 'M10 12h4' },
-  animate: { d: 'M10 15h4' },
-};
+  normal: { d: "M10 12h4" },
+  animate: { d: "M10 15h4" },
+}
 
 const ArchiveIcon = forwardRef<ArchiveIconHandle, ArchiveIconProps>(
   ({ onMouseEnter, onMouseLeave, className, size = 28, ...props }, ref) => {
-    const controls = useAnimation();
-    const isControlledRef = useRef(false);
+    const controls = useAnimation()
+    const isControlledRef = useRef(false)
 
     useImperativeHandle(ref, () => {
-      isControlledRef.current = true;
+      isControlledRef.current = true
 
       return {
-        startAnimation: () => controls.start('animate'),
-        stopAnimation: () => controls.start('normal'),
-      };
-    });
+        startAnimation: () => controls.start("animate"),
+        stopAnimation: () => controls.start("normal"),
+      }
+    })
 
     const handleMouseEnter = useCallback(
       (e: React.MouseEvent<HTMLDivElement>) => {
         if (!isControlledRef.current) {
-          controls.start('animate');
+          controls.start("animate")
         } else {
-          onMouseEnter?.(e);
+          onMouseEnter?.(e)
         }
       },
       [controls, onMouseEnter]
-    );
+    )
 
     const handleMouseLeave = useCallback(
       (e: React.MouseEvent<HTMLDivElement>) => {
         if (!isControlledRef.current) {
-          controls.start('normal');
+          controls.start("normal")
         } else {
-          onMouseLeave?.(e);
+          onMouseLeave?.(e)
         }
       },
       [controls, onMouseLeave]
-    );
+    )
 
     return (
       <div
@@ -115,17 +115,13 @@ const ArchiveIcon = forwardRef<ArchiveIconHandle, ArchiveIconProps>(
             variants={pathVariants}
             animate={controls}
           />
-          <motion.path
-            d="M10 12h4"
-            variants={secondaryPathVariants}
-            animate={controls}
-          />
+          <motion.path d="M10 12h4" variants={secondaryPathVariants} animate={controls} />
         </svg>
       </div>
-    );
+    )
   }
-);
+)
 
-ArchiveIcon.displayName = 'ArchiveIcon';
+ArchiveIcon.displayName = "ArchiveIcon"
 
-export { ArchiveIcon };
+export { ArchiveIcon }

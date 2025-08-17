@@ -1,7 +1,7 @@
 "use client"
 
-import { useApi, useLazyApi, useMutation, UseApiOptions } from '../hooks'
-import { API_ROUTES } from '../routes'
+import { useApi, useLazyApi, useMutation, UseApiOptions } from "../hooks"
+import { API_ROUTES } from "../routes"
 
 export interface SessionItem {
   session: {
@@ -19,7 +19,7 @@ export function useActiveSessions(options?: UseApiOptions) {
   })
 }
 
-export function useLazyActiveSessions(options?: Omit<UseApiOptions, 'immediate' | 'lazy'>) {
+export function useLazyActiveSessions(options?: Omit<UseApiOptions, "immediate" | "lazy">) {
   return useLazyApi<SessionItem[]>(API_ROUTES.AUTH.SESSIONS, options)
 }
 
@@ -40,16 +40,22 @@ export function usePasswordResetRequest() {
 }
 
 export function usePasswordReset() {
-  return useMutation<{ success: boolean }, { 
-    token: string
-    password: string 
-  }>()
+  return useMutation<
+    { success: boolean },
+    {
+      token: string
+      password: string
+    }
+  >()
 }
 
 export function useTwoFactorToggle() {
-  return useMutation<{ success: boolean; totpURI?: string }, { 
-    action: 'enable' | 'disable'
-    password: string
-    code?: string
-  }>()
+  return useMutation<
+    { success: boolean; totpURI?: string },
+    {
+      action: "enable" | "disable"
+      password: string
+      code?: string
+    }
+  >()
 }

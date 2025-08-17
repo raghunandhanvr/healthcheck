@@ -1,20 +1,20 @@
-'use client'
+"use client"
 
-import { useState, useEffect, Suspense } from 'react'
-import { useSearchParams } from 'next/navigation'
 import { Button } from "@/components/ui/button"
-import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card"
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
+import { Globe } from "@/components/ui/globe"
+import { AtSignIcon } from "@/components/ui/icons/at-sign"
+import { BadgeAlertIcon } from "@/components/ui/icons/badge-alert"
+import { CircleCheckIcon } from "@/components/ui/icons/circle-check"
+import { EyeOffIcon } from "@/components/ui/icons/eye-off"
+import { LoaderPinwheelIcon } from "@/components/ui/icons/loader-pinwheel"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
-import { LoaderPinwheelIcon } from "@/components/ui/icons/loader-pinwheel"
-import { CircleCheckIcon } from "@/components/ui/icons/circle-check"
-import { BadgeAlertIcon } from "@/components/ui/icons/badge-alert"
-import { EyeOffIcon } from "@/components/ui/icons/eye-off"
-import { AtSignIcon } from "@/components/ui/icons/at-sign"
-import Link from "next/link"
-import { client } from "@/lib/auth/auth-client"
 import { toast } from "@/components/ui/sonner"
-import { Globe } from '@/components/ui/globe'
+import { client } from "@/lib/auth/auth-client"
+import Link from "next/link"
+import { useSearchParams } from "next/navigation"
+import { Suspense, useEffect, useState } from "react"
 
 function ResetPasswordContent() {
   const [password, setPassword] = useState("")
@@ -25,7 +25,7 @@ function ResetPasswordContent() {
   const [isValidToken, setIsValidToken] = useState<boolean | null>(null)
   const [resetSuccess, setResetSuccess] = useState(false)
   const searchParams = useSearchParams()
-  const token = searchParams.get('token')
+  const token = searchParams.get("token")
 
   const globeConfig = {
     width: 800,
@@ -39,7 +39,7 @@ function ResetPasswordContent() {
     mapSamples: 16000,
     mapBrightness: 1.2,
     baseColor: [1, 1, 1] as [number, number, number],
-    markerColor: [9/255, 105/255, 218/255] as [number, number, number],
+    markerColor: [9 / 255, 105 / 255, 218 / 255] as [number, number, number],
     glowColor: [1, 1, 1] as [number, number, number],
     markers: [
       { location: [14.5995, 120.9842] as [number, number], size: 0.03 },
@@ -82,16 +82,19 @@ function ResetPasswordContent() {
     }
 
     setLoading(true)
-    
+
     try {
       const response = await client.resetPassword({
         newPassword: password,
         token,
       })
-      
+
       if (response.error) {
         toast.error(response.error.message || "Reset password failed")
-        if (response.error.message?.includes('expired') || response.error.message?.includes('invalid')) {
+        if (
+          response.error.message?.includes("expired") ||
+          response.error.message?.includes("invalid")
+        ) {
           setIsValidToken(false)
         }
       } else {
@@ -105,26 +108,19 @@ function ResetPasswordContent() {
     }
   }
 
-
   if (isValidToken === false) {
     return (
       <div className="layout-container centered pt-24">
         <div className="grid lg:grid-cols-2 gap-8 lg:gap-16 items-center w-full max-w-6xl">
-
           <div className="order-2 lg:order-1 flex flex-col items-center justify-center relative">
             <div className="relative w-full max-w-md aspect-square">
               <Globe config={globeConfig} className="w-full h-full" />
             </div>
             <div className="text-center mt-6 space-y-2">
-              <p className="text-sm text-muted-foreground">
-                Your servers are up and running
-              </p>
-              <p className="text-xs text-muted-foreground/70">
-                Secure password reset
-              </p>
+              <p className="text-sm text-muted-foreground">Your servers are up and running</p>
+              <p className="text-xs text-muted-foreground/70">Secure password reset</p>
             </div>
           </div>
-
 
           <div className="order-1 lg:order-2 w-full max-w-md mx-auto lg:mx-0">
             <Card>
@@ -139,19 +135,17 @@ function ResetPasswordContent() {
                   This password reset link is invalid or has expired
                 </CardDescription>
               </CardHeader>
-              
+
               <CardContent className="space-y-4 text-center">
                 <p className="text-sm text-muted-foreground">
                   Password reset links expire after 1 hour for security reasons.
                 </p>
-                
+
                 <div className="space-y-2">
                   <Link href="/auth/forgot-password">
-                    <Button className="w-full">
-                      Request new reset link
-                    </Button>
+                    <Button className="w-full">Request new reset link</Button>
                   </Link>
-                  
+
                   <Link href="/auth">
                     <Button variant="ghost" className="w-full">
                       Back to sign in
@@ -166,26 +160,19 @@ function ResetPasswordContent() {
     )
   }
 
-
   if (resetSuccess) {
     return (
       <div className="layout-container centered pt-24">
         <div className="grid lg:grid-cols-2 gap-8 lg:gap-16 items-center w-full max-w-6xl">
-
           <div className="order-2 lg:order-1 flex flex-col items-center justify-center relative">
             <div className="relative w-full max-w-md aspect-square">
               <Globe config={globeConfig} className="w-full h-full" />
             </div>
             <div className="text-center mt-6 space-y-2">
-              <p className="text-sm text-muted-foreground">
-                Your servers are up and running
-              </p>
-              <p className="text-xs text-muted-foreground/70">
-                Password reset successful
-              </p>
+              <p className="text-sm text-muted-foreground">Your servers are up and running</p>
+              <p className="text-xs text-muted-foreground/70">Password reset successful</p>
             </div>
           </div>
-
 
           <div className="order-1 lg:order-2 w-full max-w-md mx-auto lg:mx-0">
             <Card>
@@ -196,20 +183,16 @@ function ResetPasswordContent() {
                   </div>
                 </div>
                 <CardTitle>Password reset successful</CardTitle>
-                <CardDescription>
-                  Your password has been updated successfully
-                </CardDescription>
+                <CardDescription>Your password has been updated successfully</CardDescription>
               </CardHeader>
-              
+
               <CardContent className="space-y-4 text-center">
                 <p className="text-sm text-muted-foreground">
                   You can now sign in with your new password.
                 </p>
-                
+
                 <Link href="/auth">
-                  <Button className="w-full">
-                    Continue to sign in
-                  </Button>
+                  <Button className="w-full">Continue to sign in</Button>
                 </Link>
               </CardContent>
             </Card>
@@ -218,7 +201,6 @@ function ResetPasswordContent() {
       </div>
     )
   }
-
 
   if (isValidToken === null) {
     return (
@@ -233,35 +215,26 @@ function ResetPasswordContent() {
     )
   }
 
-
   return (
     <div className="layout-container centered pt-24">
       <div className="grid lg:grid-cols-2 gap-8 lg:gap-16 items-center w-full max-w-6xl">
-
         <div className="order-2 lg:order-1 flex flex-col items-center justify-center relative">
           <div className="relative w-full max-w-md aspect-square">
             <Globe config={globeConfig} className="w-full h-full" />
           </div>
           <div className="text-center mt-6 space-y-2">
-            <p className="text-sm text-muted-foreground">
-              Your servers are up and running
-            </p>
-            <p className="text-xs text-muted-foreground/70">
-              Create a new secure password
-            </p>
+            <p className="text-sm text-muted-foreground">Your servers are up and running</p>
+            <p className="text-xs text-muted-foreground/70">Create a new secure password</p>
           </div>
         </div>
-
 
         <div className="order-1 lg:order-2 w-full max-w-md mx-auto lg:mx-0">
           <Card>
             <CardHeader className="text-center">
               <CardTitle>Reset your password</CardTitle>
-              <CardDescription>
-                Enter your new password below
-              </CardDescription>
+              <CardDescription>Enter your new password below</CardDescription>
             </CardHeader>
-            
+
             <CardContent>
               <form onSubmit={handleResetPassword} className="space-y-4">
                 <div className="space-y-2">
@@ -272,7 +245,7 @@ function ResetPasswordContent() {
                       type={showPassword ? "text" : "password"}
                       placeholder="Create a strong password"
                       value={password}
-                      onChange={(e) => setPassword(e.target.value)}
+                      onChange={e => setPassword(e.target.value)}
                       required
                       disabled={loading}
                       autoComplete="new-password"
@@ -284,11 +257,7 @@ function ResetPasswordContent() {
                       className="absolute inset-y-0 right-0 pr-3 flex items-center"
                       onClick={() => setShowPassword(!showPassword)}
                     >
-                      {showPassword ? (
-                        <EyeOffIcon size={12} />
-                      ) : (
-                        <AtSignIcon size={12} />
-                      )}
+                      {showPassword ? <EyeOffIcon size={12} /> : <AtSignIcon size={12} />}
                     </button>
                   </div>
                   <p className="text-xs text-muted-foreground">
@@ -304,7 +273,7 @@ function ResetPasswordContent() {
                       type={showConfirmPassword ? "text" : "password"}
                       placeholder="Confirm your new password"
                       value={confirmPassword}
-                      onChange={(e) => setConfirmPassword(e.target.value)}
+                      onChange={e => setConfirmPassword(e.target.value)}
                       required
                       disabled={loading}
                       autoComplete="new-password"
@@ -315,18 +284,14 @@ function ResetPasswordContent() {
                       className="absolute inset-y-0 right-0 pr-3 flex items-center"
                       onClick={() => setShowConfirmPassword(!showConfirmPassword)}
                     >
-                      {showConfirmPassword ? (
-                        <EyeOffIcon size={12} />
-                      ) : (
-                        <AtSignIcon size={12} />
-                      )}
+                      {showConfirmPassword ? <EyeOffIcon size={12} /> : <AtSignIcon size={12} />}
                     </button>
                   </div>
                 </div>
-                
-                <Button 
-                  type="submit" 
-                  className="w-full" 
+
+                <Button
+                  type="submit"
+                  className="w-full"
                   disabled={loading || !password.trim() || !confirmPassword.trim()}
                 >
                   {loading ? (

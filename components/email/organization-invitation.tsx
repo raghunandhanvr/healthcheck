@@ -19,12 +19,12 @@ interface OrganizationInvitationTemplateProps {
   invitationId: string
 }
 
-export const OrganizationInvitationTemplate = ({ 
+export const OrganizationInvitationTemplate = ({
   invitedByUsername,
   invitedByEmail,
   organizationName,
   inviteLink,
-  invitationId
+  invitationId,
 }: OrganizationInvitationTemplateProps) => (
   <Html>
     <Head />
@@ -34,48 +34,49 @@ export const OrganizationInvitationTemplate = ({
         <Section style={header}>
           <Text style={logo}>Data Atmos</Text>
         </Section>
-        
+
         <Section style={content}>
           <Heading style={h1}>You&apos;re invited to join {organizationName} environment</Heading>
-          
+
+          <Text style={text}>Hello there,</Text>
+
           <Text style={text}>
-            Hello there,
+            <strong>{invitedByUsername}</strong> ({invitedByEmail}) has invited you to join the{" "}
+            <strong>{organizationName}</strong> environment on Data Atmos.
           </Text>
-          
+
           <Text style={text}>
-            <strong>{invitedByUsername}</strong> ({invitedByEmail}) has invited you to join the <strong>{organizationName}</strong> environment on Data Atmos.
+            This environment will allow you to collaborate on data platform configurations and
+            workloads together.
           </Text>
-          
-          <Text style={text}>
-            This environment will allow you to collaborate on data platform configurations and workloads together.
-          </Text>
-          
+
           <Section style={buttonSection}>
             <Button style={button} href={inviteLink}>
               Join Environment
             </Button>
           </Section>
-          
+
           <Text style={smallText}>
-            If the button above doesn&apos;t work, you can also copy and paste this link into your browser:
+            If the button above doesn&apos;t work, you can also copy and paste this link into your
+            browser:
           </Text>
-          
+
           <Link href={inviteLink} style={link}>
             {inviteLink}
           </Link>
-          
+
           <Section style={divider} />
-          
+
           <Text style={footer}>
-            This invitation will expire in 48 hours. If you didn&apos;t expect this invitation, you can safely ignore this email.
+            This invitation will expire in 48 hours. If you didn&apos;t expect this invitation, you
+            can safely ignore this email.
           </Text>
-          
-          <Text style={invitationIdText}>
-            Invitation ID: {invitationId}
-          </Text>
-          
+
+          <Text style={invitationIdText}>Invitation ID: {invitationId}</Text>
+
           <Text style={signature}>
-            Best regards,<br />
+            Best regards,
+            <br />
             The Data Atmos Team
           </Text>
         </Section>
@@ -86,7 +87,8 @@ export const OrganizationInvitationTemplate = ({
 
 const main = {
   backgroundColor: "#f8f9fa",
-  fontFamily: "Geist, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', sans-serif",
+  fontFamily:
+    "Geist, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', sans-serif",
   margin: "0",
   padding: "0",
 }

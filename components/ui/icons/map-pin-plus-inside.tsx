@@ -1,18 +1,18 @@
-'use client';
+"use client"
 
-import type { Variants } from 'motion/react';
-import { motion, useAnimation } from 'motion/react';
-import type { HTMLAttributes } from 'react';
-import { forwardRef, useCallback, useImperativeHandle, useRef } from 'react';
-import { cn } from '@/lib/utils/common';
+import type { Variants } from "motion/react"
+import { motion, useAnimation } from "motion/react"
+import type { HTMLAttributes } from "react"
+import { forwardRef, useCallback, useImperativeHandle, useRef } from "react"
+import { cn } from "@/lib/utils/common"
 
 export interface MapPinPlusInsideIconHandle {
-  startAnimation: () => void;
-  stopAnimation: () => void;
+  startAnimation: () => void
+  stopAnimation: () => void
 }
 
 interface MapPinPlusInsideIconProps extends HTMLAttributes<HTMLDivElement> {
-  size?: number;
+  size?: number
 }
 
 const svgVariants: Variants = {
@@ -26,7 +26,7 @@ const svgVariants: Variants = {
       times: [0, 0.6, 1],
     },
   },
-};
+}
 
 const verticalBarVariants: Variants = {
   normal: {
@@ -41,7 +41,7 @@ const verticalBarVariants: Variants = {
       opacity: { duration: 0.1, delay: 0.3 },
     },
   },
-};
+}
 
 const horizontalBarVariants: Variants = {
   normal: {
@@ -56,85 +56,84 @@ const horizontalBarVariants: Variants = {
       opacity: { duration: 0.1, delay: 0.6 },
     },
   },
-};
+}
 
-const MapPinPlusInsideIcon = forwardRef<
-  MapPinPlusInsideIconHandle,
-  MapPinPlusInsideIconProps
->(({ onMouseEnter, onMouseLeave, className, size = 28, ...props }, ref) => {
-  const controls = useAnimation();
-  const isControlledRef = useRef(false);
+const MapPinPlusInsideIcon = forwardRef<MapPinPlusInsideIconHandle, MapPinPlusInsideIconProps>(
+  ({ onMouseEnter, onMouseLeave, className, size = 28, ...props }, ref) => {
+    const controls = useAnimation()
+    const isControlledRef = useRef(false)
 
-  useImperativeHandle(ref, () => {
-    isControlledRef.current = true;
+    useImperativeHandle(ref, () => {
+      isControlledRef.current = true
 
-    return {
-      startAnimation: () => controls.start('animate'),
-      stopAnimation: () => controls.start('normal'),
-    };
-  });
-
-  const handleMouseEnter = useCallback(
-    (e: React.MouseEvent<HTMLDivElement>) => {
-      if (!isControlledRef.current) {
-        controls.start('animate');
-      } else {
-        onMouseEnter?.(e);
+      return {
+        startAnimation: () => controls.start("animate"),
+        stopAnimation: () => controls.start("normal"),
       }
-    },
-    [controls, onMouseEnter]
-  );
+    })
 
-  const handleMouseLeave = useCallback(
-    (e: React.MouseEvent<HTMLDivElement>) => {
-      if (!isControlledRef.current) {
-        controls.start('normal');
-      } else {
-        onMouseLeave?.(e);
-      }
-    },
-    [controls, onMouseLeave]
-  );
+    const handleMouseEnter = useCallback(
+      (e: React.MouseEvent<HTMLDivElement>) => {
+        if (!isControlledRef.current) {
+          controls.start("animate")
+        } else {
+          onMouseEnter?.(e)
+        }
+      },
+      [controls, onMouseEnter]
+    )
 
-  return (
-    <div
-      className={cn(className)}
-      onMouseEnter={handleMouseEnter}
-      onMouseLeave={handleMouseLeave}
-      {...props}
-    >
-      <motion.svg
-        xmlns="http://www.w3.org/2000/svg"
-        width={size}
-        height={size}
-        viewBox="0 0 24 24"
-        fill="none"
-        stroke="currentColor"
-        strokeWidth="2"
-        strokeLinecap="round"
-        strokeLinejoin="round"
-        variants={svgVariants}
-        initial="normal"
-        animate={controls}
+    const handleMouseLeave = useCallback(
+      (e: React.MouseEvent<HTMLDivElement>) => {
+        if (!isControlledRef.current) {
+          controls.start("normal")
+        } else {
+          onMouseLeave?.(e)
+        }
+      },
+      [controls, onMouseLeave]
+    )
+
+    return (
+      <div
+        className={cn(className)}
+        onMouseEnter={handleMouseEnter}
+        onMouseLeave={handleMouseLeave}
+        {...props}
       >
-        <path d="M20 10c0 4.993-5.539 10.193-7.399 11.799a1 1 0 0 1-1.202 0C9.539 20.193 4 14.993 4 10a8 8 0 0 1 16 0" />
-        <motion.path
-          d="M12 7v6"
-          variants={horizontalBarVariants}
+        <motion.svg
+          xmlns="http://www.w3.org/2000/svg"
+          width={size}
+          height={size}
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          strokeWidth="2"
+          strokeLinecap="round"
+          strokeLinejoin="round"
+          variants={svgVariants}
           initial="normal"
           animate={controls}
-        />
-        <motion.path
-          d="M9 10h6"
-          variants={verticalBarVariants}
-          initial="normal"
-          animate={controls}
-        />
-      </motion.svg>
-    </div>
-  );
-});
+        >
+          <path d="M20 10c0 4.993-5.539 10.193-7.399 11.799a1 1 0 0 1-1.202 0C9.539 20.193 4 14.993 4 10a8 8 0 0 1 16 0" />
+          <motion.path
+            d="M12 7v6"
+            variants={horizontalBarVariants}
+            initial="normal"
+            animate={controls}
+          />
+          <motion.path
+            d="M9 10h6"
+            variants={verticalBarVariants}
+            initial="normal"
+            animate={controls}
+          />
+        </motion.svg>
+      </div>
+    )
+  }
+)
 
-MapPinPlusInsideIcon.displayName = 'MapPinPlusInsideIcon';
+MapPinPlusInsideIcon.displayName = "MapPinPlusInsideIcon"
 
-export { MapPinPlusInsideIcon };
+export { MapPinPlusInsideIcon }
