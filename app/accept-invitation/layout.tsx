@@ -1,5 +1,5 @@
 import { LayoutWrapper } from "@/components/layout/layout-wrapper"
 
-export default function AuthLayout({ children }: { children: React.ReactNode }) {
+export default function AcceptInvitationLayout({ children }: { children: React.ReactNode }) {
   return <LayoutWrapper>{children}</LayoutWrapper>
 }

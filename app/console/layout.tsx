@@ -1,3 +1,4 @@
+import { LayoutWrapper } from "@/components/layout/layout-wrapper"
 import { ConsoleLayout } from "@/components/layout/console-layout"
 import type { Metadata } from "next"
 
@@ -26,5 +27,9 @@ export const metadata: Metadata = {
 }
 
 export default function Layout({ children }: { children: React.ReactNode }) {
-  return <ConsoleLayout>{children}</ConsoleLayout>
+  return (
+    <LayoutWrapper isConsole>
+      <ConsoleLayout>{children}</ConsoleLayout>
+    </LayoutWrapper>
+  )
 }

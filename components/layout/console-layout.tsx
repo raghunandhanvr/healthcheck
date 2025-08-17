@@ -1,5 +1,3 @@
-"use client"
-
 import type React from "react"
 
 import { SidebarInset } from "@/components/ui/sidebar"
@@ -13,8 +11,8 @@ export function ConsoleLayout({ children }: ConsoleLayoutProps) {
   return (
     <>
       <ConsoleSidebar />
-      <SidebarInset className="flex-1 flex flex-col min-w-0">
-        <main className="flex-1 flex flex-col min-h-0 w-full">
+      <SidebarInset className="flex-1 flex flex-col min-w-0 h-full">
+        <main className="flex-1 flex flex-col min-h-0 w-full overflow-hidden">
           <div className="flex-1 overflow-auto p-4 md:p-6 lg:p-8 w-full">{children}</div>
         </main>
       </SidebarInset>
