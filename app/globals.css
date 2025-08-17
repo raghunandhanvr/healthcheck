@@ -187,8 +187,20 @@
   * {
     @apply border-border outline-ring/50;
   }
+  
+  html {
+    @apply overflow-hidden;
+    height: 100%;
+  }
+  
   body {
-    @apply bg-background text-foreground;
+    @apply bg-background text-foreground overflow-hidden;
+    height: 100%;
+  }
+  
+  #__next,
+  body > div:first-child {
+    height: 100%;
   }
 
   a,
@@ -249,19 +261,25 @@
 
 /* Console Layout Styles */
 .console-layout-wrapper {
-  @apply flex flex-1 h-full;
+  @apply flex flex-1 h-full overflow-hidden;
 }
 
 .console-main-content {
-  @apply flex-1 flex flex-col min-h-0 w-full;
+  @apply flex-1 flex flex-col min-h-0 w-full overflow-hidden;
 }
 
 .console-page-wrapper {
-  @apply flex-1 w-full;
+  @apply flex-1 w-full overflow-hidden;
 }
 
 .console-scrollable-content {
   @apply h-full w-full overflow-y-auto;
+}
+
+/* Console specific adjustments */
+.console-offset {
+  margin-top: -3.5rem; /* Offset for navbar height */
+  height: calc(100% + 3.5rem);
 }
 
 /* Page Container */
@@ -286,12 +304,12 @@
   @apply bg-surface-secondary/95 backdrop-blur border-r border-border;
   width: 12rem;
   flex-shrink: 0;
-  height: calc(100vh - var(--navbar-height));
-  position: sticky;
-  top: var(--navbar-height);
+  height: 100%;
+  position: relative;
   transition:
     width 0.2s ease-in-out,
     padding 0.2s ease-in-out;
+  overflow: hidden;
 }
 
 .console-sidebar-fn[data-state="collapsed"] {
@@ -304,14 +322,17 @@
 
 .console-sidebar-content-fn {
   @apply bg-surface-secondary/95 backdrop-blur px-2 pt-3;
+  height: 100%;
+  overflow-y: auto;
+  overflow-x: hidden;
 }
 
 @media (max-width: 768px) {
   .console-sidebar-fn {
     width: 18rem;
     @apply fixed inset-y-0 left-0 z-40 transform transition-transform duration-300 ease-in-out;
-    top: var(--navbar-height);
-    height: calc(100vh - var(--navbar-height));
+    top: 0;
+    height: 100vh;
   }
 
   .console-sidebar-fn[data-mobile="closed"] {

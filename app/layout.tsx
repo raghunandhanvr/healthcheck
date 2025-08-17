@@ -1,4 +1,3 @@
-import { LayoutWrapper } from "@/components/layout/layout-wrapper"
 import { Toaster } from "@/components/ui/sonner"
 import { ThemeProvider } from "@/lib/providers/theme-provider"
 import { Analytics } from "@vercel/analytics/next"
@@ -87,15 +86,17 @@ export default function RootLayout({
   children: React.ReactNode
 }>) {
   return (
-    <html lang="en" suppressHydrationWarning>
-      <body className={`${ibmPlexSans.variable} ${ibmPlexMono.variable} antialiased`}>
+    <html lang="en" suppressHydrationWarning className="h-full">
+      <body className={`${ibmPlexSans.variable} ${ibmPlexMono.variable} antialiased h-full`}>
         <ThemeProvider
           attribute="class"
           defaultTheme="system"
           enableSystem
           disableTransitionOnChange
         >
-          <LayoutWrapper>{children}</LayoutWrapper>
+          <div className="h-full flex flex-col bg-background">
+            {children}
+          </div>
           <Toaster />
           <Analytics />
           <SpeedInsights />
