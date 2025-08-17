@@ -8,7 +8,6 @@ import { Label } from "@/components/ui/label"
 import { PasswordStrength } from "@/components/ui/password-strength"
 import { toast } from "@/components/ui/sonner"
 import { signIn, signUp } from "@/lib/auth/auth-client"
-import Image from "next/image"
 import { useRouter } from "next/navigation"
 import { useState } from "react"
 
@@ -18,38 +17,10 @@ export function SignUpTab() {
   const [email, setEmail] = useState("")
   const [password, setPassword] = useState("")
   const [confirmPassword, setConfirmPassword] = useState("")
-  const [image, setImage] = useState<File | null>(null)
-  const [imagePreview, setImagePreview] = useState<string | null>(null)
   const [loading, setLoading] = useState(false)
   const [showPassword, setShowPassword] = useState(false)
   const [showConfirmPassword, setShowConfirmPassword] = useState(false)
   const router = useRouter()
-
-  const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const file = e.target.files?.[0]
-    if (file) {
-      setImage(file)
-      const reader = new FileReader()
-      reader.onloadend = () => {
-        setImagePreview(reader.result as string)
-      }
-      reader.readAsDataURL(file)
-    }
-  }
-
-  const handleRemoveImage = () => {
-    setImage(null)
-    setImagePreview(null)
-  }
-
-  const convertImageToBase64 = (file: File): Promise<string> => {
-    return new Promise((resolve, reject) => {
-      const reader = new FileReader()
-      reader.onloadend = () => resolve(reader.result as string)
-      reader.onerror = reject
-      reader.readAsDataURL(file)
-    })
-  }
 
   const handleEmailPasswordSignUp = async (e: React.FormEvent) => {
     e.preventDefault()
@@ -67,14 +38,12 @@ export function SignUpTab() {
     setLoading(true)
 
     try {
-      const imageBase64 = image ? await convertImageToBase64(image) : undefined
       const redirect = new URLSearchParams(window.location.search).get("redirect")
 
       const response = await signUp.email({
         email,
         password,
         name: `${firstName} ${lastName}`.trim(),
-        image: imageBase64,
         callbackURL: redirect || "/console",
       })
 
@@ -200,38 +169,6 @@ export function SignUpTab() {
                 >
                   <EyeOffIcon size={12} />
                 </button>
-              </div>
-            </div>
-
-            <div className="space-y-2">
-              <Label htmlFor="profile-image">Profile Image (Optional)</Label>
-              <div className="flex items-center gap-4">
-                {imagePreview && (
-                  <div className="relative w-16 h-16 rounded-full overflow-hidden border">
-                    <Image src={imagePreview} alt="Profile preview" fill className="object-cover" />
-                  </div>
-                )}
-                <div className="flex-1">
-                  <Input
-                    id="profile-image"
-                    type="file"
-                    accept="image/*"
-                    onChange={handleImageChange}
-                    disabled={loading}
-                  />
-                  {imagePreview && (
-                    <Button
-                      type="button"
-                      variant="ghost"
-                      size="sm"
-                      onClick={handleRemoveImage}
-                      className="mt-1"
-                      disabled={loading}
-                    >
-                      Remove image
-                    </Button>
-                  )}
-                </div>
               </div>
             </div>
 
