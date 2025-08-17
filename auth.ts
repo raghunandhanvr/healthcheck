@@ -27,7 +27,7 @@ export const auth = betterAuth({
       secure: process.env.NODE_ENV === "production",
       httpOnly: true,
       domain:
-        process.env.NODE_ENV === "production" ? "healthcheck.sh" : undefined,
+        process.env.NODE_ENV === "production" ? "dataatmos.ai" : undefined,
     },
   },
 
@@ -100,10 +100,10 @@ export const auth = betterAuth({
       defaultBanReason: AUTH_MESSAGES.DEFAULT_BAN_REASON,
       defaultBanExpiresIn: 60 * 60 * 24 * 7,
       bannedUserMessage:
-        "Your account has been suspended. Please contact support at support@healthcheck.sh if you believe this is an error.",
+        "Your account has been suspended. Please contact support at support@dataatmos.ai if you believe this is an error.",
     }),
     twoFactor({
-      issuer: "healthcheck.sh",
+      issuer: "dataatmos.ai",
       totpOptions: {
         digits: 6,
         period: 30,
@@ -127,11 +127,11 @@ export const auth = betterAuth({
       maximumSessions: 5,
     }),
     passkey({
-      rpID: "healthcheck.sh",
-      rpName: "healthcheck.sh",
+      rpID: "dataatmos.ai",
+      rpName: "Data Atmos",
       origin:
         process.env.NODE_ENV === "production"
-          ? "https://healthcheck.sh"
+          ? "https://dataatmos.ai"
           : "http://localhost:3000",
     }),
   ],
@@ -144,7 +144,7 @@ export const auth = betterAuth({
   advanced: {
     crossSubDomainCookies: {
       enabled: process.env.NODE_ENV === "production",
-      domain: ".healthcheck.sh",
+      domain: ".dataatmos.ai",
     },
   },
 

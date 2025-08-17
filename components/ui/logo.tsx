@@ -15,7 +15,7 @@ export function Logo({
   width = 24, 
   height = 24, 
   className = "h-6 w-6 sm:h-7 sm:w-7 transition-transform duration-200 group-hover:scale-110",
-  alt = "healthcheck"
+  alt = "Data Atmos"
 }: LogoProps) {
   const { resolvedTheme } = useTheme()
   const [mounted, setMounted] = useState(false)

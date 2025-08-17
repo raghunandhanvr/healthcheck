@@ -26,7 +26,7 @@ export const EmailVerificationTemplate = ({
     <Body style={main}>
       <Container style={container}>
         <Section style={header}>
-          <Text style={logo}>healthcheck.sh</Text>
+          <Text style={logo}>Data Atmos</Text>
         </Section>
         
         <Section style={content}>
@@ -37,7 +37,7 @@ export const EmailVerificationTemplate = ({
           </Text>
           
           <Text style={text}>
-            Thank you for creating an account with healthcheck.sh. Please verify your email address to complete your account setup.
+            Thank you for creating an account with Data Atmos. Please verify your email address to complete your account setup.
           </Text>
           
           <Section style={buttonSection}>
@@ -57,13 +57,13 @@ export const EmailVerificationTemplate = ({
           <Section style={divider} />
           
           <Text style={footer}>
-            If you didn&apos;t create an account with healthcheck.sh, you can safely ignore this email.
+            If you didn&apos;t create an account with Data Atmos, you can safely ignore this email.
             This verification link will expire in 24 hours.
           </Text>
           
           <Text style={signature}>
             Best regards,<br />
-            The healthcheck.sh Team
+            The Data Atmos Team
           </Text>
         </Section>
       </Container>

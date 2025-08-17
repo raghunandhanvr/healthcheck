@@ -1,19 +1,19 @@
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {
-  title: "Authentication – healthcheck.sh",
-  description: "Sign in or create your healthcheck.sh account to start monitoring your websites, APIs, servers, and AI models. Secure authentication with email verification and password reset options.",
+  title: "Authentication – Data Atmos",
+  description: "Sign in or create your Data Atmos account to start managing your data operations, OLTP/OLAP workloads, and AI orchestration. Secure authentication with email verification and password reset options.",
   openGraph: {
-    title: "Authentication – healthcheck.sh",
-    description: "Sign in or create your healthcheck.sh account to start monitoring your websites, APIs, servers, and AI models.",
-    url: "https://healthcheck.sh/auth",
+    title: "Authentication – Data Atmos",
+    description: "Sign in or create your Data Atmos account to start managing your data operations, OLTP/OLAP workloads, and AI orchestration.",
+    url: "https://dataatmos.ai/auth",
   },
   twitter: {
-    title: "Authentication – healthcheck.sh",
-    description: "Sign in or create your healthcheck.sh account to start monitoring your websites, APIs, servers, and AI models.",
+    title: "Authentication – Data Atmos",
+    description: "Sign in or create your Data Atmos account to start managing your data operations, OLTP/OLAP workloads, and AI orchestration.",
   },
   alternates: {
-    canonical: "https://healthcheck.sh/auth",
+    canonical: "https://dataatmos.ai/auth",
   },
 };
 

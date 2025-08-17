@@ -2,19 +2,19 @@ import type { Metadata } from "next";
 import { ConsoleLayout } from '@/components/layout/console-layout'
 
 export const metadata: Metadata = {
-  title: "Dashboard – healthcheck.sh",
-  description: "Your healthcheck.sh monitoring dashboard. Manage uptime monitors, view performance metrics, configure alerts, and keep your services healthy 24/7.",
+  title: "Dashboard – Data Atmos",
+  description: "Your Data Atmos management dashboard. Manage datastores, view performance metrics, configure AI workloads, and optimize your data operations.",
   openGraph: {
-    title: "Dashboard – healthcheck.sh",
-    description: "Your healthcheck.sh monitoring dashboard. Manage uptime monitors, view performance metrics, configure alerts, and keep your services healthy 24/7.",
-    url: "https://healthcheck.sh/console",
+    title: "Dashboard – Data Atmos",
+    description: "Your Data Atmos management dashboard. Manage datastores, view performance metrics, configure AI workloads, and optimize your data operations.",
+    url: "https://dataatmos.ai/console",
   },
   twitter: {
-    title: "Dashboard – healthcheck.sh",
-    description: "Your healthcheck.sh monitoring dashboard. Manage uptime monitors, view performance metrics, configure alerts, and keep your services healthy 24/7.",
+    title: "Dashboard – Data Atmos",
+    description: "Your Data Atmos management dashboard. Manage datastores, view performance metrics, configure AI workloads, and optimize your data operations.",
   },
   alternates: {
-    canonical: "https://healthcheck.sh/console",
+    canonical: "https://dataatmos.ai/console",
   },
   robots: {
     index: false,

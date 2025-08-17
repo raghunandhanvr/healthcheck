@@ -51,7 +51,7 @@ export const sendVerificationEmail = async ({
 }) => {
   await sendEmail({
     to: user.email,
-    from: "healthcheck.sh <verify@healthcheck.sh>",
+    from: "dataatmos.ai <verify@dataatmos.ai>",
     subject: EMAIL_MESSAGES.SUBJECTS.VERIFY_EMAIL,
     template: EmailVerificationTemplate({
       userFirstName: user.name || AUTH_MESSAGES.DEFAULT_USER_NAME,
@@ -71,7 +71,7 @@ export const sendPasswordResetEmail = async ({
 }) => {
   await sendEmail({
     to: user.email,
-    from: "healthcheck.sh <verify@healthcheck.sh>",
+    from: "dataatmos.ai <verify@dataatmos.ai>",
     subject: EMAIL_MESSAGES.SUBJECTS.RESET_PASSWORD,
     template: PasswordResetTemplate({
       userFirstName: user.name || AUTH_MESSAGES.DEFAULT_USER_NAME,
@@ -90,7 +90,7 @@ export const sendOTPEmail = async ({
 }) => {
   await sendEmail({
     to: user.email,
-    from: "healthcheck.sh <verify@healthcheck.sh>",
+    from: "dataatmos.ai <verify@dataatmos.ai>",
     subject: "Your 2FA verification code",
     template: OTPVerificationTemplate({
       userFirstName: user.name || AUTH_MESSAGES.DEFAULT_USER_NAME,
@@ -117,8 +117,8 @@ export const sendOrganizationInvitationEmail = async ({
 }) => {
   await sendEmail({
     to: email,
-    from: "healthcheck.sh <invite@healthcheck.sh>",
-    subject: `You're invited to join ${organizationName} environment on healthcheck.sh`,
+    from: "dataatmos.ai <invite@dataatmos.ai>",
+    subject: `You're invited to join ${organizationName} environment on dataatmos.ai`,
     template: OrganizationInvitationTemplate({
       invitedByUsername,
       invitedByEmail,

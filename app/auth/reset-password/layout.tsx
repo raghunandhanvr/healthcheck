@@ -1,19 +1,19 @@
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {
-  title: "Reset Password – healthcheck.sh",
-  description: "Create a new password for your healthcheck.sh account. Choose a strong, secure password to protect your monitoring data.",
+  title: "Reset Password – Data Atmos",
+  description: "Create a new password for your Data Atmos account. Choose a strong, secure password to protect your data operations.",
   openGraph: {
-    title: "Reset Password – healthcheck.sh",
-    description: "Create a new password for your healthcheck.sh account. Choose a strong, secure password to protect your monitoring data.",
-    url: "https://healthcheck.sh/auth/reset-password",
+    title: "Reset Password – Data Atmos",
+    description: "Create a new password for your Data Atmos account. Choose a strong, secure password to protect your data operations.",
+    url: "https://dataatmos.ai/auth/reset-password",
   },
   twitter: {
-    title: "Reset Password – healthcheck.sh",
-    description: "Create a new password for your healthcheck.sh account. Choose a strong, secure password to protect your monitoring data.",
+    title: "Reset Password – Data Atmos",
+    description: "Create a new password for your Data Atmos account. Choose a strong, secure password to protect your data operations.",
   },
   alternates: {
-    canonical: "https://healthcheck.sh/auth/reset-password",
+    canonical: "https://dataatmos.ai/auth/reset-password",
   },
   robots: {
     index: false,

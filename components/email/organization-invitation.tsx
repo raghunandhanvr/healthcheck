@@ -28,11 +28,11 @@ export const OrganizationInvitationTemplate = ({
 }: OrganizationInvitationTemplateProps) => (
   <Html>
     <Head />
-    <Preview>You&apos;re invited to join {organizationName} environment on healthcheck.sh</Preview>
+    <Preview>You&apos;re invited to join {organizationName} environment on Data Atmos</Preview>
     <Body style={main}>
       <Container style={container}>
         <Section style={header}>
-          <Text style={logo}>healthcheck.sh</Text>
+          <Text style={logo}>Data Atmos</Text>
         </Section>
         
         <Section style={content}>
@@ -43,11 +43,11 @@ export const OrganizationInvitationTemplate = ({
           </Text>
           
           <Text style={text}>
-            <strong>{invitedByUsername}</strong> ({invitedByEmail}) has invited you to join the <strong>{organizationName}</strong> environment on healthcheck.sh.
+            <strong>{invitedByUsername}</strong> ({invitedByEmail}) has invited you to join the <strong>{organizationName}</strong> environment on Data Atmos.
           </Text>
           
           <Text style={text}>
-            This environment will allow you to collaborate on monitoring and health check configurations together.
+            This environment will allow you to collaborate on data platform configurations and workloads together.
           </Text>
           
           <Section style={buttonSection}>
@@ -76,7 +76,7 @@ export const OrganizationInvitationTemplate = ({
           
           <Text style={signature}>
             Best regards,<br />
-            The healthcheck.sh Team
+            The Data Atmos Team
           </Text>
         </Section>
       </Container>

@@ -22,11 +22,11 @@ export const PasswordResetTemplate = ({
 }: PasswordResetTemplateProps) => (
   <Html>
     <Head />
-    <Preview>Reset your password for healthcheck.sh</Preview>
+    <Preview>Reset your password for Data Atmos</Preview>
     <Body style={main}>
       <Container style={container}>
         <Section style={header}>
-          <Text style={logo}>healthcheck.sh</Text>
+          <Text style={logo}>Data Atmos</Text>
         </Section>
         
         <Section style={content}>
@@ -37,7 +37,7 @@ export const PasswordResetTemplate = ({
           </Text>
           
           <Text style={text}>
-            You recently requested to reset your password for your healthcheck.sh account. 
+            You recently requested to reset your password for your Data Atmos account. 
             Click the button below to create a new password.
           </Text>
           
@@ -65,7 +65,7 @@ export const PasswordResetTemplate = ({
           
           <Text style={signature}>
             Best regards,<br />
-            The healthcheck.sh Team
+            The Data Atmos Team
           </Text>
         </Section>
       </Container>

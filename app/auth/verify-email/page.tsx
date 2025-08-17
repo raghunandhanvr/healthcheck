@@ -52,7 +52,7 @@ function VerifyEmailContent() {
           </div>
           <div className="text-center mt-6 space-y-2">
             <p className="text-sm text-muted-foreground">
-              Your servers are up and running
+              Your data atmosphere is ready
             </p>
             <p className="text-xs text-muted-foreground/70">
               Verify your email to get started
@@ -132,10 +132,10 @@ function VerifyEmailContent() {
                 <p>
                   Need help? Contact us at{' '}
                   <a 
-                    href="mailto:support@healthcheck.sh" 
+                    href="mailto:support@dataatmos.ai" 
                     className="text-primary hover:underline"
                   >
-                    support@healthcheck.sh
+                    support@dataatmos.ai
                   </a>
                 </p>
               </div>

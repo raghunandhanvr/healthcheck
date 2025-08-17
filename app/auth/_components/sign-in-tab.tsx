@@ -79,7 +79,7 @@ export function SignInTab({ onSwitchToSignUp }: SignInTabProps) {
       <div className="px-6 py-4 border-b">
         <h2 className="text-xl font-semibold tracking-tight">Sign In</h2>
         <p className="text-sm text-muted-foreground mt-1">
-          Enter your email below to login to your account
+          Enter your email below to access your data atmosphere
         </p>
       </div>
       <div className="flex-1 p-6 overflow-y-auto">
@@ -185,19 +185,18 @@ export function SignInTab({ onSwitchToSignUp }: SignInTabProps) {
           </div>
         </div>
 
-        <div className="mt-8 p-6 bg-gradient-to-br from-purple-600 via-violet-600 to-indigo-700 rounded-md border border-white/20 backdrop-blur-sm relative overflow-hidden">
+        <div className="mt-8 p-6 bg-gradient-to-br from-blue-600 via-indigo-600 to-purple-700 rounded-md border border-white/20 backdrop-blur-sm relative overflow-hidden">
 
           <div className="absolute inset-0 bg-gradient-to-br from-white/10 to-transparent pointer-events-none"></div>
           <div className="absolute top-0 left-0 w-full h-px bg-gradient-to-r from-transparent via-white/30 to-transparent"></div>
           
           <div className="relative space-y-3">
-            <h3 className="text-sm font-semibold text-white">Unlock Premium Features</h3>
+            <h3 className="text-sm font-semibold text-white">Your Free Credits Awaits</h3>
             <p className="text-xs text-white/90 leading-relaxed">
-              Invite any team member to try our Plus version for 15 days absolutely free. 
-              Get advanced monitoring, real-time alerts, and priority support to keep your infrastructure running smoothly.
+              Invite a friend and get $8 in credits! Share the power of Data Atmos and both of you will receive bonus credits to kickstart your data journey.
             </p>
             <button className="text-xs text-white/90 hover:text-white font-medium transition-colors inline-flex items-center gap-1 group">
-              Click here to learn more 
+              Know more
               <span className="group-hover:translate-x-0.5 transition-transform">→</span>
             </button>
           </div>

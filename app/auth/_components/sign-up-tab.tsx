@@ -1,16 +1,16 @@
 'use client'
 
-import { useState } from 'react'
-import { useRouter } from 'next/navigation'
 import { Button } from "@/components/ui/button"
+import { EyeOffIcon } from "@/components/ui/icons/eye-off"
+import { LoaderPinwheelIcon } from "@/components/ui/icons/loader-pinwheel"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
-import { LoaderPinwheelIcon } from "@/components/ui/icons/loader-pinwheel"
-import { EyeOffIcon } from "@/components/ui/icons/eye-off"
-import Image from "next/image"
-import { signUp, signIn } from "@/lib/auth/auth-client"
-import { toast } from "@/components/ui/sonner"
 import { PasswordStrength } from "@/components/ui/password-strength"
+import { toast } from "@/components/ui/sonner"
+import { signIn, signUp } from "@/lib/auth/auth-client"
+import Image from "next/image"
+import { useRouter } from 'next/navigation'
+import { useState } from 'react'
 
 export function SignUpTab() {
   const [firstName, setFirstName] = useState("")
@@ -110,7 +110,7 @@ export function SignUpTab() {
       <div className="px-6 py-4 border-b">
         <h2 className="text-xl font-semibold tracking-tight">Create Account</h2>
         <p className="text-sm text-muted-foreground mt-1">
-          Enter your information to create a new account
+          Enter your information to create your data atmosphere
         </p>
       </div>
       <div className="flex-1 p-6 overflow-y-auto">

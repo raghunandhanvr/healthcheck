@@ -57,9 +57,9 @@ export default function AuthPage() {
               <Globe config={globeConfig} className="w-full h-full" />
             </div>
             <div className="text-center mt-8 space-y-2">
-              <p className="text-sm text-muted-foreground">Your servers are up and running</p>
+              <p className="text-sm text-muted-foreground">Your data atmosphere is ready</p>
               <p className="text-xs text-muted-foreground/70">
-                Monitor your infrastructure with confidence
+                Transform your data operations with confidence
               </p>
             </div>
           </div>

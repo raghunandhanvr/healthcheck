@@ -20,11 +20,11 @@ export const OTPVerificationTemplate = ({
 }: OTPVerificationTemplateProps) => (
   <Html>
     <Head />
-    <Preview>Your 2FA verification code for healthcheck.sh</Preview>
+    <Preview>Your 2FA verification code for Data Atmos</Preview>
     <Body style={main}>
       <Container style={container}>
         <Section style={header}>
-          <Text style={logo}>healthcheck.sh</Text>
+          <Text style={logo}>Data Atmos</Text>
         </Section>
         
         <Section style={content}>
@@ -54,7 +54,7 @@ export const OTPVerificationTemplate = ({
           
           <Text style={signature}>
             Best regards,<br />
-            The healthcheck.sh Team
+            The Data Atmos Team
           </Text>
         </Section>
       </Container>

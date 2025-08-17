@@ -67,7 +67,7 @@ export function ProfileDropdown({ user }: ProfileDropdownProps) {
         <DropdownMenuSeparator />
         <DropdownMenuItem asChild>
           <Link 
-            href="https://github.com/raghunandhanvr/healthcheck" 
+            href="https://github.com/raghunandhanvr/dataatmos" 
             target="_blank" 
             rel="noopener noreferrer"
             className="flex items-center"
@@ -78,7 +78,9 @@ export function ProfileDropdown({ user }: ProfileDropdownProps) {
         </DropdownMenuItem>
         <DropdownMenuSeparator />
         <DropdownMenuItem onClick={handleSignOut} className="text-red-600">
-          <LogoutIcon className="mr-2 h-4 w-4 text-red-600" />
+          <div className="mr-2 text-red-600">
+            <LogoutIcon size={15} />
+          </div>
           Logout
         </DropdownMenuItem>
       </DropdownMenuContent>
